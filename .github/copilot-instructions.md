@@ -32,5 +32,6 @@ This project is a high-performance web application built with a focus on Progres
 ## 4. Styling & Tailwind Focus (Mobile First)
 * **Mobile First:** Apply all Tailwind classes **without a prefix** (e.g., `pt-4`, `flex`) as the base styling for mobile. Use explicit responsive prefixes (`sm:`, `md:`, `lg:`) **only for overrides** at larger screen sizes.
 * **Utility First:** Generate all styling using Tailwind utility classes. Do not define new CSS classes in the `<style>` block unless they are encapsulated or part of a component's structural necessity.
-* **Skeleton UI Classes:** When suggesting UI elements (cards, buttons, forms), use the standard **Skeleton UI class prefixes** (e.g., `btn`, `card`, `variant-filled-surface`).
+* **Rounded Design:** Use rounded corners throughout the design. Apply appropriate Tailwind rounded classes (e.g., `rounded`, `rounded-lg`, `rounded-xl`) to cards, buttons, inputs, and containers for a modern, soft aesthetic.
+* **Skeleton UI Classes:** When suggesting UI elements (cards, buttons, forms), use the standard **Skeleton UI class prefixes** (e.g., `btn`, `card`, `variant-filled-surface`) and ensure they include rounded styling.
 * **Accessibility:** Ensure all generated markup includes appropriate **ARIA attributes** and follows **A11y (Accessibility)** standards.
