@@ -3,7 +3,8 @@
 This project is a high-performance web application built with a focus on Progressive Web App (PWA) standards.
 
 ## 1. Project Context & Technology Stack
-* **Core Framework:** SvelteKit / Svelte.
+* **Core Framework:** SvelteKit / Svelte with **TypeScript**.
+* **Language:** **TypeScript** for all new code. Use proper type definitions and interfaces.
 * **Package Manager:** **Yarn**. All installation and execution commands must use Yarn (`yarn install`, `yarn dev`, `yarn build`).
 * **Styling:** **Tailwind CSS** for a utility-first approach. Avoid raw CSS or inline styles unless strictly necessary for custom components or overrides.
 * **Component Library:** **Skeleton UI**. Utilize Skeleton UI components, classes, and design tokens (e.g., colors, typography variants) where applicable.
@@ -12,11 +13,12 @@ This project is a high-performance web application built with a focus on Progres
 
 ## 2. Svelte & Component Conventions
 * **File Naming:** Components must be named using **PascalCase** (e.g., `SettingsModal.svelte`).
-* **Props:** Use **`export let`** for props. Always provide a default value when a prop is optional.
+* **TypeScript:** Use **`<script lang="ts">`** for all component scripts. Define proper types for props, variables, and function parameters.
+* **Props:** Use **`export let`** for props with TypeScript type annotations. Always provide a default value when a prop is optional.
 * **Reactivity:**
     * Use the Svelte **`$stores`** syntax for reactive state management.
     * Utilize **reactive declarations (`$:`)** to compute values reactively or run side effects where logic demands it.
-* **Structure:** Place the **`<script>`** tag as the first element in the component file, followed by the `<style>` and then the markup.
+* **Structure:** Place the **`<script lang="ts">`** tag as the first element in the component file, followed by the `<style>` and then the markup.
 * **Design:** Components should adhere to the **Single Responsibility Principle** (SRP) – keep them small, focused, and highly reusable.
 
 ---
@@ -25,7 +27,7 @@ This project is a high-performance web application built with a focus on Progres
 * **Offline-First:** All new feature implementation and routing logic must consider an offline or low-connectivity user experience.
 * **Service Workers:** When generating code for asset caching or background sync, refer to **SvelteKit's service worker integration** setup. Do not generate generic vanilla JavaScript service worker code.
 * **Manifest:** Ensure any generated features that affect app meta-data align with **Web App Manifest** best practices (e.g., appropriate naming, icons, display modes).
-* **Loading:** Prioritize performance: use SvelteKit's **`+page.server.js`** for data loading and avoid excessive client-side fetching where possible.
+* **Loading:** Prioritize performance: use SvelteKit's **`+page.server.ts`** for data loading and avoid excessive client-side fetching where possible.
 
 ---
 
