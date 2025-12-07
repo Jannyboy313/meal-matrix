@@ -1,5 +1,17 @@
 <script>
 	let { data } = $props();
+	let searchQuery = $state('');
+
+	const filteredRecipes = $derived(
+		data.recipes.filter((recipe) => {
+			const query = searchQuery.toLowerCase();
+			return (
+				recipe.title.toLowerCase().includes(query) ||
+				recipe.description?.toLowerCase().includes(query) ||
+				recipe.tags?.some((tag) => tag.name.toLowerCase().includes(query))
+			);
+		})
+	);
 </script>
 
 <svelte:head>
@@ -12,8 +24,20 @@
 		<p class="text-lg opacity-75">Explore our collection of amazing dishes</p>
 	</header>
 
+	<!-- Search Bar -->
+	<div class="max-w-2xl mx-auto">
+		<label class="label">
+			<input
+				type="search"
+				bind:value={searchQuery}
+				placeholder="Search recipes by name, description, or tags..."
+				class="input"
+			/>
+		</label>
+	</div>
+
 	<div class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-		{#each data.recipes as recipe (recipe.id)}
+		{#each filteredRecipes as recipe (recipe.id)}
 			<a href="/recipes/{recipe.id}" class="block">
 				<article class="card variant-filled-surface overflow-hidden hover:scale-105 transition-transform cursor-pointer">
 					<header class="relative h-48 overflow-hidden">
@@ -46,9 +70,11 @@
 		{/each}
 	</div>
 
-	{#if data.recipes.length === 0}
+	{#if filteredRecipes.length === 0}
 		<div class="card variant-filled-surface p-8 text-center">
-			<p class="text-lg opacity-75">No recipes available yet. Check back soon!</p>
+			<p class="text-lg opacity-75">
+				{searchQuery ? 'No recipes found matching your search.' : 'No recipes available yet. Check back soon!'}
+			</p>
 		</div>
 	{/if}
 </div>
