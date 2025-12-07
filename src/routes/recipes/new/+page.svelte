@@ -312,18 +312,8 @@
 
 <div class="container mx-auto p-4 pb-32 sm:p-6 md:p-8 max-w-4xl">
 	<!-- Header -->
-	<div class="flex items-center gap-4 mb-6">
-		<button
-			type="button"
-			onclick={() => (currentStep > 1 ? previousStep() : (window.location.href = '/'))}
-			class="btn btn-icon preset-filled-surface-500 rounded-full shadow-lg"
-			aria-label="Go back"
-		>
-			<ArrowLeft size={20} />
-		</button>
-		<div class="flex-1">
-			<h1 class="h1">Create New Recipe</h1>
-		</div>
+	<div class="mb-6">
+		<h1 class="h1">Create New Recipe</h1>
 	</div>
 
 	<!-- Progress Indicator -->
