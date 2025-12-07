@@ -1,5 +1,16 @@
 import { db } from '$lib/firebase';
-import { collection, query, where, onSnapshot, doc, getDoc, type Unsubscribe } from 'firebase/firestore';
+import {
+	collection,
+	query,
+	where,
+	onSnapshot,
+	doc,
+	getDoc,
+	addDoc,
+	updateDoc,
+	serverTimestamp,
+	type Unsubscribe
+} from 'firebase/firestore';
 import type { Recipe, RecipeSummary, RecipeSummaryWithTags, RecipeWithTags, Tag } from '$lib/types';
 
 /**
@@ -101,5 +112,68 @@ export async function getRecipeById(recipeId: string): Promise<RecipeWithTags | 
 	} catch (error) {
 		console.error('Error fetching recipe:', error);
 		return null;
+	}
+}
+
+/**
+ * Create a new recipe in Firestore
+ * @param recipeData - Recipe data including tags (Tag objects)
+ * @param userId - The user ID who owns the recipe
+ * @returns The created recipe ID
+ */
+export async function createRecipe(
+	recipeData: Omit<RecipeWithTags, 'id' | 'tagIds' | 'createdAt' | 'updatedAt'>,
+	userId: string
+): Promise<string> {
+	try {
+		// Extract tag IDs from tag objects
+		const tagIds = recipeData.tags?.map(tag => tag.id) || [];
+
+		// Remove tags property and add tagIds
+		const { tags, ...recipeWithoutTags } = recipeData;
+
+		// Create the recipe document with Firestore timestamps
+		const docRef = await addDoc(collection(db, 'recipes'), {
+			...recipeWithoutTags,
+			tagIds,
+			userId,
+			createdAt: serverTimestamp(),
+			updatedAt: serverTimestamp()
+		});
+
+		return docRef.id;
+	} catch (error) {
+		console.error('Error creating recipe:', error);
+		throw error;
+	}
+}
+
+/**
+ * Update an existing recipe in Firestore
+ * @param recipeId - The recipe ID to update
+ * @param recipeData - Updated recipe data including tags (Tag objects)
+ * @param userId - The user ID who owns the recipe (for validation)
+ */
+export async function updateRecipe(
+	recipeId: string,
+	recipeData: Omit<RecipeWithTags, 'id' | 'tagIds' | 'createdAt' | 'updatedAt' | 'userId'>,
+	userId: string
+): Promise<void> {
+	try {
+		// Extract tag IDs from tag objects
+		const tagIds = recipeData.tags?.map(tag => tag.id) || [];
+
+		// Remove tags property and add tagIds
+		const { tags, ...recipeWithoutTags } = recipeData;
+
+		// Update the recipe document
+		await updateDoc(doc(db, 'recipes', recipeId), {
+			...recipeWithoutTags,
+			tagIds,
+			updatedAt: serverTimestamp()
+		});
+	} catch (error) {
+		console.error('Error updating recipe:', error);
+		throw error;
 	}
 }

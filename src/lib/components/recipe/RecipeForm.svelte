@@ -1,8 +1,9 @@
 <script lang="ts">
-	import { enhance } from '$app/forms';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import type { Tag, Ingredient, RecipeFormData } from '$lib';
+	import { createRecipe, updateRecipe } from '$lib/firestore';
+	import { user } from '$lib/stores/auth';
 	import BasicInfoStep from '$lib/components/recipe/BasicInfoStep.svelte';
 	import TagsStep from '$lib/components/recipe/TagsStep.svelte';
 	import IngredientsStep from '$lib/components/recipe/IngredientsStep.svelte';
@@ -15,6 +16,7 @@
 		storageKey: string;
 		initialData?: RecipeFormData;
 		isEditing?: boolean;
+		recipeId?: string;
 		submitErrorMessage?: string;
 		onSuccess?: () => void;
 	}
@@ -24,12 +26,14 @@
 		storageKey,
 		initialData,
 		isEditing = false,
+		recipeId,
 		submitErrorMessage = 'Failed to save recipe. Please try again.',
 		onSuccess
 	}: Props = $props();
 
 	// Form data
 	let title = $state<string>('');
+	let description = $state<string>('');
 	let image = $state<string>('');
 	let prepTime = $state<string>('');
 	let cookTime = $state<string>('');
@@ -60,6 +64,7 @@
 		// Initialize from initial data (if provided)
 		if (initialData) {
 			title = initialData.title;
+			description = initialData.description || '';
 			image = initialData.image;
 			prepTime = initialData.prepTime;
 			cookTime = initialData.cookTime;
@@ -82,6 +87,7 @@
 			try {
 				const draft: RecipeFormData = JSON.parse(savedDraft);
 				title = draft.title || title;
+				description = draft.description || description;
 				image = draft.image || image;
 				prepTime = draft.prepTime || prepTime;
 				cookTime = draft.cookTime || cookTime;
@@ -104,6 +110,7 @@
 
 		const formData: RecipeFormData = {
 			title,
+			description,
 			image,
 			prepTime,
 			cookTime,
@@ -118,6 +125,7 @@
 
 		// Track dependencies
 		title;
+		description;
 		image;
 		prepTime;
 		cookTime;
@@ -322,44 +330,71 @@
 {/if}
 
 <form
-	method="POST"
-	use:enhance={() => {
+	onsubmit={async (e) => {
+		e.preventDefault();
+
 		if (!validateForm()) {
-			return async () => {};
+			return;
 		}
+
+		// Check if user is authenticated
+		const currentUser = $user;
+		if (!currentUser) {
+			error = 'You must be logged in to create a recipe';
+			return;
+		}
+
 		isSubmitting = true;
-		return async ({ update, result }) => {
-			await update();
-			isSubmitting = false;
-			if (result.type === 'failure') {
-				error = submitErrorMessage;
-			} else if (result.type === 'success') {
+		error = '';
+
+		try {
+			const recipeData = {
+				title,
+				description: description || '',
+				image: image || 'https://images.unsplash.com/photo-1495521821757-a1efb6729352?w=400&h=300&fit=crop',
+				prepTime,
+				cookTime,
+				servings: servings[0] || 4,
+				tags,
+				ingredients,
+				steps
+			};
+
+			if (isEditing && recipeId) {
+				// Update existing recipe
+				await updateRecipe(recipeId, recipeData, currentUser.uid);
+
 				// Clear draft after successful submission
 				clearDraft();
-				onSuccess?.();
+
+				// Navigate back to recipe detail
+				await goto(`/recipes/${recipeId}`);
+			} else {
+				// Create new recipe
+				const newRecipeId = await createRecipe(recipeData, currentUser.uid);
+
+				// Clear draft after successful submission
+				clearDraft();
+
+				// Navigate to the new recipe
+				await goto(`/recipes/${newRecipeId}`);
 			}
-		};
+
+			// Call success callback if provided
+			onSuccess?.();
+		} catch (err) {
+			console.error('Error saving recipe:', err);
+			error = submitErrorMessage;
+		} finally {
+			isSubmitting = false;
+		}
 	}}
 	class="space-y-6"
 >
-	<input
-		type="hidden"
-		name="data"
-		value={JSON.stringify({
-			title,
-			image:
-				image || 'https://images.unsplash.com/photo-1495521821757-a1efb6729352?w=400&h=300&fit=crop',
-			prepTime,
-			cookTime,
-			tags,
-			ingredients,
-			steps
-		})}
-	/>
 
 	<!-- Step Components -->
 	{#if currentStep === 1}
-		<BasicInfoStep bind:title bind:image bind:prepTime bind:cookTime {titleError} />
+		<BasicInfoStep bind:title bind:description bind:image bind:prepTime bind:cookTime {titleError} />
 	{:else if currentStep === 2}
 		<TagsStep bind:tags {availableTags} onaddtag={addTag} onremovetag={removeTag} />
 	{:else if currentStep === 3}

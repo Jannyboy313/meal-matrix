@@ -1,6 +1,7 @@
 <script lang="ts">
 	interface Props {
 		title: string;
+		description: string;
 		image: string;
 		prepTime: string;
 		cookTime: string;
@@ -9,6 +10,7 @@
 
 	let {
 		title = $bindable(),
+		description = $bindable(),
 		image = $bindable(),
 		prepTime = $bindable(),
 		cookTime = $bindable(),
@@ -33,6 +35,16 @@
 		{#if titleError}
 			<p class="text-error-500 text-sm mt-1">{titleError}</p>
 		{/if}
+	</label>
+
+	<label class="label">
+		<span class="font-semibold">Description</span>
+		<textarea
+			bind:value={description}
+			placeholder="A brief description of your recipe..."
+			class="textarea rounded-lg mt-2"
+			rows="3"
+		></textarea>
 	</label>
 
 	<label class="label">

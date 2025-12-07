@@ -1,9 +1,8 @@
-import type { PageServerLoad, Actions } from './$types';
-import { fail, redirect } from '@sveltejs/kit';
-import type { Tag, RecipeWithTags } from '$lib';
+import type { PageServerLoad } from './$types';
+import type { Tag } from '$lib';
 
 // Common tags that can be reused across recipes
-// In production: fetch from /tags collection
+// TODO: Fetch from /tags collection in Firestore
 const availableTags: Tag[] = [
 	{ id: 'tag-italian', name: 'Italian', color: '#008C45' },
 	{ id: 'tag-pasta', name: 'Pasta', color: '#F4A460' },
@@ -42,10 +41,18 @@ const availableTags: Tag[] = [
 	{ id: 'tag-gourmet', name: 'Gourmet', color: '#6A1B9A' }
 ];
 
-	export const load: PageServerLoad = async ({ params }) => {
-	// In a real app, this would fetch from a database
-	// In production: fetch recipe with tagIds, then populate tags from /tags collection
-	const recipes: RecipeWithTags[] = [
+export const load: PageServerLoad = async ({ params }) => {
+	// Recipe data is fetched client-side from Firestore
+	// Just pass the ID and available tags
+	return {
+		recipeId: params.id,
+		availableTags
+	};
+};
+
+// Old mock data - kept for reference during migration
+/*
+const recipes: RecipeWithTags[] = [
 		{
 			id: 'recipe-1',
 			title: 'Spaghetti Carbonara',
@@ -90,44 +97,4 @@ const availableTags: Tag[] = [
 			]
 		}
 	];
-
-	const recipe = recipes.find((r) => r.id === params.id);
-
-	if (!recipe) {
-		throw redirect(302, '/');
-	}
-
-	return {
-		recipe,
-		availableTags
-	};
-};
-
-export const actions: Actions = {
-	default: async ({ request, params }) => {
-		const formData = await request.formData();
-		const data = formData.get('data');
-
-		if (!data) {
-			return fail(400, { error: 'Missing recipe data' });
-		}
-
-		try {
-			const recipeData = JSON.parse(data as string);
-
-			// Validate required fields
-			if (!recipeData.title || !recipeData.ingredients || !recipeData.steps) {
-				return fail(400, { error: 'Missing required fields' });
-			}
-
-			// In a real app, this would update the recipe in the database
-			console.log('Updating recipe:', params.id, recipeData);
-
-			// Redirect to the updated recipe page
-			throw redirect(303, `/recipes/${params.id}`);
-		} catch (error) {
-			console.error('Failed to update recipe:', error);
-			return fail(500, { error: 'Failed to update recipe' });
-		}
-	}
-};
+*/

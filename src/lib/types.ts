@@ -91,6 +91,7 @@ export interface RecipeWithTags extends Omit<Recipe, 'tagIds'> {
  */
 export interface RecipeFormData {
 	title: string;
+	description: string;
 	image: string;
 	prepTime: string;
 	cookTime: string;
