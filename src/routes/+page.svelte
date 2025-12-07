@@ -22,8 +22,20 @@
 						class="w-full h-full object-cover"
 					/>
 				</header>
-				<div class="p-4">
-					<h2 class="h3 mb-2">{recipe.title}</h2>
+				<div class="p-4 space-y-2">
+					{#if recipe.tags && recipe.tags.length > 0}
+						<div class="flex flex-wrap gap-1">
+							{#each recipe.tags as tag}
+								<span
+									class="text-xs px-2 py-1 rounded text-white font-medium"
+									style="background-color: {tag.color}"
+								>
+									{tag.name}
+								</span>
+							{/each}
+						</div>
+					{/if}
+					<h2 class="h3">{recipe.title}</h2>
 					{#if recipe.description}
 						<p class="text-sm opacity-75">{recipe.description}</p>
 					{/if}
