@@ -34,61 +34,6 @@ export async function load() {
 				{ name: 'Chocolate', color: '#6F4E37' },
 				{ name: 'Indulgent', color: '#9C27B0' }
 			]
-		},
-		{
-			id: 4,
-			title: 'Margherita Pizza',
-			description: 'Traditional pizza with fresh mozzarella, tomatoes, and basil',
-			image: 'https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=400&h=300&fit=crop',
-			tags: [
-				{ name: 'Italian', color: '#008C45' },
-				{ name: 'Pizza', color: '#DC143C' },
-				{ name: 'Vegetarian', color: '#66BB6A' }
-			]
-		},
-		{
-			id: 5,
-			title: 'Thai Green Curry',
-			description: 'Spicy and aromatic curry with coconut milk and vegetables',
-			image: 'https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?w=400&h=300&fit=crop',
-			tags: [
-				{ name: 'Thai', color: '#FF4081' },
-				{ name: 'Spicy', color: '#FF5722' },
-				{ name: 'Vegan', color: '#4CAF50' }
-			]
-		},
-		{
-			id: 6,
-			title: 'Classic Burger',
-			description: 'Juicy beef patty with lettuce, tomato, and special sauce',
-			image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&h=300&fit=crop',
-			tags: [
-				{ name: 'American', color: '#3F51B5' },
-				{ name: 'Comfort Food', color: '#FFA726' },
-				{ name: 'Beef', color: '#8D6E63' }
-			]
-		},
-		{
-			id: 7,
-			title: 'Sushi Platter',
-			description: 'Assorted fresh sushi rolls and nigiri',
-			image: 'https://images.unsplash.com/photo-1579584425555-c3ce17fd4351?w=400&h=300&fit=crop',
-			tags: [
-				{ name: 'Japanese', color: '#D32F2F' },
-				{ name: 'Seafood', color: '#0288D1' },
-				{ name: 'Healthy', color: '#4CAF50' }
-			]
-		},
-		{
-			id: 8,
-			title: 'Greek Salad',
-			description: 'Fresh vegetables with feta cheese and olives',
-			image: 'https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=400&h=300&fit=crop',
-			tags: [
-				{ name: 'Greek', color: '#2196F3' },
-				{ name: 'Salad', color: '#8BC34A' },
-				{ name: 'Vegetarian', color: '#66BB6A' }
-			]
 		}
 	];
 
