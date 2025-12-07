@@ -1181,6 +1181,7 @@ __metadata:
     "@tailwindcss/forms": "npm:^0.5.10"
     "@tailwindcss/typography": "npm:^0.5.19"
     "@tailwindcss/vite": "npm:^4.1.17"
+    lucide-svelte: "npm:^0.555.0"
     svelte: "npm:^5.43.8"
     svelte-check: "npm:^4.3.4"
     tailwindcss: "npm:^4.1.17"
@@ -1489,6 +1490,15 @@ __metadata:
   version: 11.2.4
   resolution: "lru-cache@npm:11.2.4"
   checksum: 10c0/4a24f9b17537619f9144d7b8e42cd5a225efdfd7076ebe7b5e7dc02b860a818455201e67fbf000765233fe7e339d3c8229fc815e9b58ee6ede511e07608c19b2
+  languageName: node
+  linkType: hard
+
+"lucide-svelte@npm:^0.555.0":
+  version: 0.555.0
+  resolution: "lucide-svelte@npm:0.555.0"
+  peerDependencies:
+    svelte: ^3 || ^4 || ^5.0.0-next.42
+  checksum: 10c0/283c7472b0e9296eeee948eb2adf23ee0b51ca41b572c420643e8fde5e49b32f127a42f941713c0147943c619b16e8461b3c3b70ddb5947945cec5a6d3f5d8e9
   languageName: node
   linkType: hard
 
