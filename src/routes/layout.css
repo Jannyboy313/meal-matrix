@@ -3,3 +3,10 @@
 /* Skeleton UI Theme */
 @import '@skeletonlabs/skeleton';
 @import '@skeletonlabs/skeleton/themes/cerberus';
+
+/* Placeholder text styling */
+input::placeholder,
+textarea::placeholder {
+	opacity: 0.5;
+	color: rgb(156 163 175); /* gray-400 */
+}

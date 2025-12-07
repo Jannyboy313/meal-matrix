@@ -65,7 +65,7 @@
 	<!-- Available Tags -->
 	<div>
 		<p class="text-sm font-semibold mb-2 opacity-75">Choose from existing tags:</p>
-		<div class="flex flex-wrap gap-2 max-h-48 overflow-y-auto p-4 variant-soft-surface rounded-lg">
+		<div class="flex flex-wrap gap-2 max-h-75 overflow-y-auto p-4 variant-soft-surface rounded-lg">
 			{#each availableTags as tag}
 				{@const isSelected = tags.some((t) => t.name === tag.name)}
 				<button
@@ -90,7 +90,7 @@
 			<button
 				type="button"
 				onclick={() => (showCustomTag = true)}
-				class="btn preset-tonal-surface w-full text-sm"
+				class="btn preset-tonal-primary w-full"
 			>
 				<Plus size={16} class="mr-2" />
 				Create Custom Tag

@@ -13,7 +13,7 @@
 
 <div class="space-y-6">
 	<h2 class="h2 text-primary-500">Instructions <span class="text-error-500">*</span></h2>
-	<p class="text-sm opacity-75">Describe each step clearly (minimum 10 characters per step)</p>
+	<p class="text-sm opacity-75">Describe each step clearly</p>
 
 	<div class="space-y-3">
 		{#each steps as step, i}

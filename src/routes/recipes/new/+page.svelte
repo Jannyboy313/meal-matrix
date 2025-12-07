@@ -86,9 +86,6 @@
 			if (!title.trim()) {
 				titleError = 'Recipe title is required';
 				isValid = false;
-			} else if (title.trim().length < 3) {
-				titleError = 'Recipe title must be at least 3 characters';
-				isValid = false;
 			}
 		} else if (currentStep === 3) {
 			if (ingredients.length === 0) {
@@ -115,9 +112,6 @@
 			steps.forEach((step, i) => {
 				if (!step.trim()) {
 					stepErrors[i] = 'Step description is required';
-					isValid = false;
-				} else if (step.trim().length < 10) {
-					stepErrors[i] = 'Step must be at least 10 characters';
 					isValid = false;
 				}
 			});

@@ -17,13 +17,13 @@
 		<button
 			type="button"
 			onclick={onprevious}
-			class="btn preset-filled-secondary-500 flex items-center justify-center gap-2 flex-1"
+			class="btn preset-tonal-secondary flex items-center justify-center gap-2 flex-1"
 		>
 			<ChevronLeft size={20} />
 			Previous
 		</button>
 	{:else}
-		<a href="/" class="btn preset-filled-secondary-500 flex items-center justify-center flex-1">
+		<a href="/" class="btn preset-outlined-secondary-500 flex items-center justify-center flex-1">
 			Cancel
 		</a>
 	{/if}
