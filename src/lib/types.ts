@@ -14,7 +14,7 @@ export interface Ingredient {
 }
 
 export interface RecipeSummary {
-	id: number;
+	id: string;
 	title: string;
 	description: string;
 	image: string;

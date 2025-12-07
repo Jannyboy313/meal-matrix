@@ -45,7 +45,7 @@ export const load: PageServerLoad = async ({ params }) => {
 	// In a real app, this would fetch from a database
 	const recipes: Recipe[] = [
 		{
-			id: 1,
+			id: 'recipe-1',
 			title: 'Spaghetti Carbonara',
 			description: 'Classic Italian pasta with eggs, cheese, and pancetta',
 			image: 'https://images.unsplash.com/photo-1612874742237-6526221588e3?w=800&h=400&fit=crop',
@@ -89,7 +89,7 @@ export const load: PageServerLoad = async ({ params }) => {
 		}
 	];
 
-	const recipe = recipes.find((r) => r.id === parseInt(params.id));
+	const recipe = recipes.find((r) => r.id === params.id);
 
 	if (!recipe) {
 		throw redirect(302, '/');

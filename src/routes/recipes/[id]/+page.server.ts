@@ -5,7 +5,7 @@ export const load: PageServerLoad = async ({ params }) => {
 	// In a real app, this would fetch from a database
 	const recipes: Recipe[] = [
 		{
-			id: 1,
+			id: 'recipe-1',
 			title: 'Spaghetti Carbonara',
 			description: 'Classic Italian pasta with eggs, cheese, and pancetta',
 			image: 'https://images.unsplash.com/photo-1612874742237-6526221588e3?w=800&h=400&fit=crop',
@@ -50,7 +50,7 @@ export const load: PageServerLoad = async ({ params }) => {
 			]
 		},
 		{
-			id: 2,
+			id: 'recipe-2',
 			title: 'Grilled Chicken Salad',
 			description: 'Fresh greens with grilled chicken and balsamic vinaigrette',
 			image: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&h=400&fit=crop',
@@ -99,7 +99,7 @@ export const load: PageServerLoad = async ({ params }) => {
 			]
 		},
 		{
-			id: 3,
+			id: 'recipe-3',
 			title: 'Chocolate Lava Cake',
 			description: 'Rich chocolate cake with a molten center',
 			image: 'https://images.unsplash.com/photo-1624353365286-3f8d62daad51?w=800&h=400&fit=crop',
@@ -148,7 +148,7 @@ export const load: PageServerLoad = async ({ params }) => {
 		}
 	];
 
-	const recipe: Recipe | undefined = recipes.find(r => r.id === parseInt(params.id));
+	const recipe: Recipe | undefined = recipes.find(r => r.id === params.id);
 
 	if (!recipe) {
 		throw new Error('Recipe not found');
