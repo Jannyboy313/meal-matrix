@@ -29,6 +29,15 @@
 			class="w-full h-full object-cover"
 		/>
 		<div class="absolute inset-0 bg-linear-to-t from-black/60 to-transparent"></div>
+
+		<!-- Back Button -->
+		<a
+			href="/"
+			class="btn btn-icon absolute top-4 left-4 z-10 shadow-lg bg-white/90 hover:bg-white text-black rounded-full"
+			aria-label="Back to recipes"
+		>
+			←
+		</a>
 	</header>
 
 	<!-- Title Section -->
