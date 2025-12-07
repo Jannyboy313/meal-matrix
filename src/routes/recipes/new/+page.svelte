@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { ArrowLeft } from 'lucide-svelte';
 	import { enhance } from '$app/forms';
+	import { goto } from '$app/navigation';
+	import { page } from '$app/stores';
 	import type { PageData } from './$types';
 	import BasicInfoStep from '$lib/components/recipe/BasicInfoStep.svelte';
 	import TagsStep from '$lib/components/recipe/TagsStep.svelte';
@@ -19,7 +21,21 @@
 		name: string;
 	}
 
+	interface RecipeFormData {
+		title: string;
+		image: string;
+		prepTime: string;
+		cookTime: string;
+		tags: Tag[];
+		servings: number[];
+		currentServing: number;
+		ingredients: { [serving: number]: Ingredient[] };
+		steps: string[];
+	}
+
 	let { data }: { data: PageData } = $props();
+
+	const STORAGE_KEY = 'recipe-draft';
 
 	// Form data
 	let title = $state<string>('');
@@ -36,6 +52,7 @@
 	let currentStep = $state<number>(1);
 	let isSubmitting = $state<boolean>(false);
 	let error = $state<string>('');
+	let isInitialized = $state<boolean>(false);
 
 	// Field-level errors
 	let titleError = $state<string>('');
@@ -44,6 +61,77 @@
 
 	const stepTitles = ['Basic Info', 'Tags', 'Ingredients', 'Instructions'];
 	const totalSteps = 4;
+
+	// Initialize from URL and localStorage
+	$effect(() => {
+		if (typeof window === 'undefined' || isInitialized) return;
+
+		// Get step from URL
+		const urlStep = parseInt($page.url.searchParams.get('step') || '1', 10);
+		if (urlStep >= 1 && urlStep <= totalSteps) {
+			currentStep = urlStep;
+		}
+
+		// Load draft data from localStorage
+		const savedDraft = localStorage.getItem(STORAGE_KEY);
+		if (savedDraft) {
+			try {
+				const draft: RecipeFormData = JSON.parse(savedDraft);
+				title = draft.title || '';
+				image = draft.image || '';
+				prepTime = draft.prepTime || '';
+				cookTime = draft.cookTime || '';
+				tags = draft.tags || [];
+				servings = draft.servings || [4];
+				currentServing = draft.currentServing || 4;
+				ingredients = draft.ingredients || { 4: [{ amount: '', name: '' }] };
+				steps = draft.steps || [''];
+			} catch (e) {
+				console.error('Failed to load draft:', e);
+			}
+		}
+
+		isInitialized = true;
+	});
+
+	// Save form data to localStorage whenever it changes
+	$effect(() => {
+		if (!isInitialized || typeof window === 'undefined') return;
+
+		const formData: RecipeFormData = {
+			title,
+			image,
+			prepTime,
+			cookTime,
+			tags,
+			servings,
+			currentServing,
+			ingredients,
+			steps
+		};
+
+		localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
+
+		// Track dependencies
+		title;
+		image;
+		prepTime;
+		cookTime;
+		tags;
+		servings;
+		currentServing;
+		ingredients;
+		steps;
+	});
+
+	// Update URL when step changes
+	$effect(() => {
+		if (!isInitialized || typeof window === 'undefined') return;
+
+		const url = new URL(window.location.href);
+		url.searchParams.set('step', currentStep.toString());
+		goto(url.toString(), { replaceState: true, noScroll: true, keepFocus: true });
+	});
 
 	// Event handlers
 	function addTag(tag: Tag) {
@@ -178,6 +266,12 @@
 		}
 	}
 
+	function clearDraft() {
+		if (typeof window !== 'undefined') {
+			localStorage.removeItem(STORAGE_KEY);
+		}
+	}
+
 	function validateForm(): boolean {
 		error = '';
 
@@ -255,6 +349,9 @@
 				isSubmitting = false;
 				if (result.type === 'failure') {
 					error = 'Failed to create recipe. Please try again.';
+				} else if (result.type === 'success') {
+					// Clear draft after successful submission
+					clearDraft();
 				}
 			};
 		}}
