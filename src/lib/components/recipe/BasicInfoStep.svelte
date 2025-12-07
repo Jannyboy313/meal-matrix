@@ -4,7 +4,6 @@
 		image: string;
 		prepTime: string;
 		cookTime: string;
-		servings: number;
 		titleError: string;
 	}
 
@@ -13,7 +12,6 @@
 		image = $bindable(),
 		prepTime = $bindable(),
 		cookTime = $bindable(),
-		servings = $bindable(),
 		titleError
 	}: Props = $props();
 </script>
@@ -62,7 +60,7 @@
 		</div>
 	{/if}
 
-	<div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
+	<div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
 		<label class="label">
 			<span class="font-semibold">Prep Time</span>
 			<input type="text" bind:value={prepTime} placeholder="15 min" class="input rounded-lg mt-2" />
@@ -71,11 +69,6 @@
 		<label class="label">
 			<span class="font-semibold">Cook Time</span>
 			<input type="text" bind:value={cookTime} placeholder="30 min" class="input rounded-lg mt-2" />
-		</label>
-
-		<label class="label">
-			<span class="font-semibold">Servings</span>
-			<input type="number" bind:value={servings} min="1" class="input rounded-lg mt-2" />
 		</label>
 	</div>
 </div>

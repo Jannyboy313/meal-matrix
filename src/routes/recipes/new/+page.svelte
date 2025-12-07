@@ -26,9 +26,10 @@
 	let image = $state<string>('');
 	let prepTime = $state<string>('');
 	let cookTime = $state<string>('');
-	let servings = $state<number>(4);
 	let tags = $state<Tag[]>([]);
-	let ingredients = $state<Ingredient[]>([{ amount: '', name: '' }]);
+	let servings = $state<number[]>([4]);
+	let currentServing = $state<number>(4);
+	let ingredients = $state<{ [serving: number]: Ingredient[] }>({ 4: [{ amount: '', name: '' }] });
 	let steps = $state<string[]>(['']);
 
 	// Flow state
@@ -53,13 +54,52 @@
 		tags = tags.filter((_, i) => i !== index);
 	}
 
+	function addServing() {
+		// Function placeholder - actual logic in IngredientsStep component
+	}
+
+	function removeServing(serving: number) {
+		if (servings.length > 1) {
+			servings = servings.filter((s) => s !== serving);
+			delete ingredients[serving];
+			if (currentServing === serving) {
+				currentServing = servings[0];
+			}
+		}
+	}
+
+	function changeServing(serving: number) {
+		currentServing = serving;
+	}
+
 	function addIngredient() {
-		ingredients = [...ingredients, { amount: '', name: '' }];
+		if (!ingredients[currentServing]) {
+			ingredients[currentServing] = [];
+		}
+		const newIng = { amount: '', name: '' };
+		ingredients[currentServing] = [...ingredients[currentServing], newIng];
+
+		// Add the same ingredient (name only) to other servings
+		servings.forEach((serving) => {
+			if (serving !== currentServing) {
+				if (!ingredients[serving]) {
+					ingredients[serving] = [];
+				}
+				ingredients[serving] = [...ingredients[serving], { amount: '', name: '' }];
+			}
+		});
 	}
 
 	function removeIngredient(index: number) {
-		if (ingredients.length > 1) {
-			ingredients = ingredients.filter((_, i) => i !== index);
+		if ((ingredients[currentServing] || []).length > 1) {
+			ingredients[currentServing] = ingredients[currentServing].filter((_, i) => i !== index);
+
+			// Remove from all other servings too
+			servings.forEach((serving) => {
+				if (serving !== currentServing && ingredients[serving]) {
+					ingredients[serving] = ingredients[serving].filter((_, i) => i !== index);
+				}
+			});
 		}
 	}
 
@@ -88,12 +128,13 @@
 				isValid = false;
 			}
 		} else if (currentStep === 3) {
-			if (ingredients.length === 0) {
+			const currentIngredients = ingredients[currentServing] || [];
+			if (currentIngredients.length === 0) {
 				error = 'Please add at least one ingredient';
 				isValid = false;
 			}
 
-			ingredients.forEach((ing, i) => {
+			currentIngredients.forEach((ing, i) => {
 				if (!ing.name.trim()) {
 					ingredientErrors[i] = { ...ingredientErrors[i], name: 'Name is required' };
 					isValid = false;
@@ -145,9 +186,13 @@
 			return false;
 		}
 
-		if (ingredients.some((ing) => !ing.name.trim())) {
-			error = 'Please fill in all ingredient names';
-			return false;
+		// Check all servings have ingredients with names
+		for (const serving of servings) {
+			const ings = ingredients[serving] || [];
+			if (ings.some((ing) => !ing.name.trim())) {
+				error = 'Please fill in all ingredient names';
+				return false;
+			}
 		}
 
 		if (steps.some((step) => !step.trim())) {
@@ -223,11 +268,8 @@
 				image: image || 'https://images.unsplash.com/photo-1495521821757-a1efb6729352?w=400&h=300&fit=crop',
 				prepTime,
 				cookTime,
-				servings,
 				tags,
-				ingredients: {
-					[servings]: ingredients
-				},
+				ingredients,
 				steps
 			})}
 		/>
@@ -239,7 +281,6 @@
 				bind:image
 				bind:prepTime
 				bind:cookTime
-				bind:servings
 				{titleError}
 			/>
 		{:else if currentStep === 2}
@@ -251,8 +292,13 @@
 			/>
 		{:else if currentStep === 3}
 			<IngredientsStep
+				bind:servings
 				bind:ingredients
+				bind:currentServing
 				{ingredientErrors}
+				onaddserving={addServing}
+				onremoveserving={removeServing}
+				onchangeserving={changeServing}
 				onaddingredient={addIngredient}
 				onremoveingredient={removeIngredient}
 			/>
