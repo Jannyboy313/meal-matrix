@@ -1,4 +1,6 @@
 <script>
+	import { ArrowLeft } from 'lucide-svelte';
+	
 	let { data } = $props();
 	const recipe = $derived(data.recipe);
 
@@ -36,7 +38,7 @@
 			class="btn btn-icon absolute top-4 left-4 z-10 shadow-lg bg-white/90 hover:bg-white text-black rounded-full"
 			aria-label="Back to recipes"
 		>
-			←
+			<ArrowLeft size={20} />
 		</a>
 	</header>
 
