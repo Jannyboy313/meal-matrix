@@ -6,7 +6,12 @@ const config = {
 	// Consult https://svelte.dev/docs/kit/integrations
 	// for more information about preprocessors
 	preprocess: vitePreprocess(),
-	kit: { adapter: adapter() }
+	kit: { adapter: adapter() },
+	onwarn: (warning, handler) => {
+		// Suppress Svelte 5 warnings from SvelteKit's generated files
+		if (warning.code === 'state_referenced_locally') return;
+		handler(warning);
+	}
 };
 
 export default config;

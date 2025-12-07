@@ -546,6 +546,24 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@skeletonlabs/skeleton@npm:^4.7.1":
+  version: 4.7.1
+  resolution: "@skeletonlabs/skeleton@npm:4.7.1"
+  peerDependencies:
+    tailwindcss: ^4.0.0
+  checksum: 10c0/ffea5523f26db38ffaab3164b75a5a114dff5120eca351f7f82849769ee43771b717724b0334c725b50b536517204bff775bb28f9a153bb5eade02a5b8690627
+  languageName: node
+  linkType: hard
+
+"@skeletonlabs/tw-plugin@npm:^0.4.1":
+  version: 0.4.1
+  resolution: "@skeletonlabs/tw-plugin@npm:0.4.1"
+  peerDependencies:
+    tailwindcss: ">=3.0.0"
+  checksum: 10c0/7b7d4bd48f741ba2cae8377ce2e70ac08eb011c41eb5ac8a62c9fe4f70d7d3fef978585dd9c30ecd202e680bfc42ef5f55faac2c631685985e6311fa575ea517
+  languageName: node
+  linkType: hard
+
 "@standard-schema/spec@npm:^1.0.0":
   version: 1.0.0
   resolution: "@standard-schema/spec@npm:1.0.0"
@@ -1151,6 +1169,26 @@ __metadata:
   languageName: node
   linkType: hard
 
+"frontend@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "frontend@workspace:."
+  dependencies:
+    "@skeletonlabs/skeleton": "npm:^4.7.1"
+    "@skeletonlabs/tw-plugin": "npm:^0.4.1"
+    "@sveltejs/adapter-node": "npm:^5.4.0"
+    "@sveltejs/kit": "npm:^2.48.5"
+    "@sveltejs/vite-plugin-svelte": "npm:^6.2.1"
+    "@tailwindcss/forms": "npm:^0.5.10"
+    "@tailwindcss/typography": "npm:^0.5.19"
+    "@tailwindcss/vite": "npm:^4.1.17"
+    svelte: "npm:^5.43.8"
+    svelte-check: "npm:^4.3.4"
+    tailwindcss: "npm:^4.1.17"
+    typescript: "npm:^5.9.3"
+    vite: "npm:^7.2.2"
+  languageName: unknown
+  linkType: soft
+
 "fs-minipass@npm:^3.0.0":
   version: 3.0.3
   resolution: "fs-minipass@npm:3.0.3"
@@ -1319,24 +1357,6 @@ __metadata:
   checksum: 10c0/e9de6cb49657b6fa70ba2d1448fd3d691a5c4370d8f7bbf1c2f64c24d461270f2117e1b0afe8cb3114f13bbd8e51de158c2a224953960331904e636a5e4c0f2a
   languageName: node
   linkType: hard
-
-"kook-pwa@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "kook-pwa@workspace:."
-  dependencies:
-    "@sveltejs/adapter-node": "npm:^5.4.0"
-    "@sveltejs/kit": "npm:^2.48.5"
-    "@sveltejs/vite-plugin-svelte": "npm:^6.2.1"
-    "@tailwindcss/forms": "npm:^0.5.10"
-    "@tailwindcss/typography": "npm:^0.5.19"
-    "@tailwindcss/vite": "npm:^4.1.17"
-    svelte: "npm:^5.43.8"
-    svelte-check: "npm:^4.3.4"
-    tailwindcss: "npm:^4.1.17"
-    typescript: "npm:^5.9.3"
-    vite: "npm:^7.2.2"
-  languageName: unknown
-  linkType: soft
 
 "lightningcss-android-arm64@npm:1.30.2":
   version: 1.30.2
