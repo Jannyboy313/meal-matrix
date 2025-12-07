@@ -11,7 +11,7 @@
 		loading = true;
 		try {
 			await signOut(auth);
-			goto('/');
+			goto('/login');
 		} catch (err) {
 			console.error('Error signing out:', err);
 		} finally {
