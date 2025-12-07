@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { Plus, X } from 'lucide-svelte';
 	import type { Tag } from '$lib';
+	import { createTag } from '$lib/firestore';
+	import { user } from '$lib/stores/auth';
 
 	interface Props {
 		tags: Tag[];
@@ -9,11 +11,12 @@
 		onremovetag: (index: number) => void;
 	}
 
-	let { tags = $bindable(), availableTags, onaddtag, onremovetag }: Props = $props();
+	let { tags = $bindable(), availableTags = $bindable(), onaddtag, onremovetag }: Props = $props();
 
 	let newTagName = $state<string>('');
 	let newTagColor = $state<string>('#4CAF50');
 	let showCustomTag = $state<boolean>(false);
+	let isCreatingTag = $state<boolean>(false);
 
 	function addExistingTag(tag: Tag) {
 		if (!tags.some((t) => t.name === tag.name)) {
@@ -21,15 +24,33 @@
 		}
 	}
 
-	function addCustomTag() {
-		if (newTagName.trim()) {
-			onaddtag({
-				id: crypto.randomUUID(),
-				name: newTagName.trim(),
-				color: newTagColor
-			});
-			newTagName = '';
-			showCustomTag = false;
+	async function addCustomTag() {
+		if (newTagName.trim() && $user) {
+			isCreatingTag = true;
+			try {
+				// Create tag in Firestore
+				const newTag = await createTag(
+					{
+						name: newTagName.trim(),
+						color: newTagColor
+					},
+					$user.uid
+				);
+
+				// Add to available tags list
+				availableTags = [...availableTags, newTag];
+
+				// Add to selected tags
+				onaddtag(newTag);
+
+				newTagName = '';
+				showCustomTag = false;
+			} catch (error) {
+				console.error('Error creating tag:', error);
+				alert('Failed to create tag. Please try again.');
+			} finally {
+				isCreatingTag = false;
+			}
 		}
 	}
 </script>
@@ -104,15 +125,22 @@
 						bind:value={newTagName}
 						placeholder="Tag name"
 						class="input rounded-lg flex-1"
-						onkeydown={(e) => e.key === 'Enter' && (e.preventDefault(), addCustomTag())}
+						disabled={isCreatingTag}
+						onkeydown={(e) => e.key === 'Enter' && !isCreatingTag && (e.preventDefault(), addCustomTag())}
 					/>
 					<input
 						type="color"
 						bind:value={newTagColor}
 						class="input w-16 h-10 rounded-lg cursor-pointer"
+						disabled={isCreatingTag}
 					/>
-					<button type="button" onclick={addCustomTag} class="btn preset-filled-primary-500 whitespace-nowrap">
-						Add
+					<button
+						type="button"
+						onclick={addCustomTag}
+						class="btn preset-filled-primary-500 whitespace-nowrap"
+						disabled={isCreatingTag || !newTagName.trim()}
+					>
+						{isCreatingTag ? 'Adding...' : 'Add'}
 					</button>
 					<button
 						type="button"
@@ -121,6 +149,7 @@
 							newTagName = '';
 						}}
 						class="btn preset-tonal-surface"
+						disabled={isCreatingTag}
 					>
 						Cancel
 					</button>

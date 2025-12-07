@@ -6,12 +6,61 @@ import {
 	onSnapshot,
 	doc,
 	getDoc,
+	getDocs,
 	addDoc,
 	updateDoc,
 	serverTimestamp,
 	type Unsubscribe
 } from 'firebase/firestore';
 import type { Recipe, RecipeSummary, RecipeSummaryWithTags, RecipeWithTags, Tag } from '$lib/types';
+
+/**
+ * Fetch all tags from Firestore
+ * Returns both global tags and user-specific tags
+ */
+export async function getAllTags(userId?: string): Promise<Tag[]> {
+	try {
+		const tagsRef = collection(db, 'tags');
+		let q;
+
+		if (userId) {
+			// Fetch global tags and user's tags
+			q = query(
+				tagsRef,
+				where('isGlobal', '==', true)
+			);
+			const globalSnapshot = await getDocs(q);
+
+			const userQuery = query(
+				tagsRef,
+				where('userId', '==', userId)
+			);
+			const userSnapshot = await getDocs(userQuery);
+
+			const tags: Tag[] = [];
+			globalSnapshot.forEach((doc) => {
+				tags.push({ id: doc.id, ...doc.data() } as Tag);
+			});
+			userSnapshot.forEach((doc) => {
+				tags.push({ id: doc.id, ...doc.data() } as Tag);
+			});
+
+			return tags;
+		} else {
+			// Only fetch global tags
+			q = query(tagsRef, where('isGlobal', '==', true));
+			const snapshot = await getDocs(q);
+			const tags: Tag[] = [];
+			snapshot.forEach((doc) => {
+				tags.push({ id: doc.id, ...doc.data() } as Tag);
+			});
+			return tags;
+		}
+	} catch (error) {
+		console.error('Error fetching tags:', error);
+		return [];
+	}
+}
 
 /**
  * Fetch a single tag by ID from Firestore
@@ -96,6 +145,39 @@ export function subscribeToUserRecipes(
 		console.error('Error subscribing to recipes:', error);
 		callback([]);
 	});
+}
+
+/**
+ * Create a new tag in Firestore
+ * @param tagData - Tag data (name, color)
+ * @param userId - The user ID who owns the tag
+ * @returns The created tag with ID
+ */
+export async function createTag(
+	tagData: { name: string; color: string },
+	userId: string
+): Promise<Tag> {
+	try {
+		const docRef = await addDoc(collection(db, 'tags'), {
+			name: tagData.name,
+			color: tagData.color,
+			userId,
+			isGlobal: false,
+			createdAt: serverTimestamp(),
+			updatedAt: serverTimestamp()
+		});
+
+		return {
+			id: docRef.id,
+			name: tagData.name,
+			color: tagData.color,
+			userId,
+			isGlobal: false
+		};
+	} catch (error) {
+		console.error('Error creating tag:', error);
+		throw error;
+	}
 }
 
 /**

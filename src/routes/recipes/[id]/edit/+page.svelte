@@ -1,23 +1,32 @@
 <script lang="ts">
 	import type { PageData } from './$types';
-	import type { RecipeWithTags } from '$lib';
+	import type { RecipeWithTags, Tag } from '$lib';
 	import RecipeForm from '$lib/components/recipe/RecipeForm.svelte';
-	import { getRecipeById } from '$lib/firestore';
+	import { getRecipeById, getAllTags } from '$lib/firestore';
+	import { user } from '$lib/stores/auth';
 	import { onMount } from 'svelte';
 
 	let { data }: { data: PageData } = $props();
 	let recipe = $state<RecipeWithTags | null>(null);
+	let availableTags = $state<Tag[]>([]);
 	let loading = $state<boolean>(true);
 	let error = $state<string | null>(null);
 
-	// Fetch recipe from Firestore when component mounts
+	// Fetch recipe and tags from Firestore when component mounts
 	onMount(async () => {
 		try {
 			loading = true;
-			const fetchedRecipe = await getRecipeById(data.recipeId);
+			const currentUser = $user;
+
+			// Fetch both recipe and tags in parallel
+			const [fetchedRecipe, fetchedTags] = await Promise.all([
+				getRecipeById(data.recipeId),
+				getAllTags(currentUser?.uid)
+			]);
 
 			if (fetchedRecipe) {
 				recipe = fetchedRecipe;
+				availableTags = fetchedTags;
 			} else {
 				error = 'Recipe not found';
 			}
@@ -72,7 +81,7 @@
 		</div>
 
 		<RecipeForm
-			availableTags={data.availableTags}
+			{availableTags}
 			storageKey={`recipe-edit-${data.recipeId}`}
 			{initialData}
 			isEditing={true}
