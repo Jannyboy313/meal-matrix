@@ -1,6 +1,19 @@
 <script>
 	let { data } = $props();
-	const { recipe } = data;
+	const recipe = $derived(data.recipe);
+
+	let selectedServings = $state(4);
+	$effect(() => {
+		selectedServings = recipe.servings;
+	});
+
+	let currentIngredients = $derived.by(() => {
+		const ings = recipe.ingredients;
+		// Use bracket notation with explicit check
+		if (selectedServings === 2 && ings[2]) return ings[2];
+		if (selectedServings === 4 && ings[4]) return ings[4];
+		return ings[4] || [];
+	});
 </script>
 
 <svelte:head>
@@ -49,12 +62,6 @@
 						<span class="font-semibold">{recipe.cookTime}</span>
 					</div>
 				{/if}
-				{#if recipe.servings}
-					<div class="flex flex-col">
-						<span class="text-xs uppercase opacity-75">Servings</span>
-						<span class="font-semibold">{recipe.servings}</span>
-					</div>
-				{/if}
 			</div>
 		</div>
 	</div>
@@ -65,11 +72,27 @@
 			<!-- Ingredients Section -->
 			<div class="lg:col-span-1">
 				<div class="card variant-filled-surface p-6 space-y-4 sticky top-4">
+					<!-- Serving Size Selector -->
+					<label class="label">
+						<span class="text-base font-medium">Servings:</span>
+						<select
+							bind:value={selectedServings}
+							class="select"
+						>
+							{#each Object.keys(recipe.ingredients) as serving}
+								<option value={parseInt(serving)}>
+									{serving}
+								</option>
+							{/each}
+						</select>
+					</label>
+
 					<h2 class="h2">Ingredients</h2>
+
 					<div class="space-y-2">
-						{#each recipe.ingredients as ingredient}
+						{#each currentIngredients as ingredient}
 							<div class="flex gap-3 items-baseline">
-								<span class="text-sm font-bold text-primary-500 uppercase tracking-wide min-w-5 shrink-0 whitespace-nowrap">
+								<span class="text-sm font-bold text-primary-500 uppercase tracking-wide min-w-20 shrink-0 whitespace-nowrap">
 									{ingredient.amount}
 								</span>
 								<span class="text-base">
