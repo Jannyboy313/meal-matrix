@@ -1,13 +1,13 @@
 <script lang="ts">
 	import { Search, Plus } from 'lucide-svelte';
 	import type { PageData } from './$types';
-	import type { Tag, RecipeSummary } from '$lib';
+	import type { Tag, RecipeSummaryWithTags } from '$lib';
 
 	let { data }: { data: PageData } = $props();
 	let searchQuery = $state<string>('');
 
 	const filteredRecipes = $derived(
-		data.recipes.filter((recipe: RecipeSummary) => {
+		data.recipes.filter((recipe: RecipeSummaryWithTags) => {
 			const query = searchQuery.toLowerCase();
 			return (
 				recipe.title.toLowerCase().includes(query) ||

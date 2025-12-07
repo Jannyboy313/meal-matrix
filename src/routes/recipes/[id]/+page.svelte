@@ -1,10 +1,10 @@
 <script lang="ts">
 	import { ArrowLeft, Pencil } from 'lucide-svelte';
 	import type { PageData } from './$types';
-	import type { Tag, Ingredient, Recipe } from '$lib';
+	import type { RecipeWithTags } from '$lib';
 
 	let { data }: { data: PageData } = $props();
-	const recipe: Recipe = $derived(data.recipe);
+	const recipe: RecipeWithTags = $derived(data.recipe);
 
 	let selectedServings = $state<number>(4);
 	$effect(() => {

@@ -1,9 +1,10 @@
 import type { PageServerLoad } from './$types';
-import type { Tag, Ingredient, Recipe } from '$lib';
+import type { RecipeWithTags } from '$lib';
 
 export const load: PageServerLoad = async ({ params }) => {
 	// In a real app, this would fetch from a database
-	const recipes: Recipe[] = [
+	// In production: fetch recipe with tagIds, then populate tags from /tags collection
+	const recipes: RecipeWithTags[] = [
 		{
 			id: 'recipe-1',
 			title: 'Spaghetti Carbonara',
@@ -148,7 +149,7 @@ export const load: PageServerLoad = async ({ params }) => {
 		}
 	];
 
-	const recipe: Recipe | undefined = recipes.find(r => r.id === params.id);
+	const recipe: RecipeWithTags | undefined = recipes.find(r => r.id === params.id);
 
 	if (!recipe) {
 		throw new Error('Recipe not found');

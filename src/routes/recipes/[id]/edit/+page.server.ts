@@ -1,8 +1,9 @@
 import type { PageServerLoad, Actions } from './$types';
 import { fail, redirect } from '@sveltejs/kit';
-import type { Tag, Ingredient, Recipe } from '$lib';
+import type { Tag, RecipeWithTags } from '$lib';
 
 // Common tags that can be reused across recipes
+// In production: fetch from /tags collection
 const availableTags: Tag[] = [
 	{ id: 'tag-italian', name: 'Italian', color: '#008C45' },
 	{ id: 'tag-pasta', name: 'Pasta', color: '#F4A460' },
@@ -41,9 +42,10 @@ const availableTags: Tag[] = [
 	{ id: 'tag-gourmet', name: 'Gourmet', color: '#6A1B9A' }
 ];
 
-export const load: PageServerLoad = async ({ params }) => {
+	export const load: PageServerLoad = async ({ params }) => {
 	// In a real app, this would fetch from a database
-	const recipes: Recipe[] = [
+	// In production: fetch recipe with tagIds, then populate tags from /tags collection
+	const recipes: RecipeWithTags[] = [
 		{
 			id: 'recipe-1',
 			title: 'Spaghetti Carbonara',

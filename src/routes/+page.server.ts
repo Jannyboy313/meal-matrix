@@ -1,9 +1,10 @@
 import type { PageServerLoad } from './$types';
-import type { RecipeSummary } from '$lib';
+import type { RecipeSummaryWithTags } from '$lib';
 
 export const load: PageServerLoad = async () => {
 	// Sample recipe data - in a real app, this would come from a database
-	const recipes: RecipeSummary[] = [
+	// In production: fetch recipes with tagIds, then populate tags from /tags collection
+	const recipes: RecipeSummaryWithTags[] = [
 		{
 			id: 'recipe-1',
 			title: 'Spaghetti Carbonara',
