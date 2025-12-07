@@ -1,11 +1,7 @@
 <script lang="ts">
+	import type { Ingredient } from '$lib';
 	import ServingSelector from './ServingSelector.svelte';
 	import IngredientList from './IngredientList.svelte';
-
-	interface Ingredient {
-		amount: string;
-		name: string;
-	}
 
 	interface Props {
 		servings: number[];

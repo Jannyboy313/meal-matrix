@@ -1,29 +1,5 @@
 import type { PageServerLoad } from './$types';
-
-interface Tag {
-	name: string;
-	color: string;
-}
-
-interface Ingredient {
-	amount: string;
-	name: string;
-}
-
-interface Recipe {
-	id: number;
-	title: string;
-	description: string;
-	image: string;
-	tags: Tag[];
-	prepTime: string;
-	cookTime: string;
-	servings: number;
-	ingredients: {
-		[key: number]: Ingredient[];
-	};
-	steps: string[];
-}
+import type { Tag, Ingredient, Recipe } from '$lib';
 
 export const load: PageServerLoad = async ({ params }) => {
 	// In a real app, this would fetch from a database

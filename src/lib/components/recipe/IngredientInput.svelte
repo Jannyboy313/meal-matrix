@@ -1,10 +1,6 @@
 <script lang="ts">
 	import { Trash2 } from 'lucide-svelte';
-
-	interface Ingredient {
-		amount: string;
-		name: string;
-	}
+	import type { Ingredient } from '$lib';
 
 	interface Props {
 		ingredient: Ingredient;

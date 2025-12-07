@@ -1,30 +1,6 @@
 import type { PageServerLoad, Actions } from './$types';
 import { fail, redirect } from '@sveltejs/kit';
-
-interface Tag {
-	name: string;
-	color: string;
-}
-
-interface Ingredient {
-	amount: string;
-	name: string;
-}
-
-interface Recipe {
-	id: number;
-	title: string;
-	description: string;
-	image: string;
-	tags: Tag[];
-	prepTime: string;
-	cookTime: string;
-	servings: number;
-	ingredients: {
-		[key: number]: Ingredient[];
-	};
-	steps: string[];
-}
+import type { Tag, Ingredient, Recipe } from '$lib';
 
 // Common tags that can be reused across recipes
 const availableTags: Tag[] = [

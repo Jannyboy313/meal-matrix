@@ -1,11 +1,7 @@
 <script lang="ts">
 	import { Plus } from 'lucide-svelte';
+	import type { Ingredient } from '$lib';
 	import IngredientInput from './IngredientInput.svelte';
-
-	interface Ingredient {
-		amount: string;
-		name: string;
-	}
 
 	interface Props {
 		servings: number[];

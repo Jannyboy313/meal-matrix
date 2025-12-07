@@ -1,9 +1,5 @@
 import type { PageLoad } from './$types';
-
-interface Tag {
-	name: string;
-	color: string;
-}
+import type { Tag } from '$lib';
 
 // Common tags that can be reused across recipes
 const availableTags: Tag[] = [

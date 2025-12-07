@@ -1,10 +1,6 @@
 <script lang="ts">
 	import { Plus, X } from 'lucide-svelte';
-
-	interface Tag {
-		name: string;
-		color: string;
-	}
+	import type { Tag } from '$lib';
 
 	interface Props {
 		tags: Tag[];

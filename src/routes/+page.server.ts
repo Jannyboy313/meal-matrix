@@ -1,17 +1,5 @@
 import type { PageServerLoad } from './$types';
-
-interface Tag {
-	name: string;
-	color: string;
-}
-
-interface Recipe {
-	id: number;
-	title: string;
-	description: string;
-	image: string;
-	tags: Tag[];
-}
+import type { Tag, Recipe } from '$lib';
 
 export const load: PageServerLoad = async () => {
 	// Sample recipe data - in a real app, this would come from a database

@@ -2,34 +2,13 @@
 	import { enhance } from '$app/forms';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
+	import type { Tag, Ingredient, RecipeFormData } from '$lib';
 	import BasicInfoStep from '$lib/components/recipe/BasicInfoStep.svelte';
 	import TagsStep from '$lib/components/recipe/TagsStep.svelte';
 	import IngredientsStep from '$lib/components/recipe/IngredientsStep.svelte';
 	import InstructionsStep from '$lib/components/recipe/InstructionsStep.svelte';
 	import StepNavigation from '$lib/components/recipe/StepNavigation.svelte';
 	import ProgressIndicator from '$lib/components/recipe/ProgressIndicator.svelte';
-
-	interface Tag {
-		name: string;
-		color: string;
-	}
-
-	interface Ingredient {
-		amount: string;
-		name: string;
-	}
-
-	interface RecipeFormData {
-		title: string;
-		image: string;
-		prepTime: string;
-		cookTime: string;
-		tags: Tag[];
-		servings: number[];
-		currentServing: number;
-		ingredients: { [serving: number]: Ingredient[] };
-		steps: string[];
-	}
 
 	interface Props {
 		availableTags: Tag[];

@@ -1,15 +1,6 @@
 import { redirect } from '@sveltejs/kit';
 import type { Actions } from './$types';
-
-interface Tag {
-	name: string;
-	color: string;
-}
-
-interface Ingredient {
-	amount: string;
-	name: string;
-}
+import type { Tag, Ingredient } from '$lib';
 
 interface NewRecipe {
 	title: string;

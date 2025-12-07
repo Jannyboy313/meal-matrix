@@ -1,19 +1,7 @@
 <script lang="ts">
 	import { Search, Plus } from 'lucide-svelte';
 	import type { PageData } from './$types';
-
-	interface Tag {
-		name: string;
-		color: string;
-	}
-
-	interface Recipe {
-		id: number;
-		title: string;
-		description?: string;
-		image: string;
-		tags?: Tag[];
-	}
+	import type { Tag, Recipe } from '$lib';
 
 	let { data }: { data: PageData } = $props();
 	let searchQuery = $state<string>('');

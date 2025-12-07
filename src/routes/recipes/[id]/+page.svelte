@@ -1,31 +1,7 @@
 <script lang="ts">
 	import { ArrowLeft, Pencil } from 'lucide-svelte';
 	import type { PageData } from './$types';
-
-	interface Tag {
-		name: string;
-		color: string;
-	}
-
-	interface Ingredient {
-		amount: string;
-		name: string;
-	}
-
-	interface Recipe {
-		id: number;
-		title: string;
-		description: string;
-		image: string;
-		tags: Tag[];
-		prepTime: string;
-		cookTime: string;
-		servings: number;
-		ingredients: {
-			[key: number]: Ingredient[];
-		};
-		steps: string[];
-	}
+	import type { Tag, Ingredient, Recipe } from '$lib';
 
 	let { data }: { data: PageData } = $props();
 	const recipe: Recipe = $derived(data.recipe);
