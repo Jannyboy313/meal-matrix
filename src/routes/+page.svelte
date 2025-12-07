@@ -1,4 +1,6 @@
 <script>
+	import { Search } from 'lucide-svelte';
+
 	let { data } = $props();
 	let searchQuery = $state('');
 
@@ -18,28 +20,31 @@
 	<title>Home - Recipe Collection</title>
 </svelte:head>
 
-<div class="container mx-auto p-6 space-y-6 sm:p-8">
-	<header class="text-center py-8">
+<div class="container mx-auto p-4 space-y-6 sm:p-6 md:p-8">
+	<header class="text-center py-6 sm:py-8">
 		<h1 class="h1 mb-2">Discover Delicious Recipes</h1>
-		<p class="text-lg opacity-75">Explore our collection of amazing dishes</p>
+		<p class="text-base sm:text-lg opacity-75">Explore our collection of amazing dishes</p>
 	</header>
 
 	<!-- Search Bar -->
 	<div class="max-w-2xl mx-auto">
-		<label class="label">
+		<div class="relative">
+			<div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
+				<Search size={20} class="opacity-50" />
+			</div>
 			<input
 				type="search"
 				bind:value={searchQuery}
-				placeholder="Search recipes by name, description, or tags..."
-				class="input"
+				placeholder="Search..."
+				class="input rounded-lg pl-12 pr-4 py-3 shadow-md"
 			/>
-		</label>
+		</div>
 	</div>
 
-	<div class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+	<div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
 		{#each filteredRecipes as recipe (recipe.id)}
 			<a href="/recipes/{recipe.id}" class="block">
-				<article class="card variant-filled-surface overflow-hidden hover:scale-105 transition-transform cursor-pointer">
+				<article class="card variant-filled-surface rounded-xl overflow-hidden hover:scale-105 transition-transform duration-300 cursor-pointer shadow-lg">
 					<header class="relative h-48 overflow-hidden">
 						<img
 							src={recipe.image}
@@ -49,10 +54,10 @@
 					</header>
 					<div class="p-4 space-y-2">
 						{#if recipe.tags && recipe.tags.length > 0}
-							<div class="flex flex-wrap gap-1">
+							<div class="flex flex-wrap gap-1.5">
 								{#each recipe.tags as tag}
 									<span
-										class="text-xs px-2 py-1 rounded text-white font-medium"
+										class="text-xs px-2.5 py-1 rounded-full text-white font-medium"
 										style="background-color: {tag.color}"
 									>
 										{tag.name}
@@ -71,8 +76,8 @@
 	</div>
 
 	{#if filteredRecipes.length === 0}
-		<div class="card variant-filled-surface p-8 text-center">
-			<p class="text-lg opacity-75">
+		<div class="card variant-filled-surface rounded-xl p-8 text-center">
+			<p class="text-base sm:text-lg opacity-75">
 				{searchQuery ? 'No recipes found matching your search.' : 'No recipes available yet. Check back soon!'}
 			</p>
 		</div>

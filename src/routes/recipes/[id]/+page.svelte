@@ -1,6 +1,6 @@
 <script>
 	import { ArrowLeft } from 'lucide-svelte';
-	
+
 	let { data } = $props();
 	const recipe = $derived(data.recipe);
 
@@ -24,7 +24,7 @@
 
 <div class="min-h-screen pb-8">
 	<!-- Hero Header with Image -->
-	<header class="relative w-full h-64 sm:h-80 md:h-96 overflow-hidden">
+	<header class="relative w-full h-56 sm:h-72 md:h-80 lg:h-96 overflow-hidden">
 		<img
 			src={recipe.image}
 			alt={recipe.title}
@@ -43,8 +43,8 @@
 	</header>
 
 	<!-- Title Section -->
-	<div class="container mx-auto px-4 sm:px-6 -mt-16 relative z-10">
-		<div class="card variant-filled-surface p-6 space-y-4">
+	<div class="container mx-auto px-4 sm:px-6 -mt-12 sm:-mt-16 relative z-10">
+		<div class="card variant-filled-surface rounded-xl p-4 sm:p-6 space-y-4">
 			<div class="flex flex-wrap gap-2">
 				{#each recipe.tags as tag}
 					<span
@@ -57,7 +57,7 @@
 			</div>
 
 			<h1 class="h1">{recipe.title}</h1>
-			<p class="text-lg opacity-90">{recipe.description}</p>
+			<p class="text-base sm:text-lg opacity-90">{recipe.description}</p>
 
 			<!-- Recipe Meta Info -->
 			<div class="flex flex-wrap gap-6 pt-4 border-t border-surface-300-600-token">
@@ -78,17 +78,17 @@
 	</div>
 
 	<!-- Main Content -->
-	<div class="container mx-auto px-4 sm:px-6 space-y-8">
-		<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+	<div class="container mx-auto px-4 sm:px-6 space-y-6 sm:space-y-8">
+		<div class="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
 			<!-- Ingredients Section -->
 			<div class="lg:col-span-1">
-				<div class="card variant-filled-surface p-6 space-y-4 sticky top-4">
+				<div class="card variant-filled-surface rounded-xl p-4 sm:p-6 space-y-4 lg:sticky lg:top-4">
 					<!-- Serving Size Selector -->
 					<label class="label">
 						<span class="text-base font-medium">Servings:</span>
 						<select
 							bind:value={selectedServings}
-							class="select"
+							class="select rounded-lg"
 						>
 							{#each Object.keys(recipe.ingredients) as serving}
 								<option value={parseInt(serving)}>
@@ -100,13 +100,13 @@
 
 					<h2 class="h2">Ingredients</h2>
 
-					<div class="space-y-2">
+					<div class="space-y-2.5">
 						{#each currentIngredients as ingredient}
-							<div class="flex gap-3 items-baseline">
-								<span class="text-sm font-bold text-primary-500 uppercase tracking-wide min-w-20 shrink-0 whitespace-nowrap">
+							<div class="flex gap-2 sm:gap-3 items-baseline">
+								<span class="text-xs sm:text-sm font-bold text-primary-500 uppercase tracking-wide min-w-16 sm:min-w-20 shrink-0">
 									{ingredient.amount}
 								</span>
-								<span class="text-base">
+								<span class="text-sm sm:text-base">
 									{ingredient.name}
 								</span>
 							</div>
@@ -117,17 +117,17 @@
 
 			<!-- Steps Section -->
 			<div class="lg:col-span-2">
-				<div class="card variant-filled-surface p-6 space-y-6">
+				<div class="card variant-filled-surface rounded-xl p-4 sm:p-6 space-y-6">
 					<h2 class="h2">Instructions</h2>
-					<ol class="space-y-6">
+					<ol class="space-y-5 sm:space-y-6">
 						{#each recipe.steps as step, index}
-							<li class="flex gap-4">
+							<li class="flex gap-3 sm:gap-4">
 								<span
-									class="shrink-0 w-8 h-8 rounded-full bg-primary-500 text-white flex items-center justify-center font-bold text-sm"
+									class="shrink-0 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-primary-500 text-white flex items-center justify-center font-bold text-xs sm:text-sm"
 								>
 									{index + 1}
 								</span>
-								<p class="pt-1 leading-relaxed">{step}</p>
+								<p class="pt-0.5 sm:pt-1 leading-relaxed text-sm sm:text-base">{step}</p>
 							</li>
 						{/each}
 					</ol>
@@ -136,10 +136,10 @@
 		</div>
 
 		<!-- Back Button -->
-		<div class="text-center pt-8">
+		<div class="text-center pt-6 sm:pt-8">
 			<a
 				href="/"
-				class="btn variant-filled-primary"
+				class="btn variant-filled-primary rounded-lg"
 			>
 				← Back to Recipes
 			</a>
