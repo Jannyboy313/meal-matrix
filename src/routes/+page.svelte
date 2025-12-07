@@ -1,18 +1,40 @@
-<div class="container mx-auto p-8 space-y-8">
-	<h1 class="h1">Welcome to SvelteKit with Skeleton UI</h1>
+<script>
+	let { data } = $props();
+</script>
 
-	<section class="card variant-filled-surface p-4">
-		<header class="card-header">
-			<h2 class="h2">Example Card</h2>
-		</header>
-		<div class="p-4">
-			<p>Skeleton UI is now installed and configured!</p>
+<svelte:head>
+	<title>Home - Recipe Collection</title>
+</svelte:head>
+
+<div class="container mx-auto p-6 space-y-6 sm:p-8">
+	<header class="text-center py-8">
+		<h1 class="h1 mb-2">Discover Delicious Recipes</h1>
+		<p class="text-lg opacity-75">Explore our collection of amazing dishes</p>
+	</header>
+
+	<div class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+		{#each data.recipes as recipe (recipe.id)}
+			<article class="card variant-filled-surface overflow-hidden hover:scale-105 transition-transform">
+				<header class="relative h-48 overflow-hidden">
+					<img
+						src={recipe.image}
+						alt={recipe.title}
+						class="w-full h-full object-cover"
+					/>
+				</header>
+				<div class="p-4">
+					<h2 class="h3 mb-2">{recipe.title}</h2>
+					{#if recipe.description}
+						<p class="text-sm opacity-75">{recipe.description}</p>
+					{/if}
+				</div>
+			</article>
+		{/each}
+	</div>
+
+	{#if data.recipes.length === 0}
+		<div class="card variant-filled-surface p-8 text-center">
+			<p class="text-lg opacity-75">No recipes available yet. Check back soon!</p>
 		</div>
-		<footer class="card-footer">
-			<button class="btn variant-filled-primary">Primary Button</button>
-			<button class="btn variant-filled-secondary">Secondary Button</button>
-		</footer>
-	</section>
-
-	<p>Visit <a href="https://www.skeleton.dev" class="anchor">skeleton.dev</a> to explore components and features.</p>
+	{/if}
 </div>
