@@ -1,7 +1,33 @@
-/** @type {import('./$types').PageServerLoad} */
-export async function load({ params }) {
+import type { PageServerLoad } from './$types';
+
+interface Tag {
+	name: string;
+	color: string;
+}
+
+interface Ingredient {
+	amount: string;
+	name: string;
+}
+
+interface Recipe {
+	id: number;
+	title: string;
+	description: string;
+	image: string;
+	tags: Tag[];
+	prepTime: string;
+	cookTime: string;
+	servings: number;
+	ingredients: {
+		[key: number]: Ingredient[];
+	};
+	steps: string[];
+}
+
+export const load: PageServerLoad = async ({ params }) => {
 	// In a real app, this would fetch from a database
-	const recipes = [
+	const recipes: Recipe[] = [
 		{
 			id: 1,
 			title: 'Spaghetti Carbonara',
@@ -146,7 +172,7 @@ export async function load({ params }) {
 		}
 	];
 
-	const recipe = recipes.find(r => r.id === parseInt(params.id));
+	const recipe: Recipe | undefined = recipes.find(r => r.id === parseInt(params.id));
 
 	if (!recipe) {
 		throw new Error('Recipe not found');
@@ -155,4 +181,4 @@ export async function load({ params }) {
 	return {
 		recipe
 	};
-}
+};

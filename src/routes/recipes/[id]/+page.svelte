@@ -1,10 +1,36 @@
-<script>
+<script lang="ts">
 	import { ArrowLeft } from 'lucide-svelte';
+	import type { PageData } from './$types';
 
-	let { data } = $props();
-	const recipe = $derived(data.recipe);
+	interface Tag {
+		name: string;
+		color: string;
+	}
 
-	let selectedServings = $state(4);
+	interface Ingredient {
+		amount: string;
+		name: string;
+	}
+
+	interface Recipe {
+		id: number;
+		title: string;
+		description: string;
+		image: string;
+		tags: Tag[];
+		prepTime: string;
+		cookTime: string;
+		servings: number;
+		ingredients: {
+			[key: number]: Ingredient[];
+		};
+		steps: string[];
+	}
+
+	let { data }: { data: PageData } = $props();
+	const recipe: Recipe = $derived(data.recipe);
+
+	let selectedServings = $state<number>(4);
 	$effect(() => {
 		selectedServings = recipe.servings;
 	});

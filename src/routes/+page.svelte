@@ -1,16 +1,30 @@
-<script>
+<script lang="ts">
 	import { Search, Plus } from 'lucide-svelte';
+	import type { PageData } from './$types';
 
-	let { data } = $props();
-	let searchQuery = $state('');
+	interface Tag {
+		name: string;
+		color: string;
+	}
+
+	interface Recipe {
+		id: number;
+		title: string;
+		description?: string;
+		image: string;
+		tags?: Tag[];
+	}
+
+	let { data }: { data: PageData } = $props();
+	let searchQuery = $state<string>('');
 
 	const filteredRecipes = $derived(
-		data.recipes.filter((recipe) => {
+		data.recipes.filter((recipe: Recipe) => {
 			const query = searchQuery.toLowerCase();
 			return (
 				recipe.title.toLowerCase().includes(query) ||
 				recipe.description?.toLowerCase().includes(query) ||
-				recipe.tags?.some((tag) => tag.name.toLowerCase().includes(query))
+				recipe.tags?.some((tag: Tag) => tag.name.toLowerCase().includes(query))
 			);
 		})
 	);
