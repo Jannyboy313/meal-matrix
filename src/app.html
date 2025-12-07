@@ -2,10 +2,24 @@
 <html lang="en" data-theme="cerberus">
 	<head>
 		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+
+		<!-- PWA Meta Tags -->
+		<meta name="theme-color" content="#10b981" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+		<meta name="apple-mobile-web-app-title" content="Meal Matrix" />
+		<meta name="mobile-web-app-capable" content="yes" />
+
+		<!-- App Description -->
+		<meta name="description" content="A Progressive Web App for recipe management built with SvelteKit" />
 
 		<!-- Favicon -->
 		<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+
+		<!-- PWA Icons -->
+		<link rel="apple-touch-icon" href="/icon-192x192.png" />
+		<link rel="manifest" href="/manifest.json" />
 
 		%sveltekit.head%
 	</head>

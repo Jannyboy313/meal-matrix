@@ -7,9 +7,11 @@ A Progressive Web App for recipe management built with SvelteKit.
 ## 🚀 Features
 
 - **Recipe Management**: Create, edit, and organize your recipes with ease
-- **Progressive Web App**: Works offline and can be installed on any device
+- **Progressive Web App**: Full PWA support with offline functionality and Android installation
 - **Modern UI**: Built with Skeleton UI and Tailwind CSS for a beautiful, responsive interface
 - **TypeScript**: Fully typed for better developer experience and code quality
+- **Offline First**: Service worker caching for instant loading and offline access
+- **Mobile Optimized**: Install on Android home screen with native app experience
 
 ## 🛠️ Tech Stack
 
@@ -59,6 +61,18 @@ The app will be available at `http://localhost:5173`
 - `yarn preview` - Preview the production build
 - `yarn check` - Run type checking with svelte-check
 - `yarn check:watch` - Run type checking in watch mode
+- `yarn generate:icons` - Generate PWA icons from source SVG
+
+### PWA Features
+
+This app is a full Progressive Web App with:
+- ✅ Service worker for offline support
+- ✅ Web app manifest for installation
+- ✅ Optimized caching strategies
+- ✅ Android home screen support
+- ✅ Standalone app mode
+
+For detailed PWA setup and usage instructions, see [PWA_GUIDE.md](./PWA_GUIDE.md).
 
 ### Project Structure
 
