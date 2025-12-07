@@ -5,11 +5,12 @@
 		currentStep: number;
 		totalSteps: number;
 		isSubmitting: boolean;
+		isEditing?: boolean;
 		onprevious: () => void;
 		onnext: () => void;
 	}
 
-	let { currentStep, totalSteps, isSubmitting, onprevious, onnext }: Props = $props();
+	let { currentStep, totalSteps, isSubmitting, isEditing = false, onprevious, onnext }: Props = $props();
 </script>
 
 <div class="flex gap-3 mt-6 p-4 variant-soft-surface rounded-lg">
@@ -43,7 +44,11 @@
 			class="btn preset-filled-primary-500 flex items-center justify-center flex-1"
 			disabled={isSubmitting}
 		>
-			{isSubmitting ? 'Creating...' : 'Create Recipe'}
+			{#if isEditing}
+				{isSubmitting ? 'Updating...' : 'Update Recipe'}
+			{:else}
+				{isSubmitting ? 'Creating...' : 'Create Recipe'}
+			{/if}
 		</button>
 	{/if}
 </div>

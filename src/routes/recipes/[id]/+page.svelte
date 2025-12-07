@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { ArrowLeft } from 'lucide-svelte';
+	import { ArrowLeft, Pencil } from 'lucide-svelte';
 	import type { PageData } from './$types';
 
 	interface Tag {
@@ -65,6 +65,15 @@
 			aria-label="Back to recipes"
 		>
 			<ArrowLeft size={20} />
+		</a>
+
+		<!-- Edit Button -->
+		<a
+			href="/recipes/{recipe.id}/edit"
+			class="btn btn-icon absolute top-4 right-4 z-10 shadow-lg bg-white/90 hover:bg-white text-black rounded-full"
+			aria-label="Edit recipe"
+		>
+			<Pencil size={20} />
 		</a>
 	</header>
 
