@@ -35,6 +35,11 @@
 	let isSubmitting = $state<boolean>(false);
 	let error = $state<string>('');
 
+	// Field-level errors
+	let titleError = $state<string>('');
+	let ingredientErrors = $state<{ [key: number]: { name?: string; amount?: string } }>({});
+	let stepErrors = $state<{ [key: number]: string }>({});
+
 	const stepTitles = ['Basic Info', 'Tags', 'Ingredients', 'Instructions'];
 	const totalSteps = 4;
 
@@ -78,25 +83,54 @@
 
 	function validateCurrentStep(): boolean {
 		error = '';
+		titleError = '';
+		ingredientErrors = {};
+		stepErrors = {};
+
+		let isValid = true;
 
 		if (currentStep === 1) {
 			if (!title.trim()) {
-				error = 'Please enter a recipe title';
-				return false;
+				titleError = 'Recipe title is required';
+				isValid = false;
+			} else if (title.trim().length < 3) {
+				titleError = 'Recipe title must be at least 3 characters';
+				isValid = false;
 			}
 		} else if (currentStep === 3) {
-			if (ingredients.some(ing => !ing.name.trim())) {
-				error = 'Please fill in all ingredient names';
-				return false;
+			if (ingredients.length === 0) {
+				error = 'Please add at least one ingredient';
+				isValid = false;
 			}
+
+			ingredients.forEach((ing, i) => {
+				if (!ing.name.trim()) {
+					ingredientErrors[i] = { ...ingredientErrors[i], name: 'Name is required' };
+					isValid = false;
+				}
+				if (!ing.amount.trim()) {
+					ingredientErrors[i] = { ...ingredientErrors[i], amount: 'Amount is required' };
+					isValid = false;
+				}
+			});
 		} else if (currentStep === 4) {
-			if (steps.some(step => !step.trim())) {
-				error = 'Please fill in all steps';
-				return false;
+			if (steps.length === 0) {
+				error = 'Please add at least one instruction step';
+				isValid = false;
 			}
+
+			steps.forEach((step, i) => {
+				if (!step.trim()) {
+					stepErrors[i] = 'Step description is required';
+					isValid = false;
+				} else if (step.trim().length < 10) {
+					stepErrors[i] = 'Step must be at least 10 characters';
+					isValid = false;
+				}
+			});
 		}
 
-		return true;
+		return isValid;
 	}
 
 	function nextStep() {
@@ -156,15 +190,16 @@
 		<button
 			type="button"
 			onclick={() => currentStep > 1 ? previousStep() : window.location.href = '/'}
-			class="btn btn-icon bg-white/90 hover:bg-white text-black rounded-full shadow-lg"
+			class="btn btn-icon preset-filled-surface-500 rounded-full shadow-lg"
 			aria-label="Go back"
 		>
 			<ArrowLeft size={20} />
 		</button>
 		<div class="flex-1">
 			<h1 class="h1">Create New Recipe</h1>
-			<p class="text-sm opacity-75 mt-1">
-				Step {currentStep} of {totalSteps}: {stepTitles[currentStep - 1]}
+			<p class="text-sm mt-1">
+				<span class="text-primary-500 font-semibold">Step {currentStep} of {totalSteps}:</span>
+				<span class="opacity-75">{stepTitles[currentStep - 1]}</span>
 			</p>
 		</div>
 	</div>
@@ -183,8 +218,8 @@
 	</div>
 
 	{#if error}
-		<div class="card variant-filled-error rounded-lg p-4 mb-6">
-			<p class="text-white">{error}</p>
+		<div class="variant-filled-error rounded-lg p-4 mb-6">
+			<p>{error}</p>
 		</div>
 	{/if}
 
@@ -224,18 +259,23 @@
 
 		<!-- Step 1: Basic Information -->
 		{#if currentStep === 1}
-		<div class="card variant-filled-surface rounded-xl p-4 sm:p-6 space-y-4">
-			<h2 class="h2">Basic Information</h2>
+		<div class="space-y-6">
+			<h2 class="h2 text-primary-500">Basic Information</h2>
 
 			<label class="label">
-				<span class="font-semibold">Title *</span>
+				<span class="font-semibold">Title <span class="text-error-500">*</span></span>
 				<input
 					type="text"
 					bind:value={title}
 					placeholder="e.g., Spaghetti Carbonara"
 					class="input rounded-lg mt-2"
+					class:!border-error-500={titleError}
+					class:!border-2={titleError}
 					required
 				/>
+				{#if titleError}
+					<p class="text-error-500 text-sm mt-1">{titleError}</p>
+				{/if}
 			</label>
 
 			<label class="label">
@@ -250,7 +290,7 @@
 			</label>
 
 			{#if image}
-				<div class="rounded-lg overflow-hidden max-h-48">
+				<div class="variant-soft-surface rounded-lg overflow-hidden max-h-48">
 					<img
 						src={image}
 						alt="Recipe preview"
@@ -299,12 +339,12 @@
 
 		<!-- Step 2: Tags -->
 		{#if currentStep === 2}
-		<div class="card variant-filled-surface rounded-xl p-4 sm:p-6 space-y-4">
-			<h2 class="h2">Tags</h2>
+		<div class="space-y-6">
+			<h2 class="h2 text-primary-500">Tags</h2>
 
 			<!-- Selected Tags -->
 			{#if tags.length > 0}
-				<div>
+				<div class="variant-soft-surface rounded-lg p-4">
 					<p class="text-sm font-semibold mb-2 opacity-75">Selected:</p>
 					<div class="flex flex-wrap gap-2">
 						{#each tags as tag, i}
@@ -330,7 +370,7 @@
 			<!-- Available Tags -->
 			<div>
 				<p class="text-sm font-semibold mb-2 opacity-75">Choose from existing tags:</p>
-				<div class="flex flex-wrap gap-2 max-h-48 overflow-y-auto p-2 bg-surface-900/20 rounded-lg">
+				<div class="flex flex-wrap gap-2 max-h-48 overflow-y-auto p-4 variant-soft-surface rounded-lg">
 					{#each data.availableTags as tag}
 						{@const isSelected = tags.some(t => t.name === tag.name)}
 						<button
@@ -355,7 +395,7 @@
 					<button
 						type="button"
 						onclick={() => showCustomTag = true}
-						class="btn variant-ghost rounded-lg w-full text-sm"
+						class="btn preset-tonal-surface w-full text-sm"
 					>
 						<Plus size={16} class="mr-2" />
 						Create Custom Tag
@@ -379,14 +419,14 @@
 							<button
 								type="button"
 								onclick={addCustomTag}
-								class="btn variant-filled-primary rounded-lg whitespace-nowrap"
+								class="btn preset-filled-primary-500 whitespace-nowrap"
 							>
 								Add
 							</button>
 							<button
 								type="button"
 								onclick={() => { showCustomTag = false; newTagName = ''; }}
-								class="btn variant-ghost rounded-lg"
+								class="btn preset-tonal-surface"
 							>
 								Cancel
 							</button>
@@ -399,34 +439,55 @@
 
 		<!-- Step 3: Ingredients -->
 		{#if currentStep === 3}
-		<div class="card variant-filled-surface rounded-xl p-4 sm:p-6 space-y-4">
-			<h2 class="h2">Ingredients *</h2>
+		<div class="space-y-6">
+			<h2 class="h2 text-primary-500">Ingredients <span class="text-error-500">*</span></h2>
+			<p class="text-sm opacity-75">Add all ingredients with their amounts</p>
 
 			<div class="space-y-3">
 				{#each ingredients as ingredient, i}
-					<div class="flex gap-2">
-						<input
-							type="text"
-							bind:value={ingredient.amount}
-							placeholder="Amount (e.g., 200g)"
-							class="input rounded-lg w-32 sm:w-40"
-						/>
-						<input
-							type="text"
-							bind:value={ingredient.name}
-							placeholder="Ingredient name"
-							class="input rounded-lg flex-1"
-							required
-						/>
-						<button
-							type="button"
-							onclick={() => removeIngredient(i)}
-							class="btn btn-icon variant-filled-error rounded-lg"
-							disabled={ingredients.length === 1}
-							aria-label="Remove ingredient"
-						>
-							<X size={20} />
-						</button>
+					<div class="space-y-1">
+						<div class="flex gap-2">
+						<div class="flex-none w-32 sm:w-40">
+							<input
+								type="text"
+								bind:value={ingredient.amount}
+								placeholder="Amount (e.g., 200g)"
+								class="input rounded-lg w-full"
+								class:!border-error-500={ingredientErrors[i]?.amount}
+								class:!border-2={ingredientErrors[i]?.amount}
+							/>
+							</div>
+						<div class="flex-1">
+							<input
+								type="text"
+								bind:value={ingredient.name}
+								placeholder="Ingredient name"
+								class="input rounded-lg w-full"
+								class:!border-error-500={ingredientErrors[i]?.name}
+								class:!border-2={ingredientErrors[i]?.name}
+								required
+							/>
+							</div>
+							<button
+								type="button"
+								onclick={() => removeIngredient(i)}
+								class="btn btn-icon preset-filled-error-500"
+								disabled={ingredients.length === 1}
+								aria-label="Remove ingredient"
+							>
+								<X size={20} />
+							</button>
+						</div>
+						{#if ingredientErrors[i]?.amount || ingredientErrors[i]?.name}
+							<div class="text-error-500 text-sm ml-1">
+								{#if ingredientErrors[i]?.amount}
+									<span>{ingredientErrors[i]?.amount}</span>
+								{/if}
+								{#if ingredientErrors[i]?.name}
+									<span>{ingredientErrors[i]?.name}</span>
+								{/if}
+							</div>
+						{/if}
 					</div>
 				{/each}
 			</div>
@@ -434,7 +495,7 @@
 			<button
 				type="button"
 				onclick={addIngredient}
-				class="btn variant-filled-primary rounded-lg w-full"
+				class="btn preset-filled-primary-500 w-full"
 			>
 				<Plus size={20} class="mr-2" />
 				Add Ingredient
@@ -444,29 +505,37 @@
 
 		<!-- Step 4: Instructions -->
 		{#if currentStep === 4}
-		<div class="card variant-filled-surface rounded-xl p-4 sm:p-6 space-y-4">
-			<h2 class="h2">Instructions *</h2>
+		<div class="space-y-6">
+			<h2 class="h2 text-primary-500">Instructions <span class="text-error-500">*</span></h2>
+			<p class="text-sm opacity-75">Describe each step clearly (minimum 10 characters per step)</p>
 
 			<div class="space-y-3">
 				{#each steps as step, i}
-					<div class="flex gap-2">
-						<span class="text-lg font-bold pt-3 w-8">{i + 1}.</span>
-						<textarea
-							bind:value={steps[i]}
-							placeholder="Describe this step..."
-							rows="2"
-							class="textarea rounded-lg flex-1"
-							required
-						></textarea>
-						<button
-							type="button"
-							onclick={() => removeStep(i)}
-							class="btn btn-icon variant-filled-error rounded-lg self-start"
-							disabled={steps.length === 1}
-							aria-label="Remove step"
-						>
-							<X size={20} />
-						</button>
+					<div class="space-y-1">
+						<div class="flex gap-2">
+							<span class="text-lg font-bold pt-3 w-8">{i + 1}.</span>
+							<textarea
+								bind:value={steps[i]}
+								placeholder="Describe this step..."
+								rows="2"
+								class="textarea rounded-lg flex-1"
+								class:!border-error-500={stepErrors[i]}
+								class:!border-2={stepErrors[i]}
+								required
+							></textarea>
+							<button
+								type="button"
+								onclick={() => removeStep(i)}
+								class="btn btn-icon preset-filled-error-500 self-start"
+								disabled={steps.length === 1}
+								aria-label="Remove step"
+							>
+								<X size={20} />
+							</button>
+						</div>
+						{#if stepErrors[i]}
+							<p class="text-error-500 text-sm ml-10">{stepErrors[i]}</p>
+						{/if}
 					</div>
 				{/each}
 			</div>
@@ -474,7 +543,7 @@
 			<button
 				type="button"
 				onclick={addStep}
-				class="btn variant-filled-primary rounded-lg w-full"
+				class="btn preset-filled-primary-500 w-full"
 			>
 				<Plus size={20} class="mr-2" />
 				Add Step
@@ -483,12 +552,12 @@
 		{/if}
 
 		<!-- Navigation Buttons -->
-		<div class="flex gap-4 flex-col sm:flex-row sticky bottom-4 bg-surface-50 dark:bg-surface-900 p-4 rounded-xl shadow-xl">
+		<div class="flex gap-3 mt-6 p-4 variant-soft-surface rounded-lg">
 			{#if currentStep > 1}
 				<button
 					type="button"
 					onclick={previousStep}
-					class="btn variant-ghost rounded-lg flex-1 flex items-center justify-center gap-2"
+					class="btn preset-filled-secondary-500 flex items-center justify-center gap-2 flex-1"
 				>
 					<ChevronLeft size={20} />
 					Previous
@@ -496,7 +565,7 @@
 			{:else}
 				<a
 					href="/"
-					class="btn variant-ghost rounded-lg flex-1 text-center"
+					class="btn preset-filled-secondary-500 flex items-center justify-center flex-1"
 				>
 					Cancel
 				</a>
@@ -506,7 +575,7 @@
 				<button
 					type="button"
 					onclick={nextStep}
-					class="btn variant-filled-primary rounded-lg flex-1 flex items-center justify-center gap-2"
+					class="btn preset-filled-primary-500 flex items-center justify-center gap-2 flex-1"
 				>
 					Next
 					<ChevronRight size={20} />
@@ -514,7 +583,7 @@
 			{:else}
 				<button
 					type="submit"
-					class="btn variant-filled-primary rounded-lg flex-1"
+					class="btn preset-filled-primary-500 flex items-center justify-center flex-1"
 					disabled={isSubmitting}
 				>
 					{isSubmitting ? 'Creating...' : 'Create Recipe'}
