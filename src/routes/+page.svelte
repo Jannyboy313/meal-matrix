@@ -1,13 +1,48 @@
 <script lang="ts">
 	import { Search, Plus } from 'lucide-svelte';
-	import type { PageData } from './$types';
 	import type { Tag, RecipeSummaryWithTags } from '$lib';
+	import { subscribeToUserRecipes } from '$lib/firestore';
+	import { user } from '$lib/stores/auth';
+	import { onMount, onDestroy } from 'svelte';
 
-	let { data }: { data: PageData } = $props();
+	let recipes = $state<RecipeSummaryWithTags[]>([]);
 	let searchQuery = $state<string>('');
+	let unsubscribe: (() => void) | null = null;
+
+	// Subscribe to recipes when component mounts and user is available
+	onMount(() => {
+		const unsubscribeUser = user.subscribe(($user) => {
+			// Clean up previous subscription if exists
+			if (unsubscribe) {
+				unsubscribe();
+				unsubscribe = null;
+			}
+
+			// Only subscribe if user is logged in
+			if ($user) {
+				unsubscribe = subscribeToUserRecipes($user.uid, (updatedRecipes) => {
+					recipes = updatedRecipes;
+				});
+			} else {
+				recipes = [];
+			}
+		});
+
+		// Return cleanup function to unsubscribe from user store
+		return () => {
+			unsubscribeUser();
+		};
+	});
+
+	// Clean up Firestore subscription when component is destroyed
+	onDestroy(() => {
+		if (unsubscribe) {
+			unsubscribe();
+		}
+	});
 
 	const filteredRecipes = $derived(
-		data.recipes.filter((recipe: RecipeSummaryWithTags) => {
+		recipes.filter((recipe: RecipeSummaryWithTags) => {
 			const query = searchQuery.toLowerCase();
 			return (
 				recipe.title.toLowerCase().includes(query) ||

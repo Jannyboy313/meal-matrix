@@ -1,10 +1,17 @@
 import type { PageServerLoad } from './$types';
-import type { RecipeWithTags } from '$lib';
+import { error } from '@sveltejs/kit';
 
+// Recipe detail page now loads from client-side for real-time updates
+// This server load just passes the ID to the client
 export const load: PageServerLoad = async ({ params }) => {
-	// In a real app, this would fetch from a database
-	// In production: fetch recipe with tagIds, then populate tags from /tags collection
-	const recipes: RecipeWithTags[] = [
+	return {
+		recipeId: params.id
+	};
+};
+
+// Old mock data removed - kept below for reference if needed during migration
+/*
+const recipes: RecipeWithTags[] = [
 		{
 			id: 'recipe-1',
 			title: 'Spaghetti Carbonara',
@@ -148,14 +155,4 @@ export const load: PageServerLoad = async ({ params }) => {
 			]
 		}
 	];
-
-	const recipe: RecipeWithTags | undefined = recipes.find(r => r.id === params.id);
-
-	if (!recipe) {
-		throw new Error('Recipe not found');
-	}
-
-	return {
-		recipe
-	};
-};
+*/
