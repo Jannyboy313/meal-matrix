@@ -3,6 +3,7 @@
  */
 
 export interface Tag {
+	id: string;
 	name: string;
 	color: string;
 }
@@ -12,12 +13,15 @@ export interface Ingredient {
 	name: string;
 }
 
-export interface Recipe {
+export interface RecipeSummary {
 	id: number;
 	title: string;
 	description: string;
 	image: string;
 	tags: Tag[];
+}
+
+export interface Recipe extends RecipeSummary {
 	prepTime: string;
 	cookTime: string;
 	servings: number;

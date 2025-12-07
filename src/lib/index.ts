@@ -1,3 +1,3 @@
 // place files you want to import through the `$lib` alias in this folder.
 
-export type { Tag, Ingredient, Recipe, RecipeFormData } from './types';
+export type { Tag, Ingredient, Recipe, RecipeSummary, RecipeFormData } from './types';

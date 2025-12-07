@@ -23,7 +23,11 @@
 
 	function addCustomTag() {
 		if (newTagName.trim()) {
-			onaddtag({ name: newTagName.trim(), color: newTagColor });
+			onaddtag({
+				id: crypto.randomUUID(),
+				name: newTagName.trim(),
+				color: newTagColor
+			});
 			newTagName = '';
 			showCustomTag = false;
 		}
