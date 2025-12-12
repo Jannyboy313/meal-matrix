@@ -12,7 +12,7 @@
 	<div class="flex flex-wrap gap-2">
 		{#each tags as tag}
 			<span
-				class="text-xs px-3 py-1 rounded-full text-white font-medium"
+				class="badge rounded-full text-xs px-3 py-1 text-white font-medium"
 				style="background-color: {tag.color}"
 			>
 				{tag.name}

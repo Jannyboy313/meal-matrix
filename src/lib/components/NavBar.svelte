@@ -50,7 +50,7 @@
 						<button
 							onclick={handleSignOut}
 							disabled={loading}
-							class="btn btn-sm variant-ghost-surface rounded-lg flex items-center gap-2"
+							class="btn btn-sm preset-tonal-primary rounded-lg flex items-center gap-2"
 							title="Sign Out"
 						>
 							<LogOut size={18} />

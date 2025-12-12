@@ -8,7 +8,7 @@
 </script>
 
 {#if prepTime || cookTime}
-	<div class="flex flex-wrap gap-6 pt-4 border-t border-surface-300-600-token">
+	<div class="flex flex-wrap gap-6 pt-4 rounded-lg">
 		{#if prepTime}
 			<div class="flex flex-col">
 				<span class="text-xs uppercase opacity-75">Prep Time</span>

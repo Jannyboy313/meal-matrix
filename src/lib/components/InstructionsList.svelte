@@ -10,7 +10,7 @@
 	{#each steps as step, index}
 		<li class="flex gap-3 sm:gap-4">
 			<span
-				class="shrink-0 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-primary-500 text-white flex items-center justify-center font-bold text-xs sm:text-sm"
+				class="badge preset-filled-primary-500 shrink-0 w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center font-bold text-xs sm:text-sm"
 			>
 				{index + 1}
 			</span>

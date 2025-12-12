@@ -13,7 +13,7 @@
 </script>
 
 <a href="/recipes/{id}" class="block">
-	<article class="card variant-filled-surface rounded-xl overflow-hidden hover:scale-105 transition-transform duration-300 cursor-pointer shadow-lg">
+	<article class="card rounded-xl overflow-hidden hover:scale-105 transition-transform duration-300 cursor-pointer shadow-lg">
 		<header class="relative h-48 overflow-hidden">
 			<img
 				src={image}

@@ -13,7 +13,7 @@
 	let { currentStep, totalSteps, isSubmitting, isEditing = false, onprevious, onnext }: Props = $props();
 </script>
 
-<div class="flex gap-3 mt-6 p-4 variant-soft-surface rounded-lg">
+<div class="flex gap-3 mt-6 p-4 rounded-lg">
 	{#if currentStep > 1}
 		<button
 			type="button"
@@ -41,7 +41,7 @@
 	{:else}
 		<button
 			type="submit"
-			class="btn preset-filled-primary-500 flex items-center justify-center flex-1"
+			class="btn preset-filled-tertiary-500 flex items-center justify-center flex-1"
 			disabled={isSubmitting}
 		>
 			{#if isEditing}

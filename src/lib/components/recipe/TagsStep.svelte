@@ -60,7 +60,7 @@
 
 	<!-- Selected Tags -->
 	{#if tags.length > 0}
-		<div class="variant-soft-surface rounded-lg p-4">
+		<div class="p-4">
 			<p class="text-sm font-semibold mb-2 opacity-75">Selected:</p>
 			<div class="flex flex-wrap gap-2">
 				{#each tags as tag, i}
@@ -86,7 +86,7 @@
 	<!-- Available Tags -->
 	<div>
 		<p class="text-sm font-semibold mb-2 opacity-75">Choose from existing tags:</p>
-		<div class="flex flex-wrap gap-2 max-h-75 overflow-y-auto p-4 variant-soft-surface rounded-lg">
+		<div class="flex flex-wrap gap-2 max-h-75 overflow-y-auto p-4">
 			{#each availableTags as tag}
 				{@const isSelected = tags.some((t) => t.name === tag.name)}
 				<button

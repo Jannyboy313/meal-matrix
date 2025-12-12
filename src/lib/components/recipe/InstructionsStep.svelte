@@ -46,7 +46,7 @@
 		{/each}
 	</div>
 
-	<button type="button" onclick={onaddstep} class="btn preset-filled-primary-500 w-full">
+	<button type="button" onclick={onaddstep} class="btn preset-tonal-primary w-full">
 		<Plus size={20} class="mr-2" />
 		Add Step
 	</button>

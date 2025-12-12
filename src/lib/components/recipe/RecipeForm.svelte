@@ -324,7 +324,7 @@
 </div>
 
 {#if error}
-	<div class="variant-filled-error rounded-lg p-4 mb-6">
+	<div class="preset-filled-error-500 rounded-lg p-4 mb-6">
 		<p>{error}</p>
 	</div>
 {/if}

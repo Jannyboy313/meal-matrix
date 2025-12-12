@@ -64,7 +64,7 @@
 
 		<!-- Title Section -->
 		<div class="container mx-auto px-4 sm:px-6 -mt-12 sm:-mt-16 relative z-10">
-			<div class="card variant-filled-surface rounded-xl p-4 sm:p-6 space-y-4">
+			<div class="card preset-tonal-surface rounded-xl p-4 sm:p-6 space-y-4">
 				<TagList tags={recipe.tags} />
 
 				<h1 class="h1">{recipe.title}</h1>
@@ -80,10 +80,10 @@
 			<div class="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
 				<!-- Ingredients Section -->
 				<div class="lg:col-span-1">
-					<div class="card variant-filled-surface rounded-xl p-4 sm:p-6 space-y-4 lg:sticky lg:top-4">
+					<div class="card preset-tonal-surface rounded-xl p-4 sm:p-6 space-y-4 lg:sticky lg:top-4">
 						<!-- Serving Size Selector -->
 						<label class="label">
-							<span class="text-base font-medium">Servings:</span>
+							<span class="label-text text-base font-medium">Servings:</span>
 							<select
 								bind:value={selectedServings}
 								class="select rounded-lg"
@@ -104,7 +104,7 @@
 
 				<!-- Steps Section -->
 				<div class="lg:col-span-2">
-					<div class="card variant-filled-surface rounded-xl p-4 sm:p-6 space-y-6">
+					<div class="card preset-tonal-surface rounded-xl p-4 sm:p-6 space-y-6">
 						<h2 class="h2">Instructions</h2>
 						<InstructionsList steps={recipe.steps} />
 					</div>

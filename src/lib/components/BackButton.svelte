@@ -12,7 +12,7 @@
 <div class="text-center pt-6 sm:pt-8">
 	<a
 		{href}
-		class="btn variant-filled-primary rounded-lg"
+		class="btn preset-filled-primary-500 rounded-lg"
 	>
 		{text}
 	</a>

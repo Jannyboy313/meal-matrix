@@ -40,7 +40,7 @@
 	}
 </script>
 
-<div class="flex flex-col items-center gap-4 p-6 card variant-filled-surface rounded-lg">
+<div class="flex flex-col items-center gap-4 p-6 card preset-tonal-primary rounded-lg">
 	{#if $user === undefined}
 		<!-- Loading state -->
 		<div class="flex items-center gap-2">
@@ -63,7 +63,7 @@
 			<button
 				onclick={handleSignOut}
 				disabled={loading}
-				class="btn variant-filled-primary rounded-lg"
+				class="btn preset-filled-primary-500 rounded-lg"
 			>
 				{loading ? 'Signing out...' : 'Sign Out'}
 			</button>
@@ -102,7 +102,7 @@
 	{/if}
 
 	{#if error}
-		<div class="alert variant-filled-error rounded-lg p-3 mt-2">
+		<div class="alert preset-filled-error-500 rounded-lg p-3 mt-2">
 			<p class="text-sm">{error}</p>
 		</div>
 	{/if}

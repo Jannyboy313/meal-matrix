@@ -7,7 +7,7 @@ This project is a high-performance web application built with a focus on Progres
 * **Language:** **TypeScript** for all new code. Use proper type definitions and interfaces.
 * **Package Manager:** **Yarn**. All installation and execution commands must use Yarn (`yarn install`, `yarn dev`, `yarn build`).
 * **Styling:** **Tailwind CSS** for a utility-first approach. Avoid raw CSS or inline styles unless strictly necessary for custom components or overrides.
-* **Component Library:** **Skeleton UI**. Utilize Skeleton UI components, classes, and design tokens (e.g., colors, typography variants) where applicable.
+* **Component Library:** **Skeleton UI**. Utilize Skeleton UI components, classes, and design tokens (e.g., colors, typography presets) where applicable.
 
 ---
 
@@ -35,5 +35,5 @@ This project is a high-performance web application built with a focus on Progres
 * **Mobile First:** Apply all Tailwind classes **without a prefix** (e.g., `pt-4`, `flex`) as the base styling for mobile. Use explicit responsive prefixes (`sm:`, `md:`, `lg:`) **only for overrides** at larger screen sizes.
 * **Utility First:** Generate all styling using Tailwind utility classes. Do not define new CSS classes in the `<style>` block unless they are encapsulated or part of a component's structural necessity.
 * **Rounded Design:** Use rounded corners throughout the design. Apply appropriate Tailwind rounded classes (e.g., `rounded`, `rounded-lg`, `rounded-xl`) to cards, buttons, inputs, and containers for a modern, soft aesthetic.
-* **Skeleton UI Classes:** When suggesting UI elements (cards, buttons, forms), use the standard **Skeleton UI class prefixes** (e.g., `btn`, `card`, `variant-filled-surface`) and ensure they include rounded styling.
+* **Skeleton UI Classes:** When suggesting UI elements (cards, buttons, forms), use the standard **Skeleton UI class prefixes** (e.g., `btn`, `card`, `preset-filled-primary-500`) and ensure they include rounded styling.
 * **Accessibility:** Ensure all generated markup includes appropriate **ARIA attributes** and follows **A11y (Accessibility)** standards.

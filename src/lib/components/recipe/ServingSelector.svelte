@@ -132,13 +132,12 @@
 			<button
 				type="button"
 				onclick={() => handleServingClick(serving)}
-				class="rounded-full w-12 h-12 font-semibold text-sm transition-all"
-				class:bg-primary-500={editMode ? editingServing === serving : currentServing === serving}
-				class:text-white={editMode ? editingServing === serving : currentServing === serving}
-				class:variant-soft-surface={editMode
+				class="badge rounded-full w-12 h-12 font-semibold text-sm transition-all"
+				class:preset-filled-primary-500={editMode ? editingServing === serving : currentServing === serving}
+				class:preset-tonal-primary={editMode
 					? editingServing !== serving
 					: currentServing !== serving}
-				class:hover:variant-filled-surface={!editMode && currentServing !== serving}
+				class:hover:preset-filled-primary-500={!editMode && currentServing !== serving}
 			>
 				{serving}
 			</button>
@@ -151,8 +150,8 @@
 			class="rounded-full w-12 h-12 transition-all flex items-center justify-center"
 			class:bg-primary-500={isAddingNew}
 			class:text-white={isAddingNew}
-			class:preset-tonal-surface={!isAddingNew}
-			class:hover:preset-filled-surface={!isAddingNew}
+			class:preset-tonal-primary={!isAddingNew}
+			class:hover:preset-filled-primary-500={!isAddingNew}
 			aria-label="Add serving size"
 		>
 			<Plus size={24} />

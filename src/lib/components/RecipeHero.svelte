@@ -21,7 +21,7 @@
 	<!-- Back Button -->
 	<a
 		href="/"
-		class="btn btn-icon absolute top-4 left-4 z-10 shadow-lg bg-white/90 hover:bg-white text-black rounded-full"
+		class="btn btn-icon preset-outlined-secondary-500 absolute top-4 left-4 z-10 shadow-lg rounded-full"
 		aria-label="Back to recipes"
 	>
 		<ArrowLeft size={20} />
@@ -30,7 +30,7 @@
 	<!-- Edit Button -->
 	<a
 		href="/recipes/{recipeId}/edit"
-		class="btn btn-icon absolute top-4 right-4 z-10 shadow-lg bg-white/90 hover:bg-white text-black rounded-full"
+		class="btn btn-icon preset-filled-secondary-500 absolute top-4 right-4 z-10 shadow-lg rounded-full"
 		aria-label="Edit recipe"
 	>
 		<Pencil size={20} />

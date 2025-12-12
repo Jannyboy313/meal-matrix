@@ -59,7 +59,7 @@
 	</label>
 
 	{#if image}
-		<div class="variant-soft-surface rounded-lg overflow-hidden max-h-48">
+		<div class="preset-tonal-primary rounded-lg overflow-hidden max-h-48">
 			<img
 				src={image}
 				alt="Recipe preview"
