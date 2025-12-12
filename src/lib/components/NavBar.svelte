@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { user } from '$lib/stores/auth';
-	import { signOut } from 'firebase/auth';
-	import { auth } from '$lib/firebase';
+	import { signOut } from '$lib/services/authService';
 	import { goto } from '$app/navigation';
 	import { ChefHat, LogOut, User } from 'lucide-svelte';
 
@@ -10,7 +9,7 @@
 	async function handleSignOut(): Promise<void> {
 		loading = true;
 		try {
-			await signOut(auth);
+			await signOut();
 			goto('/login');
 		} catch (err) {
 			console.error('Error signing out:', err);

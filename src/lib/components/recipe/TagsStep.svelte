@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Plus, X } from 'lucide-svelte';
 	import type { Tag } from '$lib';
-	import { createTag } from '$lib/firestore';
+	import { createTag } from '$lib/services/tagService';
 	import { user } from '$lib/stores/auth';
 
 	interface Props {

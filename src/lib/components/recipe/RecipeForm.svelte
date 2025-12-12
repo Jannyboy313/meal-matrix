@@ -2,7 +2,7 @@
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import type { Tag, Ingredient, RecipeFormData } from '$lib';
-	import { createRecipe, updateRecipe } from '$lib/firestore';
+	import { createRecipe, updateRecipe } from '$lib/services/recipeService';
 	import { user } from '$lib/stores/auth';
 	import BasicInfoStep from '$lib/components/recipe/BasicInfoStep.svelte';
 	import TagsStep from '$lib/components/recipe/TagsStep.svelte';

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { Tag } from '$lib';
 	import RecipeForm from '$lib/components/recipe/RecipeForm.svelte';
-	import { getAllTags } from '$lib/firestore';
+	import { getAllTags } from '$lib/services/tagService';
 	import { user } from '$lib/stores/auth';
 	import { onMount } from 'svelte';
 

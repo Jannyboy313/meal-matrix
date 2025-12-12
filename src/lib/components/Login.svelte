@@ -1,11 +1,10 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/auth';
-	import { auth } from '$lib/firebase';
 	import { user, initAuthListener } from '$lib/stores/auth';
+	import { signInWithGoogle, signOut } from '$lib/services/authService';
 
-	let loading = false;
-	let error = '';
+	let loading = $state<boolean>(false);
+	let error = $state<string>('');
 
 	onMount(() => {
 		// Initialize the auth state listener when component mounts
@@ -17,10 +16,9 @@
 		error = '';
 
 		try {
-			const provider = new GoogleAuthProvider();
-			await signInWithPopup(auth, provider);
+			await signInWithGoogle();
 		} catch (err) {
-			console.error('Error signing in with Google:', err);
+			console.error('Sign-in error:', err);
 			error = err instanceof Error ? err.message : 'Failed to sign in';
 		} finally {
 			loading = false;
@@ -32,9 +30,9 @@
 		error = '';
 
 		try {
-			await signOut(auth);
+			await signOut();
 		} catch (err) {
-			console.error('Error signing out:', err);
+			console.error('Sign-out error:', err);
 			error = err instanceof Error ? err.message : 'Failed to sign out';
 		} finally {
 			loading = false;
@@ -63,7 +61,7 @@
 				<p class="text-sm opacity-75">{$user.email || ''}</p>
 			</div>
 			<button
-				on:click={handleSignOut}
+				onclick={handleSignOut}
 				disabled={loading}
 				class="btn variant-filled-primary rounded-lg"
 			>
@@ -76,7 +74,7 @@
 			<h2 class="text-xl font-bold">Welcome to Meal Matrix</h2>
 			<p class="text-sm opacity-75">Sign in to manage your recipes</p>
 			<button
-				on:click={handleGoogleSignIn}
+				onclick={handleGoogleSignIn}
 				disabled={loading}
 				class="btn preset-filled-primary-500 rounded-lg flex items-center gap-2"
 			>

@@ -2,7 +2,7 @@
 	import { ArrowLeft, Pencil } from 'lucide-svelte';
 	import type { PageData } from './$types';
 	import type { RecipeWithTags } from '$lib';
-	import { getRecipeById } from '$lib/firestore';
+	import { getRecipeById } from '$lib/services/recipeService';
 	import { onMount } from 'svelte';
 
 	let { data }: { data: PageData } = $props();

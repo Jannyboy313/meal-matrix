@@ -1,6 +1,5 @@
 <script lang="ts">
 	import './layout.css';
-	import favicon from '$lib/assets/favicon.svg';
 	import NavBar from '$lib/components/NavBar.svelte';
 	import PWAInstaller from '$lib/components/PWAInstaller.svelte';
 	import { initAuthListener } from '$lib/stores/auth';
@@ -19,10 +18,6 @@
 </script>
 
 <PWAInstaller />
-
-<svelte:head>
-	<link rel="icon" href={favicon} />
-</svelte:head>
 
 <div data-theme="skeleton" class="min-h-screen flex flex-col">
 	{#if showNavBar}

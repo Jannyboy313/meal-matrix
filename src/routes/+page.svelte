@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Search, Plus } from 'lucide-svelte';
 	import type { Tag, RecipeSummaryWithTags } from '$lib';
-	import { subscribeToUserRecipes } from '$lib/firestore';
+	import { subscribeToUserRecipes } from '$lib/services/recipeService';
 	import { user } from '$lib/stores/auth';
 	import { onMount, onDestroy } from 'svelte';
 

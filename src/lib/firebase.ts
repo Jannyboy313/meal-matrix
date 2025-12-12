@@ -1,3 +1,11 @@
+/**
+ * Firebase Configuration
+ * Initializes Firebase app and exports configured instances
+ *
+ * This file should only be imported by service modules.
+ * Application code should use services from $lib/services instead.
+ */
+
 import { initializeApp, type FirebaseApp } from 'firebase/app';
 import { getAuth, type Auth } from 'firebase/auth';
 import { getFirestore, type Firestore } from 'firebase/firestore';
@@ -20,13 +28,13 @@ const firebaseConfig = {
 	appId: PUBLIC_FIREBASE_APP_ID
 };
 
-// Initialize Firebase
+// Initialize Firebase app
 const app: FirebaseApp = initializeApp(firebaseConfig);
 
-// Initialize Firebase Authentication and get a reference to the service
+// Initialize Firebase Authentication
 export const auth: Auth = getAuth(app);
 
-// Initialize Cloud Firestore and get a reference to the service
+// Initialize Cloud Firestore
 export const db: Firestore = getFirestore(app);
 
 // Export the app instance if needed elsewhere
