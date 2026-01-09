@@ -19,7 +19,7 @@
 
 <PWAInstaller />
 
-<div data-theme="skeleton" class="min-h-screen flex flex-col">
+<div data-theme="cerberus" class="min-h-screen flex flex-col">
 	{#if showNavBar}
 		<NavBar />
 	{/if}

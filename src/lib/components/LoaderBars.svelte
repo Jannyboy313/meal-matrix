@@ -13,11 +13,11 @@
 
 <div class="flex flex-col items-center justify-center gap-2" role="status" aria-live="polite">
 	<div class="flex items-end justify-center gap-1">
-		<div class="{barClass} bg-blue-500 rounded animate-bar-1"></div>
-		<div class="{barClass} bg-blue-500 rounded animate-bar-2"></div>
-		<div class="{barClass} bg-blue-500 rounded animate-bar-3"></div>
-		<div class="{barClass} bg-blue-500 rounded animate-bar-4"></div>
-		<div class="{barClass} bg-blue-500 rounded animate-bar-5"></div>
+		<div class="{barClass} bg-primary-500 rounded animate-bar-1"></div>
+		<div class="{barClass} bg-primary-500 rounded animate-bar-2"></div>
+		<div class="{barClass} bg-primary-500 rounded animate-bar-3"></div>
+		<div class="{barClass} bg-primary-500 rounded animate-bar-4"></div>
+		<div class="{barClass} bg-primary-500 rounded animate-bar-5"></div>
 	</div>
 	<span class="sr-only">{label}</span>
 </div>
