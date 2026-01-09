@@ -82,19 +82,26 @@
 				<div class="lg:col-span-1">
 					<div class="card preset-tonal-surface rounded-xl p-4 sm:p-6 space-y-4 lg:sticky lg:top-4">
 						<!-- Serving Size Selector -->
-						<label class="label">
-							<span class="label-text text-base font-medium">Servings:</span>
-							<select
-								bind:value={selectedServings}
-								class="select rounded-lg"
-							>
-								{#each Object.keys(recipe.ingredients) as serving}
-									<option value={parseInt(serving)}>
-										{serving}
-									</option>
-								{/each}
-							</select>
-						</label>
+						{#if Object.keys(recipe.ingredients).length > 1}
+							<label class="label">
+								<span class="label-text text-base font-medium">Servings:</span>
+								<select
+									bind:value={selectedServings}
+									class="select rounded-lg"
+								>
+									{#each Object.keys(recipe.ingredients) as serving}
+										<option value={parseInt(serving)}>
+											{serving}
+										</option>
+									{/each}
+								</select>
+							</label>
+						{:else}
+							<div class="flex items-center gap-2">
+								<span class="text-base font-medium">Servings:</span>
+								<span class="text-base">{selectedServings}</span>
+							</div>
+						{/if}
 
 						<h2 class="h2">Ingredients</h2>
 
