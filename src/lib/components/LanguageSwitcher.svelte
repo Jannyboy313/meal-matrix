@@ -50,7 +50,7 @@
 
 	{#if isOpen}
 		<div
-			class="absolute right-0 mt-2 w-48 rounded-lg bg-surface-100-800-token border border-surface-300-600-token shadow-lg z-50"
+			class="absolute right-0 mt-2 w-48 rounded-lg bg-white dark:bg-surface-800 border border-surface-300-600-token shadow-lg z-50"
 		>
 			<ul class="py-2">
 				{#each availableLanguages as lang}
