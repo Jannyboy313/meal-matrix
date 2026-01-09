@@ -12,11 +12,17 @@
 	let recipes = $state<RecipeSummaryWithTags[]>([]);
 	let searchQuery = $state<string>('');
 	let loading = $state<boolean>(true);
+	let hasLoadedOnce = $state<boolean>(false);
 	let unsubscribe: (() => void) | null = null;
 
 	// Subscribe to recipes when component mounts and user is available
 	onMount(() => {
 		const unsubscribeUser = user.subscribe(($user) => {
+			// Skip if user state is still initializing (undefined)
+			if ($user === undefined) {
+				return;
+			}
+
 			// Clean up previous subscription if exists
 			if (unsubscribe) {
 				unsubscribe();
@@ -26,13 +32,19 @@
 			// Only subscribe if user is logged in
 			if ($user) {
 				loading = true;
+				hasLoadedOnce = false;
 				unsubscribe = subscribeToUserRecipes($user.uid, (updatedRecipes) => {
 					recipes = updatedRecipes;
-					loading = false;
+					// Only set loading to false after first data load
+					if (!hasLoadedOnce) {
+						hasLoadedOnce = true;
+						loading = false;
+					}
 				});
 			} else {
 				recipes = [];
 				loading = false;
+				hasLoadedOnce = true;
 			}
 		});
 
@@ -91,7 +103,7 @@
 		{/each}
 	</div>
 
-	{#if filteredRecipes.length === 0}
+	{#if filteredRecipes.length === 0 && !loading}
 		<EmptyState
 			message={searchQuery ? 'No recipes found matching your search.' : 'No recipes available yet. Check back soon!'}
 		/>
