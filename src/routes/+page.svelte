@@ -7,9 +7,11 @@
 	import RecipeCard from '$lib/components/RecipeCard.svelte';
 	import EmptyState from '$lib/components/EmptyState.svelte';
 	import FloatingActionButton from '$lib/components/FloatingActionButton.svelte';
+	import ChefHatLoader from '$lib/components/ChefHatLoader.svelte';
 
 	let recipes = $state<RecipeSummaryWithTags[]>([]);
 	let searchQuery = $state<string>('');
+	let loading = $state<boolean>(true);
 	let unsubscribe: (() => void) | null = null;
 
 	// Subscribe to recipes when component mounts and user is available
@@ -23,11 +25,14 @@
 
 			// Only subscribe if user is logged in
 			if ($user) {
+				loading = true;
 				unsubscribe = subscribeToUserRecipes($user.uid, (updatedRecipes) => {
 					recipes = updatedRecipes;
+					loading = false;
 				});
 			} else {
 				recipes = [];
+				loading = false;
 			}
 		});
 
@@ -69,6 +74,11 @@
 	<!-- Search Bar -->
 	<SearchBar bind:value={searchQuery} placeholder="Search..." />
 
+	{#if loading}
+		<div class="flex items-center justify-center py-16">
+			<ChefHatLoader size="lg" label="Loading recipes..." />
+		</div>
+	{:else}
 	<div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
 		{#each filteredRecipes as recipe (recipe.id)}
 			<RecipeCard
@@ -85,6 +95,7 @@
 		<EmptyState
 			message={searchQuery ? 'No recipes found matching your search.' : 'No recipes available yet. Check back soon!'}
 		/>
+	{/if}
 	{/if}
 </div>
 

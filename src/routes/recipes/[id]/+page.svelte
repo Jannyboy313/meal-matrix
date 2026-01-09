@@ -3,7 +3,7 @@
 	import type { RecipeWithTags } from '$lib';
 	import { getRecipeById } from '$lib/services/recipeService';
 	import { onMount } from 'svelte';
-	import LoadingSpinner from '$lib/components/LoadingSpinner.svelte';
+	import ChefHatLoader from '$lib/components/ChefHatLoader.svelte';
 	import RecipeMetaInfo from '$lib/components/RecipeMetaInfo.svelte';
 	import IngredientListDisplay from '$lib/components/IngredientListDisplay.svelte';
 	import InstructionsList from '$lib/components/InstructionsList.svelte';
@@ -54,7 +54,9 @@
 </svelte:head>
 
 {#if loading}
-	<LoadingSpinner message="Loading recipe..." />
+	<div class="min-h-screen flex items-center justify-center">
+		<ChefHatLoader size="lg" label="Loading recipe..." />
+	</div>
 {:else if error}
 	<ErrorDisplay message={error} />
 {:else if recipe}

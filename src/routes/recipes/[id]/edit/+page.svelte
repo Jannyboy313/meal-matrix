@@ -2,6 +2,7 @@
 	import type { PageData } from './$types';
 	import type { RecipeWithTags, Tag } from '$lib';
 	import RecipeForm from '$lib/components/recipe/RecipeForm.svelte';
+	import ChefHatLoader from '$lib/components/ChefHatLoader.svelte';
 	import { getRecipeById } from '$lib/services/recipeService';
 	import { getAllTags } from '$lib/services/tagService';
 	import { user } from '$lib/stores/auth';
@@ -60,10 +61,7 @@
 
 {#if loading}
 	<div class="min-h-screen flex items-center justify-center">
-		<div class="text-center space-y-4">
-			<div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-500 mx-auto"></div>
-			<p class="text-lg opacity-75">Loading recipe...</p>
-		</div>
+		<ChefHatLoader size="lg" label="Loading recipe..." />
 	</div>
 {:else if error}
 	<div class="min-h-screen flex items-center justify-center p-4">
