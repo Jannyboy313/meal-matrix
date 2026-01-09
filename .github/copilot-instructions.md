@@ -31,7 +31,16 @@ This project is a high-performance web application built with a focus on Progres
 
 ---
 
-## 4. Styling & Tailwind Focus (Mobile First)
+## 4. Internationalization (i18n)
+* **Mandatory Usage:** All user-facing text **must** use the i18n system. Never hardcode strings in components or pages.
+* **Translation Keys:** Import translations using `import { t } from '$lib/i18n'` and access them with the `$t()` syntax (e.g., `$t('common.submit')`, `$t('recipe.title')`).
+* **Structure:** Translation keys follow the pattern `{namespace}.{key}` where namespace corresponds to JSON files in `src/lib/i18n/locales/{lang}/` (e.g., `common.json`, `recipe.json`, `auth.json`).
+* **New Features:** When creating new components or pages, always define translation keys in both English (`en/`) and Dutch (`nl/`) locale files before using them.
+* **No Exceptions:** Even for single-word labels, buttons, placeholders, error messages, and ARIA labels, use the i18n system to ensure full multilingual support.
+
+---
+
+## 5. Styling & Tailwind Focus (Mobile First)
 * **Mobile First:** Apply all Tailwind classes **without a prefix** (e.g., `pt-4`, `flex`) as the base styling for mobile. Use explicit responsive prefixes (`sm:`, `md:`, `lg:`) **only for overrides** at larger screen sizes.
 * **Utility First:** Generate all styling using Tailwind utility classes. Do not define new CSS classes in the `<style>` block unless they are encapsulated or part of a component's structural necessity.
 * **Rounded Design:** Use rounded corners throughout the design. Apply appropriate Tailwind rounded classes (e.g., `rounded`, `rounded-lg`, `rounded-xl`) to cards, buttons, inputs, and containers for a modern, soft aesthetic.
