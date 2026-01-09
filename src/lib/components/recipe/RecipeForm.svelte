@@ -10,6 +10,7 @@
 	import InstructionsStep from '$lib/components/recipe/InstructionsStep.svelte';
 	import StepNavigation from '$lib/components/recipe/StepNavigation.svelte';
 	import ProgressIndicator from '$lib/components/recipe/ProgressIndicator.svelte';
+	import { t } from '$lib/i18n';
 
 	interface Props {
 		availableTags: Tag[];
@@ -27,7 +28,7 @@
 		initialData,
 		isEditing = false,
 		recipeId,
-		submitErrorMessage = 'Failed to save recipe. Please try again.',
+		submitErrorMessage = $t('recipe.validation.saveFailed'),
 		onSuccess
 	}: Props = $props();
 
@@ -54,7 +55,12 @@
 	let ingredientErrors = $state<{ [key: number]: { name?: string; amount?: string } }>({});
 	let stepErrors = $state<{ [key: number]: string }>({});
 
-	const stepTitles = ['Basic Info', 'Tags', 'Ingredients', 'Instructions'];
+	const stepTitles = $derived([
+		$t('recipe.steps.basicInfo'),
+		$t('recipe.steps.tags'),
+		$t('recipe.steps.ingredients'),
+		$t('recipe.steps.instructions')
+	]);
 	const totalSteps = 4;
 
 	// Initialize from URL and localStorage
@@ -224,35 +230,35 @@
 
 		if (currentStep === 1) {
 			if (!title.trim()) {
-				titleError = 'Recipe title is required';
+				titleError = $t('recipe.validation.nameRequired');
 				isValid = false;
 			}
 		} else if (currentStep === 3) {
 			const currentIngredients = ingredients[currentServing] || [];
 			if (currentIngredients.length === 0) {
-				error = 'Please add at least one ingredient';
+				error = $t('recipe.validation.ingredientsRequired');
 				isValid = false;
 			}
 
 			currentIngredients.forEach((ing, i) => {
 				if (!ing.name.trim()) {
-					ingredientErrors[i] = { ...ingredientErrors[i], name: 'Name is required' };
+					ingredientErrors[i] = { ...ingredientErrors[i], name: $t('recipe.validation.ingredientNameRequired') };
 					isValid = false;
 				}
 				if (!ing.amount.trim()) {
-					ingredientErrors[i] = { ...ingredientErrors[i], amount: 'Amount is required' };
+					ingredientErrors[i] = { ...ingredientErrors[i], amount: $t('recipe.validation.ingredientAmountRequired') };
 					isValid = false;
 				}
 			});
 		} else if (currentStep === 4) {
 			if (steps.length === 0) {
-				error = 'Please add at least one instruction step';
+				error = $t('recipe.validation.instructionsRequired');
 				isValid = false;
 			}
 
 			steps.forEach((step, i) => {
 				if (!step.trim()) {
-					stepErrors[i] = 'Step description is required';
+					stepErrors[i] = $t('recipe.validation.stepDescriptionRequired');
 					isValid = false;
 				}
 			});
@@ -288,7 +294,7 @@
 		error = '';
 
 		if (!title.trim()) {
-			error = 'Please enter a recipe title';
+			error = $t('recipe.validation.titleRequired');
 			return false;
 		}
 
@@ -296,13 +302,13 @@
 		for (const serving of servings) {
 			const ings = ingredients[serving] || [];
 			if (ings.some((ing) => !ing.name.trim())) {
-				error = 'Please fill in all ingredient names';
+				error = $t('recipe.validation.fillAllIngredients');
 				return false;
 			}
 		}
 
 		if (steps.some((step) => !step.trim())) {
-			error = 'Please fill in all steps';
+			error = $t('recipe.validation.fillAllSteps');
 			return false;
 		}
 
@@ -340,7 +346,7 @@
 		// Check if user is authenticated
 		const currentUser = $user;
 		if (!currentUser) {
-			error = 'You must be logged in to create a recipe';
+			error = $t('recipe.validation.mustBeLoggedIn');
 			return;
 		}
 

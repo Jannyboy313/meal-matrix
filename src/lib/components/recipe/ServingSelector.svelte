@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { Plus, X, Trash2 } from 'lucide-svelte';
+	import { t } from '$lib/i18n';
 
 	interface Props {
 		servings: number[];
@@ -117,13 +118,13 @@
 
 <div class="space-y-3">
 	<div class="flex items-center justify-between">
-		<p class="text-sm font-semibold opacity-75">Serving sizes:</p>
+		<p class="text-sm font-semibold opacity-75">{$t('recipe.servings.label')}:</p>
 		<button
 			type="button"
 			onclick={toggleEditMode}
 			class="btn btn-sm preset-tonal-primary rounded-full"
 		>
-			{editMode ? 'Done' : 'Edit'}
+			{editMode ? $t('recipe.servings.done') : $t('recipe.servings.edit')}
 		</button>
 	</div>
 
@@ -152,7 +153,7 @@
 			class:text-white={isAddingNew}
 			class:preset-tonal-primary={!isAddingNew}
 			class:hover:preset-filled-primary-500={!isAddingNew}
-			aria-label="Add serving size"
+			aria-label={$t('recipe.servings.addServing')}
 		>
 			<Plus size={24} />
 		</button>
@@ -164,7 +165,7 @@
 			<input
 				type="number"
 				bind:value={editValue}
-				placeholder="6"
+				placeholder={$t('recipe.servings.placeholder')}
 				min="1"
 				class="input rounded-lg w-16 h-8 text-center text-sm"
 				onkeydown={handleKeydown}
@@ -173,7 +174,7 @@
 				type="button"
 				onclick={confirmAction}
 				class="btn btn-icon btn-sm preset-filled-primary-500 rounded-full w-8! h-8!"
-				aria-label="Confirm"
+				aria-label={$t('recipe.servings.confirm')}
 			>
 				<X size={14} class="rotate-45" />
 			</button>
@@ -181,7 +182,7 @@
 				type="button"
 				onclick={cancelAction}
 				class="btn btn-icon btn-sm preset-outlined-primary-500 rounded-full w-8! h-8!"
-				aria-label="Cancel"
+				aria-label={$t('common.actions.cancel')}
 			>
 				<X size={14} />
 			</button>
@@ -190,7 +191,7 @@
 					type="button"
 					onclick={deleteServing}
 					class="btn btn-icon btn-sm preset-filled-error-500 rounded-full w-8! h-8!"
-					aria-label="Delete serving"
+					aria-label={$t('recipe.servings.deleteServing')}
 				>
 					<Trash2 size={14} />
 				</button>

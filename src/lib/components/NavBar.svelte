@@ -3,6 +3,8 @@
 	import { signOut } from '$lib/services/authService';
 	import { goto } from '$app/navigation';
 	import { ChefHat, LogOut, User } from 'lucide-svelte';
+	import { t } from '$lib/i18n';
+	import LanguageSwitcher from './LanguageSwitcher.svelte';
 
 	let loading = $state(false);
 
@@ -25,18 +27,19 @@
 			<!-- Logo and Brand -->
 			<a href="/" class="flex items-center gap-2 hover:opacity-80 transition-opacity">
 				<ChefHat size={28} class="text-primary-500" />
-				<span class="text-xl font-bold hidden sm:inline">Meal Matrix</span>
+				<span class="text-xl font-bold hidden sm:inline">{$t('common.app.name')}</span>
 			</a>
 
 			<!-- Navigation Links -->
 			<div class="flex items-center gap-2 sm:gap-4">
+				<LanguageSwitcher />
 				{#if $user}
 					<!-- User Menu -->
 					<div class="flex items-center gap-2 sm:gap-3">
 						{#if $user.photoURL}
 							<img
 								src={$user.photoURL}
-								alt={$user.displayName || 'User'}
+								alt={$user.displayName || $t('common.nav.user')}
 								class="w-8 h-8 rounded-full border-2 border-primary-500"
 							/>
 						{:else}
@@ -45,16 +48,16 @@
 							</div>
 						{/if}
 						<span class="text-sm font-medium hidden md:inline max-w-[150px] truncate">
-							{$user.displayName || 'User'}
+							{$user.displayName || $t('common.nav.user')}
 						</span>
 						<button
 							onclick={handleSignOut}
 							disabled={loading}
 							class="btn btn-sm preset-tonal-primary rounded-lg flex items-center gap-2"
-							title="Sign Out"
+							title={$t('common.nav.signOut')}
 						>
 							<LogOut size={18} />
-							<span class="hidden sm:inline">{loading ? 'Signing out...' : 'Sign Out'}</span>
+							<span class="hidden sm:inline">{loading ? $t('common.loading.authentication') : $t('common.nav.signOut')}</span>
 						</button>
 					</div>
 				{/if}

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { Search } from 'lucide-svelte';
+	import { t } from '$lib/i18n';
 
 	interface Props {
 		value?: string;
@@ -7,7 +8,7 @@
 		onInput?: (value: string) => void;
 	}
 
-	let { value = $bindable(''), placeholder = 'Search...' }: Props = $props();
+	let { value = $bindable(''), placeholder = $t('common.actions.search') }: Props = $props();
 </script>
 
 <div class="max-w-2xl mx-auto">

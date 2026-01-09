@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { Trash2 } from 'lucide-svelte';
 	import type { Ingredient } from '$lib';
+	import { t } from '$lib/i18n';
 
 	interface Props {
 		ingredient: Ingredient;
@@ -30,7 +31,7 @@
 			<input
 				type="text"
 				bind:value={ingredient.name}
-				placeholder="Ingredient name"
+				placeholder={$t('recipe.ingredients.name')}
 				class="input rounded-lg w-full"
 				class:!border-error-500={errors?.name}
 				class:!border-2={errors?.name}
@@ -42,7 +43,7 @@
 			onclick={onremove}
 			class="btn btn-icon preset-tonal-error aspect-square p-2"
 			disabled={!canDelete}
-			aria-label="Remove ingredient"
+			aria-label={$t('recipe.ingredients.remove')}
 		>
 			<Trash2 class="text-error-500" size={16} />
 		</button>

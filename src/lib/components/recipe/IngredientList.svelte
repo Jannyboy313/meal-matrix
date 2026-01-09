@@ -2,6 +2,7 @@
 	import { Plus } from 'lucide-svelte';
 	import type { Ingredient } from '$lib';
 	import IngredientInput from './IngredientInput.svelte';
+	import { t } from '$lib/i18n';
 
 	interface Props {
 		servings: number[];
@@ -39,7 +40,7 @@
 			if (amount) return amount;
 		}
 
-		return 'Amount (e.g., 200g)';
+		return $t('recipe.placeholders.ingredientAmount');
 	}
 
 	const currentIngredients = $derived(ingredients[currentServing] || []);
@@ -67,5 +68,5 @@
 
 <button type="button" onclick={onaddingredient} class="btn preset-tonal-primary w-full">
 	<Plus size={20} class="mr-2" />
-	Add Ingredient
+	{$t('recipe.ingredients.add')}
 </button>

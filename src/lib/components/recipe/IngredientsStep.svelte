@@ -2,6 +2,7 @@
 	import type { Ingredient } from '$lib';
 	import ServingSelector from './ServingSelector.svelte';
 	import IngredientList from './IngredientList.svelte';
+	import { t } from '$lib/i18n';
 
 	interface Props {
 		servings: number[];
@@ -61,7 +62,7 @@
 </script>
 
 <div class="space-y-6">
-	<h2 class="h2 text-primary-500">Ingredients <span class="text-error-500">*</span></h2>
+	<h2 class="h2 text-primary-500">{$t('recipe.labels.ingredients')} <span class="text-error-500">*</span></h2>
 
 	<ServingSelector
 		bind:servings

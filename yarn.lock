@@ -2717,6 +2717,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@sveltekit-i18n/base@npm:~1.3.0":
+  version: 1.3.7
+  resolution: "@sveltekit-i18n/base@npm:1.3.7"
+  peerDependencies:
+    svelte: ">=3.49.0"
+  checksum: 10c0/01f1386e4dfc2783668892aaebfd8b3f656223c345af35bfd364b42e9ec8c82cf90cca2a19fc547883202a31837a4f100d4c46fca2708b724aebaab7b4aab165
+  languageName: node
+  linkType: hard
+
+"@sveltekit-i18n/parser-default@npm:~1.1.0":
+  version: 1.1.1
+  resolution: "@sveltekit-i18n/parser-default@npm:1.1.1"
+  checksum: 10c0/50bbbe9fef17b0da05d466f6439c0cd2292f2220e8d96575e93d10255c53a67b5fb9719f3e4698f90213dfa0212da9b19e15f7d46a0483d472a7098dc36dad69
+  languageName: node
+  linkType: hard
+
 "@tailwindcss/forms@npm:^0.5.10":
   version: 0.5.10
   resolution: "@tailwindcss/forms@npm:0.5.10"
@@ -4957,6 +4973,7 @@ __metadata:
     sharp: "npm:^0.34.5"
     svelte: "npm:^5.43.8"
     svelte-check: "npm:^4.3.4"
+    sveltekit-i18n: "npm:^2.4.2"
     tailwindcss: "npm:^4.1.17"
     typescript: "npm:^5.9.3"
     vite: "npm:^7.2.2"
@@ -6175,6 +6192,18 @@ __metadata:
     magic-string: "npm:^0.30.11"
     zimmerframe: "npm:^1.1.2"
   checksum: 10c0/7f76f24ab4734068bdd8a4da1b9cc9b2dc85a3e16d8d16cf2fdf4b53095e98012a00bff41749ad627fbf5b94c9974db85d5818af1858f44a40e704ad048889c7
+  languageName: node
+  linkType: hard
+
+"sveltekit-i18n@npm:^2.4.2":
+  version: 2.4.2
+  resolution: "sveltekit-i18n@npm:2.4.2"
+  dependencies:
+    "@sveltekit-i18n/base": "npm:~1.3.0"
+    "@sveltekit-i18n/parser-default": "npm:~1.1.0"
+  peerDependencies:
+    svelte: ">=3.49.0"
+  checksum: 10c0/b38ef5b4e765a75a6ca658d343f6ca2c922d530f4ea7fb740563d667017b61e57aad952ab482f948125cfaeffc7f905cb7709d97357ac671c53d925ce8b2b6af
   languageName: node
   linkType: hard
 

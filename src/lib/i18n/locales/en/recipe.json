@@ -1,0 +1,95 @@
+{
+	"title": {
+		"createNew": "Create New Recipe",
+		"edit": "Edit Recipe",
+		"details": "Recipe Details"
+	},
+	"labels": {
+		"name": "Recipe Name",
+		"description": "Description",
+		"cookTime": "Cook Time",
+		"prepTime": "Prep Time",
+		"servings": "Servings",
+		"ingredients": "Ingredients",
+		"instructions": "Instructions",
+		"tags": "Tags",
+		"minutes": "minutes",
+		"imageUrl": "Image URL",
+		"imageUrlHint": "Leave empty for default image"
+	},
+	"placeholders": {
+		"name": "e.g., Spaghetti Carbonara",
+		"description": "A brief description of your recipe...",
+		"cookTime": "30 min",
+		"prepTime": "15 min",
+		"searchRecipes": "Search recipes...",
+		"imageUrl": "https://example.com/image.jpg",
+		"ingredientAmount": "Amount (e.g., 200g)"
+	},
+	"actions": {
+		"addRecipe": "Add Recipe",
+		"editRecipe": "Edit Recipe",
+		"deleteRecipe": "Delete Recipe",
+		"viewRecipe": "View Recipe",
+		"createRecipe": "Create Recipe",
+		"updateRecipe": "Update Recipe",
+		"creating": "Creating...",
+		"updating": "Updating..."
+	},
+	"steps": {
+		"basicInfo": "Basic Information",
+		"ingredients": "Ingredients",
+		"instructions": "Instructions",
+		"tags": "Tags",
+		"next": "Next",
+		"previous": "Previous",
+		"finish": "Finish"
+	},
+	"ingredients": {
+		"add": "Add Ingredient",
+		"quantity": "Quantity",
+		"unit": "Unit",
+		"name": "Ingredient Name",
+		"remove": "Remove",
+		"forServings": "Ingredients for {{count}} serving{{count !== 1 ? 's' : ''}}"
+	},
+	"instructions": {
+		"add": "Add Step",
+		"step": "Step",
+		"description": "Describe this step...",
+		"describeSteps": "Describe each step clearly",
+		"removeStep": "Remove step"
+	},
+	"tags": {
+		"selected": "Selected",
+		"chooseExisting": "Choose from existing tags",
+		"createCustom": "Create Custom Tag",
+		"createCustomLabel": "Create custom tag",
+		"namePlaceholder": "Tag name",
+		"adding": "Adding...",
+		"remove": "Remove tag",
+		"createError": "Failed to create tag. Please try again."
+	},
+	"servings": {
+		"label": "Serving sizes",
+		"edit": "Edit",
+		"done": "Done",
+		"addServing": "Add serving size",
+		"deleteServing": "Delete serving",
+		"confirm": "Confirm",
+		"placeholder": "6"
+	},
+	"validation": {
+		"nameRequired": "Recipe name is required",
+		"ingredientsRequired": "At least one ingredient is required",
+		"instructionsRequired": "At least one instruction is required",
+		"ingredientNameRequired": "Name is required",
+		"ingredientAmountRequired": "Amount is required",
+		"stepDescriptionRequired": "Step description is required",
+		"titleRequired": "Please enter a recipe title",
+		"fillAllIngredients": "Please fill in all ingredient names",
+		"fillAllSteps": "Please fill in all steps",
+		"mustBeLoggedIn": "You must be logged in to create a recipe",
+		"saveFailed": "Failed to save recipe. Please try again."
+	}
+}

@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { t } from '$lib/i18n';
+
 	interface Props {
 		prepTime?: string;
 		cookTime?: string;
@@ -11,13 +13,13 @@
 	<div class="flex flex-wrap gap-6 pt-4 rounded-lg">
 		{#if prepTime}
 			<div class="flex flex-col">
-				<span class="text-xs uppercase opacity-75">Prep Time</span>
+				<span class="text-xs uppercase opacity-75">{$t('recipe.labels.prepTime')}</span>
 				<span class="font-semibold">{prepTime}</span>
 			</div>
 		{/if}
 		{#if cookTime}
 			<div class="flex flex-col">
-				<span class="text-xs uppercase opacity-75">Cook Time</span>
+				<span class="text-xs uppercase opacity-75">{$t('recipe.labels.cookTime')}</span>
 				<span class="font-semibold">{cookTime}</span>
 			</div>
 		{/if}

@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { t } from '$lib/i18n';
+
 	interface Props {
 		title: string;
 		description: string;
@@ -19,14 +21,14 @@
 </script>
 
 <div class="space-y-6">
-	<h2 class="h2 text-primary-500">Basic Information</h2>
+	<h2 class="h2 text-primary-500">{$t('recipe.steps.basicInfo')}</h2>
 
 	<label class="label">
-		<span class="font-semibold">Title <span class="text-error-500">*</span></span>
+		<span class="font-semibold">{$t('recipe.labels.name')} <span class="text-error-500">*</span></span>
 		<input
 			type="text"
 			bind:value={title}
-			placeholder="e.g., Spaghetti Carbonara"
+			placeholder={$t('recipe.placeholders.name')}
 			class="input rounded-lg mt-2"
 			class:!border-error-500={titleError}
 			class:!border-2={titleError}
@@ -38,24 +40,24 @@
 	</label>
 
 	<label class="label">
-		<span class="font-semibold">Description</span>
+		<span class="font-semibold">{$t('recipe.labels.description')}</span>
 		<textarea
 			bind:value={description}
-			placeholder="A brief description of your recipe..."
+			placeholder={$t('recipe.placeholders.description')}
 			class="textarea rounded-lg mt-2"
 			rows="3"
 		></textarea>
 	</label>
 
 	<label class="label">
-		<span class="font-semibold">Image URL</span>
+		<span class="font-semibold">{$t('recipe.labels.imageUrl')}</span>
 		<input
 			type="url"
 			bind:value={image}
-			placeholder="https://example.com/image.jpg"
+			placeholder={$t('recipe.placeholders.imageUrl')}
 			class="input rounded-lg mt-2"
 		/>
-		<p class="text-sm opacity-75 mt-1">Leave empty for default image</p>
+		<p class="text-sm opacity-75 mt-1">{$t('recipe.labels.imageUrlHint')}</p>
 	</label>
 
 	{#if image}
@@ -74,13 +76,13 @@
 
 	<div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
 		<label class="label">
-			<span class="font-semibold">Prep Time</span>
-			<input type="text" bind:value={prepTime} placeholder="15 min" class="input rounded-lg mt-2" />
+			<span class="font-semibold">{$t('recipe.labels.prepTime')}</span>
+			<input type="text" bind:value={prepTime} placeholder={$t('recipe.placeholders.prepTime')} class="input rounded-lg mt-2" />
 		</label>
 
 		<label class="label">
-			<span class="font-semibold">Cook Time</span>
-			<input type="text" bind:value={cookTime} placeholder="30 min" class="input rounded-lg mt-2" />
+			<span class="font-semibold">{$t('recipe.labels.cookTime')}</span>
+			<input type="text" bind:value={cookTime} placeholder={$t('recipe.placeholders.cookTime')} class="input rounded-lg mt-2" />
 		</label>
 	</div>
 </div>

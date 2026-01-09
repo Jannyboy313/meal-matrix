@@ -3,6 +3,7 @@
 	import type { Tag } from '$lib';
 	import { createTag } from '$lib/services/tagService';
 	import { user } from '$lib/stores/auth';
+	import { t } from '$lib/i18n';
 
 	interface Props {
 		tags: Tag[];
@@ -47,7 +48,7 @@
 				showCustomTag = false;
 			} catch (error) {
 				console.error('Error creating tag:', error);
-				alert('Failed to create tag. Please try again.');
+				alert($t('recipe.tags.createError'));
 			} finally {
 				isCreatingTag = false;
 			}
@@ -56,12 +57,12 @@
 </script>
 
 <div class="space-y-6">
-	<h2 class="h2 text-primary-500">Tags</h2>
+	<h2 class="h2 text-primary-500">{$t('recipe.labels.tags')}</h2>
 
 	<!-- Selected Tags -->
 	{#if tags.length > 0}
 		<div class="p-4">
-			<p class="text-sm font-semibold mb-2 opacity-75">Selected:</p>
+			<p class="text-sm font-semibold mb-2 opacity-75">{$t('recipe.tags.selected')}:</p>
 			<div class="flex flex-wrap gap-2">
 				{#each tags as tag, i}
 					<span
@@ -73,7 +74,7 @@
 							type="button"
 							onclick={() => onremovetag(i)}
 							class="hover:opacity-75"
-							aria-label="Remove tag"
+						aria-label={$t('recipe.tags.remove')}
 						>
 							<X size={14} />
 						</button>
@@ -85,7 +86,7 @@
 
 	<!-- Available Tags -->
 	<div>
-		<p class="text-sm font-semibold mb-2 opacity-75">Choose from existing tags:</p>
+		<p class="text-sm font-semibold mb-2 opacity-75">{$t('recipe.tags.chooseExisting')}:</p>
 		<div class="flex flex-wrap gap-2 max-h-75 overflow-y-auto p-4">
 			{#each availableTags as tag}
 				{@const isSelected = tags.some((t) => t.name === tag.name)}
@@ -114,16 +115,16 @@
 				class="btn preset-tonal-primary w-full"
 			>
 				<Plus size={16} class="mr-2" />
-				Create Custom Tag
+				{$t('recipe.tags.createCustom')}
 			</button>
 		{:else}
 			<div class="space-y-2">
-				<p class="text-sm font-semibold opacity-75">Create custom tag:</p>
+				<p class="text-sm font-semibold opacity-75">{$t('recipe.tags.createCustomLabel')}:</p>
 				<div class="flex gap-2 flex-wrap sm:flex-nowrap">
 					<input
 						type="text"
 						bind:value={newTagName}
-						placeholder="Tag name"
+						placeholder={$t('recipe.tags.namePlaceholder')}
 						class="input rounded-lg flex-1"
 						disabled={isCreatingTag}
 						onkeydown={(e) => e.key === 'Enter' && !isCreatingTag && (e.preventDefault(), addCustomTag())}
@@ -140,7 +141,7 @@
 						class="btn preset-filled-primary-500 whitespace-nowrap"
 						disabled={isCreatingTag || !newTagName.trim()}
 					>
-						{isCreatingTag ? 'Adding...' : 'Add'}
+						{isCreatingTag ? $t('recipe.tags.adding') : $t('common.actions.add')}
 					</button>
 					<button
 						type="button"
@@ -151,7 +152,7 @@
 						class="btn preset-tonal-surface"
 						disabled={isCreatingTag}
 					>
-						Cancel
+						{$t('common.actions.cancel')}
 					</button>
 				</div>
 			</div>

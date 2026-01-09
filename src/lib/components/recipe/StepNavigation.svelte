@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { ChevronLeft, ChevronRight } from 'lucide-svelte';
+	import { t } from '$lib/i18n';
 
 	interface Props {
 		currentStep: number;
@@ -21,11 +22,11 @@
 			class="btn preset-tonal-secondary flex items-center justify-center gap-2 flex-1"
 		>
 			<ChevronLeft size={20} />
-			Previous
+			{$t('recipe.steps.previous')}
 		</button>
 	{:else}
 		<a href="/" class="btn preset-outlined-secondary-500 flex items-center justify-center flex-1">
-			Cancel
+			{$t('common.actions.cancel')}
 		</a>
 	{/if}
 
@@ -35,7 +36,7 @@
 			onclick={onnext}
 			class="btn preset-filled-primary-500 flex items-center justify-center gap-2 flex-1"
 		>
-			Next
+			{$t('recipe.steps.next')}
 			<ChevronRight size={20} />
 		</button>
 	{:else}
@@ -45,9 +46,9 @@
 			disabled={isSubmitting}
 		>
 			{#if isEditing}
-				{isSubmitting ? 'Updating...' : 'Update Recipe'}
+				{isSubmitting ? $t('recipe.actions.updating') : $t('recipe.actions.updateRecipe')}
 			{:else}
-				{isSubmitting ? 'Creating...' : 'Create Recipe'}
+				{isSubmitting ? $t('recipe.actions.creating') : $t('recipe.actions.createRecipe')}
 			{/if}
 		</button>
 	{/if}

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { Plus, X } from 'lucide-svelte';
+	import { t } from '$lib/i18n';
 
 	interface Props {
 		steps: string[];
@@ -12,8 +13,8 @@
 </script>
 
 <div class="space-y-6">
-	<h2 class="h2 text-primary-500">Instructions <span class="text-error-500">*</span></h2>
-	<p class="text-sm opacity-75">Describe each step clearly</p>
+	<h2 class="h2 text-primary-500">{$t('recipe.labels.instructions')} <span class="text-error-500">*</span></h2>
+	<p class="text-sm opacity-75">{$t('recipe.instructions.describeSteps')}</p>
 
 	<div class="space-y-3">
 		{#each steps as step, i}

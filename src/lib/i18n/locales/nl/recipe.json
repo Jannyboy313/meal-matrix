@@ -1,0 +1,95 @@
+{
+	"title": {
+		"createNew": "Nieuw Recept Maken",
+		"edit": "Recept Bewerken",
+		"details": "Recept Details"
+	},
+	"labels": {
+		"name": "Recept Naam",
+		"description": "Beschrijving",
+		"cookTime": "Bereidingstijd",
+		"prepTime": "Voorbereidingstijd",
+		"servings": "Porties",
+		"ingredients": "Ingrediënten",
+		"instructions": "Instructies",
+		"tags": "Tags",
+		"minutes": "minuten",
+		"imageUrl": "Afbeelding URL",
+		"imageUrlHint": "Laat leeg voor standaard afbeelding"
+	},
+	"placeholders": {
+		"name": "bijv., Spaghetti Carbonara",
+		"description": "Een korte beschrijving van je recept...",
+		"cookTime": "30 min",
+		"prepTime": "15 min",
+		"searchRecipes": "Zoek recepten...",
+		"imageUrl": "https://voorbeeld.nl/afbeelding.jpg",
+		"ingredientAmount": "Hoeveelheid (bijv., 200g)"
+	},
+	"actions": {
+		"addRecipe": "Recept Toevoegen",
+		"editRecipe": "Recept Bewerken",
+		"deleteRecipe": "Recept Verwijderen",
+		"viewRecipe": "Recept Bekijken",
+		"createRecipe": "Recept Aanmaken",
+		"updateRecipe": "Recept Bijwerken",
+		"creating": "Aanmaken...",
+		"updating": "Bijwerken..."
+	},
+	"steps": {
+		"basicInfo": "Basis Informatie",
+		"ingredients": "Ingrediënten",
+		"instructions": "Instructies",
+		"tags": "Tags",
+		"next": "Volgende",
+		"previous": "Vorige",
+		"finish": "Voltooien"
+	},
+	"ingredients": {
+		"add": "Ingrediënt Toevoegen",
+		"quantity": "Hoeveelheid",
+		"unit": "Eenheid",
+		"name": "Ingrediënt Naam",
+		"remove": "Verwijderen",
+		"forServings": "Ingrediënten voor {{count}} portie{{count !== 1 ? 's' : ''}}"
+	},
+	"instructions": {
+		"add": "Stap Toevoegen",
+		"step": "Stap",
+		"description": "Beschrijf deze stap...",
+		"describeSteps": "Beschrijf elke stap duidelijk",
+		"removeStep": "Stap verwijderen"
+	},
+	"tags": {
+		"selected": "Geselecteerd",
+		"chooseExisting": "Kies uit bestaande tags",
+		"createCustom": "Aangepaste Tag Maken",
+		"createCustomLabel": "Aangepaste tag maken",
+		"namePlaceholder": "Tag naam",
+		"adding": "Toevoegen...",
+		"remove": "Tag verwijderen",
+		"createError": "Tag maken mislukt. Probeer het opnieuw."
+	},
+	"servings": {
+		"label": "Portiegroottes",
+		"edit": "Bewerken",
+		"done": "Klaar",
+		"addServing": "Portiegrootte toevoegen",
+		"deleteServing": "Portie verwijderen",
+		"confirm": "Bevestigen",
+		"placeholder": "6"
+	},
+	"validation": {
+		"nameRequired": "Recept naam is verplicht",
+		"ingredientsRequired": "Ten minste één ingrediënt is vereist",
+		"instructionsRequired": "Ten minste één instructie is vereist",
+		"ingredientNameRequired": "Naam is verplicht",
+		"ingredientAmountRequired": "Hoeveelheid is verplicht",
+		"stepDescriptionRequired": "Stap beschrijving is verplicht",
+		"titleRequired": "Voer een recept titel in",
+		"fillAllIngredients": "Vul alle ingrediëntnamen in",
+		"fillAllSteps": "Vul alle stappen in",
+		"mustBeLoggedIn": "Je moet ingelogd zijn om een recept aan te maken",
+		"saveFailed": "Recept opslaan mislukt. Probeer het opnieuw."
+	}
+}

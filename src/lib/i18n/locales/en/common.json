@@ -1,0 +1,38 @@
+{
+	"app": {
+		"name": "Meal Matrix",
+		"loading": "Loading...",
+		"error": "An error occurred"
+	},
+	"nav": {
+		"signOut": "Sign Out",
+		"user": "User"
+	},
+	"actions": {
+		"add": "Add",
+		"edit": "Edit",
+		"delete": "Delete",
+		"save": "Save",
+		"cancel": "Cancel",
+		"back": "Back",
+		"backToRecipes": "Back to Recipes",
+		"search": "Search...",
+		"addNew": "Add new item"
+	},
+	"loading": {
+		"authentication": "Loading authentication...",
+		"recipes": "Loading your recipes...",
+		"tags": "Loading..."
+	},
+	"errors": {
+		"general": "Something went wrong",
+		"tryAgain": "Please try again",
+		"signInFailed": "Failed to sign in",
+		"signOutFailed": "Failed to sign out"
+	},
+	"empty": {
+		"noRecipes": "No recipes found",
+		"noResults": "No results found",
+		"startCreating": "Start by creating your first recipe!"
+	}
+}

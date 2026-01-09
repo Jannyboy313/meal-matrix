@@ -1,0 +1,38 @@
+{
+	"app": {
+		"name": "Meal Matrix",
+		"loading": "Laden...",
+		"error": "Er is een fout opgetreden"
+	},
+	"nav": {
+		"signOut": "Uitloggen",
+		"user": "Gebruiker"
+	},
+	"actions": {
+		"add": "Toevoegen",
+		"edit": "Bewerken",
+		"delete": "Verwijderen",
+		"save": "Opslaan",
+		"cancel": "Annuleren",
+		"back": "Terug",
+		"backToRecipes": "Terug naar Recepten",
+		"search": "Zoeken...",
+		"addNew": "Nieuw item toevoegen"
+	},
+	"loading": {
+		"authentication": "Authenticatie laden...",
+		"recipes": "Jouw recepten laden...",
+		"tags": "Laden..."
+	},
+	"errors": {
+		"general": "Er ging iets mis",
+		"tryAgain": "Probeer het opnieuw",
+		"signInFailed": "Inloggen mislukt",
+		"signOutFailed": "Uitloggen mislukt"
+	},
+	"empty": {
+		"noRecipes": "Geen recepten gevonden",
+		"noResults": "Geen resultaten gevonden",
+		"startCreating": "Begin met het maken van je eerste recept!"
+	}
+}
