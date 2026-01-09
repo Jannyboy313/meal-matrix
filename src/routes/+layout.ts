@@ -3,17 +3,27 @@ import type { LayoutLoad } from './$types';
 import { browser } from '$app/environment';
 import { user } from '$lib/stores/auth';
 import { get } from 'svelte/store';
-import { loadTranslations, locale } from '$lib/i18n';
+import { loadTranslations, locale, detectBrowserLocale, defaultLocale } from '$lib/i18n';
 
 export const load: LayoutLoad = async ({ url }) => {
-	// Only run on client side
-	if (!browser) {
-		return {};
+	// Initialize translations based on environment
+	let lang = defaultLocale;
+
+	if (browser) {
+		// Client-side: use stored locale, or detect from browser, or use default
+		const storedLocale = localStorage.getItem('locale');
+		lang = storedLocale || detectBrowserLocale();
+		locale.set(lang);
+
+		// Store the detected locale if none was stored
+		if (!storedLocale) {
+			localStorage.setItem('locale', lang);
+		}
+	} else {
+		// Server-side: use default locale
+		locale.set(defaultLocale);
 	}
 
-	// Initialize translations
-	const lang = localStorage.getItem('locale') || 'en';
-	locale.set(lang);
 	await loadTranslations(lang, url.pathname);
 
 	// Public routes that don't require authentication
