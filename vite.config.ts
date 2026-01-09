@@ -20,43 +20,6 @@ export default defineConfig({
 			scope: '/',
 			base: '/',
 			selfDestroying: false,
-			manifest: {
-				name: 'Meal Matrix',
-				short_name: 'Meal Matrix',
-				description: 'A Progressive Web App for recipe management built with SvelteKit',
-				theme_color: '#10b981',
-				background_color: '#1a1a1a',
-				display: 'standalone',
-				orientation: 'portrait-primary',
-				scope: '/',
-				start_url: '/',
-				icons: [
-					{
-						src: '/icon-192x192.png',
-						sizes: '192x192',
-						type: 'image/png',
-						purpose: 'any'
-					},
-					{
-						src: '/icon-192x192-maskable.png',
-						sizes: '192x192',
-						type: 'image/png',
-						purpose: 'maskable'
-					},
-					{
-						src: '/icon-512x512.png',
-						sizes: '512x512',
-						type: 'image/png',
-						purpose: 'any'
-					},
-					{
-						src: '/icon-512x512-maskable.png',
-						sizes: '512x512',
-						type: 'image/png',
-						purpose: 'maskable'
-					}
-				]
-			},
 			injectManifest: {
 				globPatterns: ['client/**/*.{js,css,ico,png,svg,webp,woff,woff2}']
 			},

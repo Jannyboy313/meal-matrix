@@ -63,10 +63,6 @@ Edit `vite.config.ts` and `static/manifest.json`:
 theme_color: '#10b981'  // Your brand color
 ```
 
-### Update Icons
-1. Edit `scripts/generate-icons.js`
-2. Run `yarn generate:icons`
-
 ### Modify Caching
 Edit `vite.config.ts` > `workbox` > `runtimeCaching`
 
