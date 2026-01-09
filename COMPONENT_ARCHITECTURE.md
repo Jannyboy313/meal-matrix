@@ -151,16 +151,17 @@ All components use TypeScript with proper prop interfaces.
 
 ### Feedback Components
 
-#### LoadingSpinner
-**Purpose:** Consistent loading state display
-**Location:** `src/lib/components/LoadingSpinner.svelte`
+#### ChefHatLoader
+**Purpose:** Consistent loading state display with chef hat animation
+**Location:** `src/lib/components/ChefHatLoader.svelte`
 **Props:**
-- `message?: string` - Loading message (default: 'Loading...')
+- `size?: 'sm' | 'md' | 'lg'` - Size of the loader (default: 'md')
+- `label?: string` - Loading message for screen readers (default: 'Loading...')
 
 **Usage:**
 ```svelte
 {#if loading}
-  <LoadingSpinner message="Loading recipe..." />
+  <ChefHatLoader size="lg" label="Loading recipe..." />
 {/if}
 ```
 
@@ -245,7 +246,7 @@ The recipe detail page uses multiple specialized components:
 
 ```svelte
 {#if loading}
-  <LoadingSpinner message="Loading recipe..." />
+  <ChefHatLoader size="lg" label="Loading recipe..." />
 {:else if error}
   <ErrorDisplay message={error} />
 {:else if recipe}
@@ -299,7 +300,7 @@ Each component should fit on one screen without scrolling. If larger, consider b
 
 ### 2. Use Descriptive Names
 Component names should clearly indicate what they display or do:
-- ✅ `RecipeCard`, `IngredientListDisplay`, `LoadingSpinner`
+- ✅ `RecipeCard`, `IngredientListDisplay`, `ChefHatLoader`
 - ❌ `Card`, `List`, `Spinner`
 
 ### 3. Props Over Internal State
