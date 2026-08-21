@@ -1,4 +1,5 @@
 {
+	"required": "Verplicht",
 	"app": {
 		"name": "Meal Matrix",
 		"loading": "Laden...",
