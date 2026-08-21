@@ -3,10 +3,12 @@
 	import type { RecipeWithTags, Tag } from '$lib';
 	import RecipeForm from '$lib/components/recipe/RecipeForm.svelte';
 	import ChefHatLoader from '$lib/components/ChefHatLoader.svelte';
+	import ErrorDisplay from '$lib/components/ErrorDisplay.svelte';
 	import { getRecipeById } from '$lib/services/recipeService';
 	import { getAllTags } from '$lib/services/tagService';
 	import { user } from '$lib/stores/auth';
 	import { onMount } from 'svelte';
+	import { t } from '$lib/i18n';
 
 	let { data }: { data: PageData } = $props();
 	let recipe = $state<RecipeWithTags | null>(null);
@@ -14,13 +16,11 @@
 	let loading = $state<boolean>(true);
 	let error = $state<string | null>(null);
 
-	// Fetch recipe and tags from Firestore when component mounts
 	onMount(async () => {
 		try {
 			loading = true;
 			const currentUser = $user;
 
-			// Fetch both recipe and tags in parallel
 			const [fetchedRecipe, fetchedTags] = await Promise.all([
 				getRecipeById(data.recipeId),
 				getAllTags(currentUser?.uid)
@@ -30,62 +30,53 @@
 				recipe = fetchedRecipe;
 				availableTags = fetchedTags;
 			} else {
-				error = 'Recipe not found';
+				error = $t('recipe.validation.recipeNotFound');
 			}
 		} catch (err) {
 			console.error('Error loading recipe:', err);
-			error = 'Failed to load recipe';
+			error = $t('recipe.validation.recipeLoadFailed');
 		} finally {
 			loading = false;
 		}
 	});
 
-	// Prepare initial data from the existing recipe
-	const initialData = $derived(recipe ? {
-		title: recipe.title,
-		description: recipe.description || '',
-		image: recipe.image,
-		prepTime: recipe.prepTime || '',
-		cookTime: recipe.cookTime || '',
-		tags: recipe.tags ? [...recipe.tags] : [],
-		servings: Object.keys(recipe.ingredients).map(Number),
-		currentServing: recipe.servings || Object.keys(recipe.ingredients).map(Number)[0],
-		ingredients: JSON.parse(JSON.stringify(recipe.ingredients)),
-		steps: [...recipe.steps]
-	} : undefined);
+	const initialData = $derived(
+		recipe
+			? {
+					title: recipe.title,
+					description: recipe.description || '',
+					image: recipe.image,
+					prepTime: recipe.prepTime || '',
+					cookTime: recipe.cookTime || '',
+					tags: recipe.tags ? [...recipe.tags] : [],
+					servings: Object.keys(recipe.ingredients).map(Number),
+					currentServing: recipe.servings || Object.keys(recipe.ingredients).map(Number)[0],
+					ingredients: JSON.parse(JSON.stringify(recipe.ingredients)),
+					steps: [...recipe.steps]
+				}
+			: undefined
+	);
 </script>
 
 <svelte:head>
-	<title>{recipe ? `Edit ${recipe.title}` : 'Edit Recipe'} - Recipe Collection</title>
+	<title>{recipe ? `${$t('recipe.title.edit')} – ${recipe.title}` : $t('recipe.title.edit')}</title>
 </svelte:head>
 
 {#if loading}
-	<div class="min-h-screen flex items-center justify-center">
-		<ChefHatLoader size="lg" label="Loading recipe..." />
+	<div class="flex min-h-dvh items-center justify-center bg-paper">
+		<ChefHatLoader size="lg" label={$t('common.loading.recipes')} />
 	</div>
 {:else if error}
-	<div class="min-h-screen flex items-center justify-center p-4">
-		<div class="card preset-filled-primary-500 rounded-xl p-8 text-center space-y-4 max-w-md">
-			<p class="text-lg text-error-500">{error}</p>
-			<a href="/" class="btn preset-filled-primary-500 rounded-lg">
-				Back to Recipes
-			</a>
-		</div>
-	</div>
+	<ErrorDisplay message={error} />
 {:else if recipe && initialData}
-	<div class="container mx-auto p-4 pb-32 sm:p-6 md:p-8 max-w-4xl">
-		<!-- Header -->
-		<div class="mb-6">
-			<h1 class="h1">Edit Recipe</h1>
-		</div>
-
+	<div class="min-h-dvh bg-paper">
 		<RecipeForm
 			{availableTags}
 			storageKey={`recipe-edit-${data.recipeId}`}
 			{initialData}
 			isEditing={true}
 			recipeId={data.recipeId}
-			submitErrorMessage="Failed to update recipe. Please try again."
+			submitErrorMessage={$t('recipe.validation.saveFailed')}
 		/>
 	</div>
 {/if}

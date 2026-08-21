@@ -2,7 +2,6 @@
 	import type { Ingredient } from '$lib';
 	import ServingSelector from './ServingSelector.svelte';
 	import IngredientList from './IngredientList.svelte';
-	import { t } from '$lib/i18n';
 
 	interface Props {
 		servings: number[];
@@ -32,7 +31,6 @@
 		onaddserving();
 		servings = [...servings, newServing].sort((a, b) => a - b);
 
-		// Copy ingredient names from current serving
 		if (ingredients[currentServing]) {
 			ingredients[newServing] = ingredients[currentServing].map((ing) => ({
 				name: ing.name,
@@ -42,18 +40,15 @@
 			ingredients[newServing] = [];
 		}
 
-		// Switch to the newly added serving
 		onchangeserving(newServing);
 	}
 
-	// Sync ingredient names across all servings when changed
 	$effect(() => {
 		const currentIngredients = ingredients[currentServing] || [];
 
 		currentIngredients.forEach((ing, index) => {
 			servings.forEach((serving) => {
 				if (serving !== currentServing && ingredients[serving] && ingredients[serving][index]) {
-					// Sync name but preserve amount
 					ingredients[serving][index].name = ing.name;
 				}
 			});
@@ -61,9 +56,7 @@
 	});
 </script>
 
-<div class="space-y-6">
-	<h2 class="h2 text-primary-500">{$t('recipe.labels.ingredients')} <span class="text-error-500">*</span></h2>
-
+<div class="flex flex-col gap-5">
 	<ServingSelector
 		bind:servings
 		{currentServing}

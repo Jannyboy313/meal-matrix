@@ -9,13 +9,18 @@
 		"description": "Beschrijving",
 		"cookTime": "Bereidingstijd",
 		"prepTime": "Voorbereidingstijd",
+		"prepTimeShort": "Voorb.",
+		"cookTimeShort": "Bereiden",
 		"servings": "Porties",
 		"ingredients": "Ingrediënten",
 		"instructions": "Instructies",
 		"tags": "Tags",
+		"category": "Categorie",
 		"minutes": "minuten",
 		"imageUrl": "Afbeelding URL",
-		"imageUrlHint": "Laat leeg voor standaard afbeelding"
+		"imageUrlHint": "Laat leeg voor standaard afbeelding",
+		"imagePreviewAlt": "Voorbeeld",
+		"recipesCount": "recepten"
 	},
 	"placeholders": {
 		"name": "bijv., Spaghetti Carbonara",
@@ -26,6 +31,16 @@
 		"imageUrl": "https://voorbeeld.nl/afbeelding.jpg",
 		"ingredientAmount": "Hoeveelheid (bijv., 200g)"
 	},
+	"cook": {
+		"progress": "{{done}} van {{total}} gedaan"
+	},
+	"wizard": {
+		"stepOf": "Stap {{step}} van {{total}} · {{name}}",
+		"discardTitle": "Wijzigingen niet opgeslagen",
+		"discardBody": "Als je nu sluit, gaat wat je al hebt ingevuld verloren.",
+		"discardCancel": "Doorgaan met invullen",
+		"discardConfirm": "Verwijderen en sluiten"
+	},
 	"actions": {
 		"addRecipe": "Recept Toevoegen",
 		"editRecipe": "Recept Bewerken",
@@ -34,7 +49,8 @@
 		"createRecipe": "Recept Aanmaken",
 		"updateRecipe": "Recept Bijwerken",
 		"creating": "Aanmaken...",
-		"updating": "Bijwerken..."
+		"updating": "Bijwerken...",
+		"startCooking": "Begin met koken"
 	},
 	"steps": {
 		"basicInfo": "Basis Informatie",
@@ -46,7 +62,7 @@
 		"finish": "Voltooien"
 	},
 	"ingredients": {
-		"add": "Ingrediënt Toevoegen",
+		"addLine": "Regel toevoegen",
 		"quantity": "Hoeveelheid",
 		"unit": "Eenheid",
 		"name": "Ingrediënt Naam",
@@ -58,20 +74,26 @@
 		"step": "Stap",
 		"description": "Beschrijf deze stap...",
 		"describeSteps": "Beschrijf elke stap duidelijk",
-		"removeStep": "Stap verwijderen"
+		"removeStep": "Stap verwijderen",
+		"oneActionHint": "Eén handeling per stap leest het best tijdens het koken."
 	},
 	"tags": {
-		"selected": "Geselecteerd",
-		"chooseExisting": "Kies uit bestaande tags",
-		"createCustom": "Aangepaste Tag Maken",
-		"createCustomLabel": "Aangepaste tag maken",
 		"namePlaceholder": "Tag naam",
 		"adding": "Toevoegen...",
-		"remove": "Tag verwijderen",
-		"createError": "Tag maken mislukt. Probeer het opnieuw."
+		"createError": "Tag maken mislukt. Probeer het opnieuw.",
+		"newCategory": "Nieuwe categorie",
+		"colorLabel": "Kleur",
+		"addCategory": "Categorie toevoegen",
+		"newCategoryHint": "Nieuwe categorieën komen ook in het filter op het overzicht.",
+		"swatchColors": {
+			"accent": "Oranje",
+			"yellow": "Geel",
+			"teal": "Teal",
+			"violet": "Paars"
+		}
 	},
 	"servings": {
-		"label": "Portiegroottes",
+		"label": "Voor hoeveel porties",
 		"edit": "Bewerken",
 		"done": "Klaar",
 		"addServing": "Portiegrootte toevoegen",
@@ -90,6 +112,8 @@
 		"fillAllIngredients": "Vul alle ingrediëntnamen in",
 		"fillAllSteps": "Vul alle stappen in",
 		"mustBeLoggedIn": "Je moet ingelogd zijn om een recept aan te maken",
-		"saveFailed": "Recept opslaan mislukt. Probeer het opnieuw."
+		"saveFailed": "Recept opslaan mislukt. Probeer het opnieuw.",
+		"recipeNotFound": "Recept niet gevonden",
+		"recipeLoadFailed": "Recept laden mislukt"
 	}
 }

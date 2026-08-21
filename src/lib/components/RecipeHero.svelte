@@ -1,38 +1,46 @@
 <script lang="ts">
 	import { ArrowLeft, Pencil } from 'lucide-svelte';
+	import type { Tag } from '$lib';
+	import { t } from '$lib/i18n';
 
 	interface Props {
 		recipeId: string;
 		title: string;
 		image: string;
+		category?: Tag;
 	}
 
-	let { recipeId, title, image }: Props = $props();
+	let { recipeId, title, image, category }: Props = $props();
 </script>
 
-<header class="relative w-full h-56 sm:h-72 md:h-80 lg:h-96 overflow-hidden">
-	<img
-		src={image}
-		alt={title}
-		class="w-full h-full object-cover"
-	/>
-	<div class="absolute inset-0 bg-linear-to-t from-black/60 to-transparent"></div>
+<div class="relative">
+	<header class="relative h-[212px] w-full overflow-hidden border-b-2 border-ink bg-hero">
+		<img src={image} alt={title} class="h-full w-full object-cover" />
 
-	<!-- Back Button -->
-	<a
-		href="/"
-		class="btn btn-icon preset-outlined-secondary-500 absolute top-4 left-4 z-10 shadow-lg rounded-full"
-		aria-label="Back to recipes"
-	>
-		<ArrowLeft size={20} />
-	</a>
+		<div class="absolute left-[22px] right-[22px] top-12 flex justify-between">
+			<a
+				href="/"
+				aria-label={$t('common.actions.backToRecipes')}
+				class="focus-ring flex h-[38px] w-[38px] items-center justify-center border-2 border-ink offset-yellow bg-white"
+			>
+				<ArrowLeft size={18} class="text-ink" strokeWidth={2.5} />
+			</a>
+			<a
+				href="/recipes/{recipeId}/edit"
+				aria-label={$t('recipe.actions.editRecipe')}
+				class="focus-ring flex h-[38px] w-[38px] items-center justify-center border-2 border-ink offset-accent bg-white"
+			>
+				<Pencil size={18} class="text-ink" strokeWidth={2.5} />
+			</a>
+		</div>
+	</header>
 
-	<!-- Edit Button -->
-	<a
-		href="/recipes/{recipeId}/edit"
-		class="btn btn-icon preset-filled-secondary-500 absolute top-4 right-4 z-10 shadow-lg rounded-full"
-		aria-label="Edit recipe"
-	>
-		<Pencil size={20} />
-	</a>
-</header>
+	{#if category}
+		<span
+			class="absolute -bottom-[14px] left-4 z-10 -rotate-2 border-2 border-ink px-3 py-[5px] text-[11px] font-black uppercase text-ink"
+			style="background-color: {category.color}"
+		>
+			{category.name}
+		</span>
+	{/if}
+</div>

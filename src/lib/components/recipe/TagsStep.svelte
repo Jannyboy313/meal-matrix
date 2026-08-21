@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Plus, X } from 'lucide-svelte';
+	import { Check } from 'lucide-svelte';
 	import type { Tag } from '$lib';
 	import { createTag } from '$lib/services/tagService';
 	import { user } from '$lib/stores/auth';
@@ -14,14 +14,33 @@
 
 	let { tags = $bindable(), availableTags = $bindable(), onaddtag, onremovetag }: Props = $props();
 
+	const SWATCHES = [
+		{ name: 'accent', value: '#FF5C35' },
+		{ name: 'yellow', value: '#FFC400' },
+		{ name: 'teal', value: '#2ED3B7' },
+		{ name: 'violet', value: '#6C5CE7' }
+	];
+
+	// Literal class names so Tailwind's static scanner can find them (a dynamic
+	// `bg-${swatch.name}` string never appears verbatim in this file, so classes
+	// without another literal usage elsewhere, e.g. bg-violet, would not be generated).
+	const SWATCH_BG_CLASS: Record<string, string> = {
+		accent: 'bg-accent',
+		yellow: 'bg-yellow',
+		teal: 'bg-teal',
+		violet: 'bg-violet'
+	};
+
 	let newTagName = $state<string>('');
-	let newTagColor = $state<string>('#4CAF50');
-	let showCustomTag = $state<boolean>(false);
+	let newTagColor = $state<string>(SWATCHES[0].value);
 	let isCreatingTag = $state<boolean>(false);
 
-	function addExistingTag(tag: Tag) {
-		if (!tags.some((t) => t.name === tag.name)) {
+	function toggleTag(tag: Tag) {
+		const index = tags.findIndex((t) => t.id === tag.id);
+		if (index === -1) {
 			onaddtag(tag);
+		} else {
+			onremovetag(index);
 		}
 	}
 
@@ -29,23 +48,10 @@
 		if (newTagName.trim() && $user) {
 			isCreatingTag = true;
 			try {
-				// Create tag in Firestore
-				const newTag = await createTag(
-					{
-						name: newTagName.trim(),
-						color: newTagColor
-					},
-					$user.uid
-				);
-
-				// Add to available tags list
+				const newTag = await createTag({ name: newTagName.trim(), color: newTagColor }, $user.uid);
 				availableTags = [...availableTags, newTag];
-
-				// Add to selected tags
 				onaddtag(newTag);
-
 				newTagName = '';
-				showCustomTag = false;
 			} catch (error) {
 				console.error('Error creating tag:', error);
 				alert($t('recipe.tags.createError'));
@@ -56,49 +62,21 @@
 	}
 </script>
 
-<div class="space-y-6">
-	<h2 class="h2 text-primary-500">{$t('recipe.labels.tags')}</h2>
-
-	<!-- Selected Tags -->
-	{#if tags.length > 0}
-		<div class="p-4">
-			<p class="text-sm font-semibold mb-2 opacity-75">{$t('recipe.tags.selected')}:</p>
-			<div class="flex flex-wrap gap-2">
-				{#each tags as tag, i}
-					<span
-						class="badge rounded-full px-3 py-1 text-sm font-medium text-white flex items-center gap-2"
-						style="background-color: {tag.color};"
-					>
-						{tag.name}
-						<button
-							type="button"
-							onclick={() => onremovetag(i)}
-							class="hover:opacity-75"
-						aria-label={$t('recipe.tags.remove')}
-						>
-							<X size={14} />
-						</button>
-					</span>
-				{/each}
-			</div>
-		</div>
-	{/if}
-
-	<!-- Available Tags -->
-	<div>
-		<p class="text-sm font-semibold mb-2 opacity-75">{$t('recipe.tags.chooseExisting')}:</p>
-		<div class="flex flex-wrap gap-2 max-h-75 overflow-y-auto p-4">
-			{#each availableTags as tag}
-				{@const isSelected = tags.some((t) => t.name === tag.name)}
+<div class="flex flex-col gap-6">
+	<div class="flex flex-col gap-3">
+		<span class="text-xs font-black uppercase tracking-[0.08em] text-ink">
+			{$t('recipe.labels.category')} <span class="text-accent">{$t('common.required')}</span>
+		</span>
+		<div class="flex flex-wrap gap-2">
+			{#each availableTags as tag (tag.id)}
+				{@const isSelected = tags.some((t) => t.id === tag.id)}
 				<button
 					type="button"
-					onclick={() => addExistingTag(tag)}
-					class="badge rounded-full px-3 py-1 text-sm font-medium text-white transition-opacity"
-					class:opacity-40={isSelected}
-					class:cursor-not-allowed={isSelected}
-					class:hover:opacity-90={!isSelected}
-					style="background-color: {tag.color};"
-					disabled={isSelected}
+					onclick={() => toggleTag(tag)}
+					aria-pressed={isSelected}
+					class="focus-ring border-2 border-ink px-[13px] py-[9px] text-xs uppercase {isSelected
+						? 'bg-accent font-black text-white'
+						: 'bg-white font-extrabold text-ink'}"
 				>
 					{tag.name}
 				</button>
@@ -106,56 +84,49 @@
 		</div>
 	</div>
 
-	<!-- Custom Tag -->
-	<div>
-		{#if !showCustomTag}
-			<button
-				type="button"
-				onclick={() => (showCustomTag = true)}
-				class="btn preset-tonal-primary w-full"
-			>
-				<Plus size={16} class="mr-2" />
-				{$t('recipe.tags.createCustom')}
-			</button>
-		{:else}
-			<div class="space-y-2">
-				<p class="text-sm font-semibold opacity-75">{$t('recipe.tags.createCustomLabel')}:</p>
-				<div class="flex gap-2 flex-wrap sm:flex-nowrap">
-					<input
-						type="text"
-						bind:value={newTagName}
-						placeholder={$t('recipe.tags.namePlaceholder')}
-						class="input rounded-lg flex-1"
-						disabled={isCreatingTag}
-						onkeydown={(e) => e.key === 'Enter' && !isCreatingTag && (e.preventDefault(), addCustomTag())}
-					/>
-					<input
-						type="color"
-						bind:value={newTagColor}
-						class="input w-16 h-10 rounded-lg cursor-pointer"
-						disabled={isCreatingTag}
-					/>
+	<div class="flex flex-col gap-3">
+		<label for="new-category-name" class="text-xs font-black uppercase tracking-[0.08em] text-ink">{$t('recipe.tags.newCategory')}</label>
+
+		<input
+			type="text"
+			id="new-category-name"
+			bind:value={newTagName}
+			placeholder={$t('recipe.tags.namePlaceholder')}
+			disabled={isCreatingTag}
+			class="focus-ring w-full border-2 border-ink bg-white px-[14px] py-[13px] text-[15px] font-semibold text-ink"
+			onkeydown={(e) => e.key === 'Enter' && !isCreatingTag && (e.preventDefault(), addCustomTag())}
+		/>
+
+		<div class="flex items-center justify-between">
+			<span class="text-[11px] font-black uppercase text-muted">{$t('recipe.tags.colorLabel')}</span>
+			<div class="flex gap-2">
+				{#each SWATCHES as swatch (swatch.name)}
 					<button
 						type="button"
-						onclick={addCustomTag}
-						class="btn preset-filled-primary-500 whitespace-nowrap"
-						disabled={isCreatingTag || !newTagName.trim()}
+						aria-label={$t('recipe.tags.swatchColors.' + swatch.name)}
+						aria-pressed={newTagColor === swatch.value}
+						onclick={() => (newTagColor = swatch.value)}
+						class="focus-ring flex h-[38px] w-[38px] items-center justify-center border-2 border-ink {SWATCH_BG_CLASS[
+							swatch.name
+						]} {newTagColor === swatch.value ? 'shadow-[inset_0_0_0_3px_var(--color-ink)]' : ''}"
 					>
-						{isCreatingTag ? $t('recipe.tags.adding') : $t('common.actions.add')}
+						{#if newTagColor === swatch.value}
+							<Check size={16} class="text-ink" strokeWidth={3} />
+						{/if}
 					</button>
-					<button
-						type="button"
-						onclick={() => {
-							showCustomTag = false;
-							newTagName = '';
-						}}
-						class="btn preset-tonal-surface"
-						disabled={isCreatingTag}
-					>
-						{$t('common.actions.cancel')}
-					</button>
-				</div>
+				{/each}
 			</div>
-		{/if}
+		</div>
+
+		<button
+			type="button"
+			onclick={addCustomTag}
+			disabled={isCreatingTag || !newTagName.trim()}
+			class="focus-ring self-start border-2 border-ink offset-teal bg-white px-[15px] py-[11px] text-[13px] font-black uppercase text-ink disabled:opacity-[.45]"
+		>
+			{isCreatingTag ? $t('recipe.tags.adding') : $t('recipe.tags.addCategory')}
+		</button>
+
+		<p class="text-xs font-semibold text-muted">{$t('recipe.tags.newCategoryHint')}</p>
 	</div>
 </div>

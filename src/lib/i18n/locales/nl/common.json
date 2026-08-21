@@ -1,4 +1,5 @@
 {
+	"required": "Verplicht",
 	"app": {
 		"name": "Meal Matrix",
 		"loading": "Laden...",
@@ -6,7 +7,8 @@
 	},
 	"nav": {
 		"signOut": "Uitloggen",
-		"user": "Gebruiker"
+		"user": "Gebruiker",
+		"account": "Account"
 	},
 	"actions": {
 		"add": "Toevoegen",

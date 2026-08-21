@@ -15,47 +15,45 @@
 	let { ingredient = $bindable(), index, placeholder, errors, canDelete, onremove }: Props = $props();
 </script>
 
-<div class="space-y-1">
-	<div class="flex gap-2">
-		<div class="flex-none w-32 sm:w-40">
-			<input
-				type="text"
-				bind:value={ingredient.amount}
-				{placeholder}
-				class="input rounded-lg w-full"
-				class:!border-error-500={errors?.amount}
-				class:!border-2={errors?.amount}
-			/>
-		</div>
-		<div class="flex-1">
-			<input
-				type="text"
-				bind:value={ingredient.name}
-				placeholder={$t('recipe.ingredients.name')}
-				class="input rounded-lg w-full"
-				class:!border-error-500={errors?.name}
-				class:!border-2={errors?.name}
-				required
-			/>
-		</div>
+<div class="flex flex-col gap-1">
+	<div class="flex gap-[9px]">
+		<input
+			type="text"
+			bind:value={ingredient.amount}
+			{placeholder}
+			aria-label={$t('recipe.ingredients.quantity')}
+			class="focus-ring w-[92px] flex-none border-2 bg-white px-2 py-[11px] text-sm font-black text-ink {errors?.amount
+				? 'border-accent'
+				: 'border-ink'}"
+		/>
+		<input
+			type="text"
+			bind:value={ingredient.name}
+			placeholder={$t('recipe.ingredients.name')}
+			aria-label={$t('recipe.ingredients.name')}
+			class="focus-ring flex-1 truncate border-2 bg-white px-3 py-[11px] text-sm font-semibold text-ink {errors?.name
+				? 'border-accent'
+				: 'border-ink'}"
+			required
+		/>
 		<button
 			type="button"
 			onclick={onremove}
-			class="btn btn-icon preset-tonal-error aspect-square p-2"
 			disabled={!canDelete}
+			aria-hidden={!canDelete}
+			tabindex={canDelete ? 0 : -1}
 			aria-label={$t('recipe.ingredients.remove')}
+			class="focus-ring flex h-[26px] w-[26px] flex-none items-center justify-center border-2 border-ink bg-white text-accent {canDelete
+				? ''
+				: 'invisible'}"
 		>
-			<Trash2 class="text-error-500" size={16} />
+			<Trash2 size={14} />
 		</button>
 	</div>
 	{#if errors?.amount || errors?.name}
-		<div class="text-error-500 text-sm ml-1">
-			{#if errors?.amount}
-				<span>{errors?.amount}</span>
-			{/if}
-			{#if errors?.name}
-				<span>{errors?.name}</span>
-			{/if}
+		<div class="ml-1 text-xs font-semibold text-accent">
+			{#if errors?.amount}<span>{errors?.amount}</span>{/if}
+			{#if errors?.name}<span>{errors?.name}</span>{/if}
 		</div>
 	{/if}
 </div>

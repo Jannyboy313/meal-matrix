@@ -8,7 +8,6 @@
 	let error = $state<string>('');
 
 	onMount(() => {
-		// Initialize the auth state listener when component mounts
 		initAuthListener();
 	});
 
@@ -41,45 +40,36 @@
 	}
 </script>
 
-<div class="flex flex-col items-center gap-4 p-6 card preset-tonal-primary rounded-lg">
+<div class="flex flex-col items-center gap-4 border-2 border-ink offset-accent bg-white p-6">
 	{#if $user === undefined}
-		<!-- Loading state -->
-		<div class="flex items-center gap-2">
-			<span class="text-sm">{$t('common.loading.authentication')}</span>
-		</div>
+		<span class="text-sm font-semibold text-ink">{$t('common.loading.authentication')}</span>
 	{:else if $user}
-		<!-- Logged in state -->
 		<div class="flex flex-col items-center gap-4">
 			{#if $user.photoURL}
-				<img
-					src={$user.photoURL}
-					alt={$user.displayName || $t('common.nav.user')}
-					class="w-16 h-16 rounded-full"
-				/>
+				<img src={$user.photoURL} alt={$user.displayName || $t('common.nav.user')} class="h-16 w-16 border-2 border-ink object-cover" />
 			{/if}
 			<div class="text-center">
-				<p class="text-lg font-semibold">{$user.displayName || $t('auth.anonymousUser')}</p>
-				<p class="text-sm opacity-75">{$user.email || ''}</p>
+				<p class="text-lg font-black text-ink">{$user.displayName || $t('auth.anonymousUser')}</p>
+				<p class="text-sm font-semibold text-muted">{$user.email || ''}</p>
 			</div>
 			<button
 				onclick={handleSignOut}
 				disabled={loading}
-				class="btn preset-filled-primary-500 rounded-lg"
+				class="focus-ring border-2 border-ink offset-ink bg-accent px-5 py-3 text-sm font-black uppercase tracking-wide text-white disabled:opacity-[.45]"
 			>
 				{loading ? $t('common.loading.authentication') : $t('auth.signOut')}
 			</button>
 		</div>
 	{:else}
-		<!-- Not logged in state -->
 		<div class="flex flex-col items-center gap-4">
-			<h2 class="text-xl font-bold">{$t('auth.title')}</h2>
-			<p class="text-sm opacity-75">{$t('auth.subtitle')}</p>
+			<h2 class="font-display text-xl font-black text-ink">{$t('auth.title')}</h2>
+			<p class="text-sm font-semibold text-muted">{$t('auth.subtitle')}</p>
 			<button
 				onclick={handleGoogleSignIn}
 				disabled={loading}
-				class="btn preset-filled-primary-500 rounded-lg flex items-center gap-2"
+				class="focus-ring flex items-center gap-2 border-2 border-ink offset-ink bg-accent px-5 py-3 text-sm font-black uppercase tracking-wide text-white disabled:opacity-[.45]"
 			>
-				<svg class="w-5 h-5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+				<svg class="h-5 w-5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
 					<path
 						fill="currentColor"
 						d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
@@ -103,8 +93,8 @@
 	{/if}
 
 	{#if error}
-		<div class="alert preset-filled-error-500 rounded-lg p-3 mt-2">
-			<p class="text-sm">{error}</p>
+		<div class="border-2 border-ink bg-accent p-3 text-white">
+			<p class="text-sm font-semibold">{error}</p>
 		</div>
 	{/if}
 </div>

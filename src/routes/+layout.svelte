@@ -1,28 +1,19 @@
 <script lang="ts">
 	import './layout.css';
-	import NavBar from '$lib/components/NavBar.svelte';
 	import PWAInstaller from '$lib/components/PWAInstaller.svelte';
 	import { initAuthListener } from '$lib/stores/auth';
-	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
 
 	let { children } = $props();
 
 	onMount(() => {
-		// Initialize the auth state listener when app loads
 		initAuthListener();
 	});
-
-	// Show navbar only on homepage
-	const showNavBar = $derived($page.url.pathname === '/');
 </script>
 
 <PWAInstaller />
 
-<div data-theme="cerberus" class="min-h-screen flex flex-col">
-	{#if showNavBar}
-		<NavBar />
-	{/if}
+<div class="flex min-h-dvh flex-col bg-paper text-ink">
 	<main class="flex-1">
 		{@render children()}
 	</main>

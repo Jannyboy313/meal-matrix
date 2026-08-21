@@ -8,10 +8,13 @@
 	let { message }: Props = $props();
 </script>
 
-<div class="min-h-screen flex items-center justify-center p-4">
-	<div class="card preset-filled-primary-500 rounded-xl p-8 text-center space-y-4 max-w-md">
-		<p class="text-lg text-error-500">{message}</p>
-		<a href="/" class="btn preset-filled-primary-500 rounded-lg">
+<div class="flex min-h-dvh items-center justify-center bg-paper p-6">
+	<div class="w-full max-w-md space-y-4 border-2 border-ink offset-accent bg-white p-8 text-center">
+		<p class="text-base font-semibold text-ink">{message}</p>
+		<a
+			href="/"
+			class="focus-ring inline-block border-2 border-ink offset-ink bg-accent px-5 py-3 text-sm font-black uppercase tracking-wide text-white"
+		>
 			{$t('common.actions.backToRecipes')}
 		</a>
 	</div>

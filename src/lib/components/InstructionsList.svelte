@@ -1,20 +1,34 @@
 <script lang="ts">
 	interface Props {
 		steps: string[];
+		completedSteps: Set<number>;
+		ontoggle: (index: number) => void;
 	}
 
-	let { steps }: Props = $props();
+	let { steps, completedSteps, ontoggle }: Props = $props();
 </script>
 
-<ol class="space-y-5 sm:space-y-6">
+<ol>
 	{#each steps as step, index}
-		<li class="flex gap-3 sm:gap-4">
-			<span
-				class="badge preset-filled-primary-500 shrink-0 w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center font-bold text-xs sm:text-sm"
+		{@const done = completedSteps.has(index)}
+		<li class="border-t border-ink">
+			<button
+				type="button"
+				onclick={() => ontoggle(index)}
+				aria-pressed={done}
+				class="focus-ring flex w-full items-start gap-[13px] py-[14px] text-left {done ? 'opacity-50' : ''}"
 			>
-				{index + 1}
-			</span>
-			<p class="pt-0.5 sm:pt-1 leading-relaxed text-sm sm:text-base">{step}</p>
+				<span
+					class="flex h-[30px] w-[30px] flex-none items-center justify-center border-2 border-ink text-[13px] font-black text-ink {done
+						? 'bg-teal'
+						: 'bg-white'}"
+				>
+					{done ? '✓' : index + 1}
+				</span>
+				<span class="text-base font-semibold leading-[1.4] text-ink {done ? 'line-through' : ''}">
+					{step}
+				</span>
+			</button>
 		</li>
 	{/each}
 </ol>

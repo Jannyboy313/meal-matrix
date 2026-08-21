@@ -9,13 +9,18 @@
 		"description": "Description",
 		"cookTime": "Cook Time",
 		"prepTime": "Prep Time",
+		"prepTimeShort": "Prep",
+		"cookTimeShort": "Cook",
 		"servings": "Servings",
 		"ingredients": "Ingredients",
 		"instructions": "Instructions",
 		"tags": "Tags",
+		"category": "Category",
 		"minutes": "minutes",
 		"imageUrl": "Image URL",
-		"imageUrlHint": "Leave empty for default image"
+		"imageUrlHint": "Leave empty for default image",
+		"imagePreviewAlt": "Preview",
+		"recipesCount": "recipes"
 	},
 	"placeholders": {
 		"name": "e.g., Spaghetti Carbonara",
@@ -26,6 +31,16 @@
 		"imageUrl": "https://example.com/image.jpg",
 		"ingredientAmount": "Amount (e.g., 200g)"
 	},
+	"cook": {
+		"progress": "{{done}} of {{total}} done"
+	},
+	"wizard": {
+		"stepOf": "Step {{step}} of {{total}} · {{name}}",
+		"discardTitle": "Unsaved changes",
+		"discardBody": "If you close now, what you've filled in will be lost.",
+		"discardCancel": "Keep editing",
+		"discardConfirm": "Discard and close"
+	},
 	"actions": {
 		"addRecipe": "Add Recipe",
 		"editRecipe": "Edit Recipe",
@@ -34,7 +49,8 @@
 		"createRecipe": "Create Recipe",
 		"updateRecipe": "Update Recipe",
 		"creating": "Creating...",
-		"updating": "Updating..."
+		"updating": "Updating...",
+		"startCooking": "Start cooking"
 	},
 	"steps": {
 		"basicInfo": "Basic Information",
@@ -46,7 +62,7 @@
 		"finish": "Finish"
 	},
 	"ingredients": {
-		"add": "Add Ingredient",
+		"addLine": "Add line",
 		"quantity": "Quantity",
 		"unit": "Unit",
 		"name": "Ingredient Name",
@@ -58,20 +74,26 @@
 		"step": "Step",
 		"description": "Describe this step...",
 		"describeSteps": "Describe each step clearly",
-		"removeStep": "Remove step"
+		"removeStep": "Remove step",
+		"oneActionHint": "One action per step reads best while cooking."
 	},
 	"tags": {
-		"selected": "Selected",
-		"chooseExisting": "Choose from existing tags",
-		"createCustom": "Create Custom Tag",
-		"createCustomLabel": "Create custom tag",
 		"namePlaceholder": "Tag name",
 		"adding": "Adding...",
-		"remove": "Remove tag",
-		"createError": "Failed to create tag. Please try again."
+		"createError": "Failed to create tag. Please try again.",
+		"newCategory": "New category",
+		"colorLabel": "Color",
+		"addCategory": "Add category",
+		"newCategoryHint": "New categories also become available as a filter on the overview.",
+		"swatchColors": {
+			"accent": "Orange",
+			"yellow": "Yellow",
+			"teal": "Teal",
+			"violet": "Violet"
+		}
 	},
 	"servings": {
-		"label": "Serving sizes",
+		"label": "How many servings",
 		"edit": "Edit",
 		"done": "Done",
 		"addServing": "Add serving size",
@@ -90,6 +112,8 @@
 		"fillAllIngredients": "Please fill in all ingredient names",
 		"fillAllSteps": "Please fill in all steps",
 		"mustBeLoggedIn": "You must be logged in to create a recipe",
-		"saveFailed": "Failed to save recipe. Please try again."
+		"saveFailed": "Failed to save recipe. Please try again.",
+		"recipeNotFound": "Recipe not found",
+		"recipeLoadFailed": "Failed to load recipe"
 	}
 }
