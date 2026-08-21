@@ -11,12 +11,19 @@
 </script>
 
 <div class="flex flex-col gap-[10px]">
-	<div class="grid grid-cols-4 gap-[6px]">
+	<div
+		class="grid grid-cols-4 gap-[6px]"
+		role="progressbar"
+		aria-valuenow={currentStep}
+		aria-valuemin={1}
+		aria-valuemax={totalSteps}
+		aria-labelledby="wizard-progress-label"
+	>
 		{#each Array(totalSteps) as _, i}
 			<span class="h-2 border-2 border-ink {i < currentStep ? 'bg-accent' : 'bg-transparent'}"></span>
 		{/each}
 	</div>
-	<p class="text-[11px] font-black uppercase tracking-[0.1em] text-muted">
+	<p id="wizard-progress-label" class="text-[11px] font-black uppercase tracking-[0.1em] text-muted">
 		{$t('recipe.wizard.stepOf', {
 			step: currentStep,
 			total: totalSteps,

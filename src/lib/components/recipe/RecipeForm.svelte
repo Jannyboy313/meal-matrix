@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
+	import { browser } from '$app/environment';
 	import type { Tag, Ingredient, RecipeFormData } from '$lib';
 	import { createRecipe, updateRecipe } from '$lib/services/recipeService';
 	import { user } from '$lib/stores/auth';
@@ -51,6 +52,9 @@
 	let error = $state<string>('');
 	let isInitialized = $state<boolean>(false);
 	let showCloseConfirm = $state<boolean>(false);
+	let initialSnapshot = $state<string>('');
+	let closeButton: HTMLButtonElement | undefined = $state();
+	let discardCancelButton: HTMLButtonElement | undefined = $state();
 
 	// Field-level errors
 	let titleError = $state<string>('');
@@ -109,6 +113,7 @@
 			}
 		}
 
+		initialSnapshot = JSON.stringify({ title, description, image, prepTime, cookTime, tags, steps, ingredients });
 		isInitialized = true;
 	});
 
@@ -293,16 +298,8 @@
 	}
 
 	function isDirty(): boolean {
-		return Boolean(
-			title ||
-				description ||
-				image ||
-				prepTime ||
-				cookTime ||
-				tags.length ||
-				steps.some((step) => step.trim()) ||
-				Object.values(ingredients).some((list) => list.some((ing) => ing.name.trim() || ing.amount.trim()))
-		);
+		const current = JSON.stringify({ title, description, image, prepTime, cookTime, tags, steps, ingredients });
+		return current !== initialSnapshot;
 	}
 
 	function requestClose() {
@@ -351,6 +348,24 @@
 		}
 		currentStep; // dependency
 	});
+
+	function handleDiscardDialogKeydown(event: KeyboardEvent) {
+		if (event.key === 'Escape') {
+			showCloseConfirm = false;
+		}
+	}
+
+	// Manage focus and Escape-to-close for the discard-confirmation dialog
+	$effect(() => {
+		if (browser && showCloseConfirm) {
+			document.addEventListener('keydown', handleDiscardDialogKeydown);
+			discardCancelButton?.focus();
+			return () => {
+				document.removeEventListener('keydown', handleDiscardDialogKeydown);
+				closeButton?.focus();
+			};
+		}
+	});
 </script>
 
 <div class="flex items-center justify-between px-[22px] pt-12">
@@ -359,6 +374,7 @@
 	</span>
 	<button
 		type="button"
+		bind:this={closeButton}
 		onclick={requestClose}
 		aria-label={$t('common.actions.cancel')}
 		class="focus-ring flex h-[34px] w-[34px] items-center justify-center border-2 border-ink text-ink"
@@ -472,12 +488,18 @@
 
 {#if showCloseConfirm}
 	<div class="fixed inset-0 z-50 flex items-center justify-center bg-ink/40 px-[22px]">
-		<div class="w-full max-w-sm border-2 border-ink offset-ink bg-white p-6">
-			<p class="text-base font-semibold text-ink">{$t('recipe.wizard.discardTitle')}</p>
+		<div
+			class="w-full max-w-sm border-2 border-ink offset-ink bg-white p-6"
+			role="dialog"
+			aria-modal="true"
+			aria-labelledby="discard-dialog-title"
+		>
+			<p id="discard-dialog-title" class="text-base font-semibold text-ink">{$t('recipe.wizard.discardTitle')}</p>
 			<p class="mt-2 text-sm text-muted">{$t('recipe.wizard.discardBody')}</p>
 			<div class="mt-5 flex gap-[10px]">
 				<button
 					type="button"
+					bind:this={discardCancelButton}
 					onclick={() => (showCloseConfirm = false)}
 					class="focus-ring flex-1 border-2 border-ink bg-white py-3 text-sm font-black uppercase text-ink"
 				>
