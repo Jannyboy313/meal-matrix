@@ -75,7 +75,8 @@
 		"step": "Stap",
 		"description": "Beschrijf deze stap...",
 		"describeSteps": "Beschrijf elke stap duidelijk",
-		"removeStep": "Stap verwijderen"
+		"removeStep": "Stap verwijderen",
+		"oneActionHint": "Eén handeling per stap leest het best tijdens het koken."
 	},
 	"tags": {
 		"namePlaceholder": "Tag naam",

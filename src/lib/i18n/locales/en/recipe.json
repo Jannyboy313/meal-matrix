@@ -75,7 +75,8 @@
 		"step": "Step",
 		"description": "Describe this step...",
 		"describeSteps": "Describe each step clearly",
-		"removeStep": "Remove step"
+		"removeStep": "Remove step",
+		"oneActionHint": "One action per step reads best while cooking."
 	},
 	"tags": {
 		"namePlaceholder": "Tag name",
