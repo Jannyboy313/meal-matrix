@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Plus, X } from 'lucide-svelte';
+	import { X } from 'lucide-svelte';
 	import { t } from '$lib/i18n';
 
 	interface Props {
