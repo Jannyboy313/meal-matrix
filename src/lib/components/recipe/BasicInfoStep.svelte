@@ -18,14 +18,22 @@
 		cookTime = $bindable(),
 		titleError
 	}: Props = $props();
+
+	let imageLoadError = $state(false);
+
+	$effect(() => {
+		image;
+		imageLoadError = false;
+	});
 </script>
 
 <div class="flex flex-col gap-[18px]">
 	<div class="flex flex-col gap-[7px]">
-		<span class="text-xs font-black uppercase tracking-[0.08em] text-ink">
+		<label for="recipe-title" class="text-xs font-black uppercase tracking-[0.08em] text-ink">
 			{$t('recipe.labels.name')} <span class="text-accent">{$t('common.required')}</span>
-		</span>
+		</label>
 		<input
+			id="recipe-title"
 			type="text"
 			bind:value={title}
 			placeholder={$t('recipe.placeholders.name')}
@@ -40,8 +48,11 @@
 	</div>
 
 	<div class="flex flex-col gap-[7px]">
-		<span class="text-xs font-black uppercase tracking-[0.08em] text-ink">{$t('recipe.labels.description')}</span>
+		<label for="recipe-description" class="text-xs font-black uppercase tracking-[0.08em] text-ink"
+			>{$t('recipe.labels.description')}</label
+		>
 		<textarea
+			id="recipe-description"
 			bind:value={description}
 			placeholder={$t('recipe.placeholders.description')}
 			rows="3"
@@ -50,8 +61,11 @@
 	</div>
 
 	<div class="flex flex-col gap-[7px]">
-		<span class="text-xs font-black uppercase tracking-[0.08em] text-ink">{$t('recipe.labels.imageUrl')}</span>
+		<label for="recipe-image" class="text-xs font-black uppercase tracking-[0.08em] text-ink"
+			>{$t('recipe.labels.imageUrl')}</label
+		>
 		<input
+			id="recipe-image"
 			type="url"
 			bind:value={image}
 			placeholder={$t('recipe.placeholders.imageUrl')}
@@ -60,24 +74,24 @@
 		<p class="text-xs font-semibold text-muted">{$t('recipe.labels.imageUrlHint')}</p>
 	</div>
 
-	{#if image}
+	{#if image && !imageLoadError}
 		<div class="max-h-48 overflow-hidden border-2 border-ink">
 			<img
 				src={image}
-				alt="Voorbeeld"
+				alt={$t('recipe.labels.imagePreviewAlt')}
 				class="h-48 w-full object-cover"
-				onerror={(e) => {
-					const target = e.target as HTMLImageElement;
-					target.style.display = 'none';
-				}}
+				onerror={() => (imageLoadError = true)}
 			/>
 		</div>
 	{/if}
 
 	<div class="flex gap-3">
 		<div class="flex flex-1 flex-col gap-[7px]">
-			<span class="text-xs font-black uppercase tracking-[0.08em] text-ink">{$t('recipe.labels.prepTime')}</span>
+			<label for="recipe-prep-time" class="text-xs font-black uppercase tracking-[0.08em] text-ink"
+				>{$t('recipe.labels.prepTime')}</label
+			>
 			<input
+				id="recipe-prep-time"
 				type="text"
 				bind:value={prepTime}
 				placeholder={$t('recipe.placeholders.prepTime')}
@@ -85,8 +99,11 @@
 			/>
 		</div>
 		<div class="flex flex-1 flex-col gap-[7px]">
-			<span class="text-xs font-black uppercase tracking-[0.08em] text-ink">{$t('recipe.labels.cookTime')}</span>
+			<label for="recipe-cook-time" class="text-xs font-black uppercase tracking-[0.08em] text-ink"
+				>{$t('recipe.labels.cookTime')}</label
+			>
 			<input
+				id="recipe-cook-time"
 				type="text"
 				bind:value={cookTime}
 				placeholder={$t('recipe.placeholders.cookTime')}

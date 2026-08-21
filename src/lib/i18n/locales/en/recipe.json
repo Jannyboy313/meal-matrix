@@ -18,6 +18,7 @@
 		"minutes": "minutes",
 		"imageUrl": "Image URL",
 		"imageUrlHint": "Leave empty for default image",
+		"imagePreviewAlt": "Preview",
 		"recipesCount": "recipes"
 	},
 	"placeholders": {

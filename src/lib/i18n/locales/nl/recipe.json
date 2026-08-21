@@ -18,6 +18,7 @@
 		"minutes": "minuten",
 		"imageUrl": "Afbeelding URL",
 		"imageUrlHint": "Laat leeg voor standaard afbeelding",
+		"imagePreviewAlt": "Voorbeeld",
 		"recipesCount": "recepten"
 	},
 	"placeholders": {
