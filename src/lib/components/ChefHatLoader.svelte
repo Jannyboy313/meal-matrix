@@ -15,16 +15,16 @@
 
 <div class="flex flex-col items-center justify-center gap-0" role="status" aria-live="polite">
 	<div class="animate-hat-bounce">
-		<ChefHat size={iconSize} class="text-primary-500" strokeWidth={1.5} />
+		<ChefHat size={iconSize} class="text-accent" strokeWidth={1.5} />
 	</div>
 
 	<!-- Moving bars below the hat -->
 	<div class="flex items-end justify-center gap-1">
-		<div class="w-1 h-4 bg-primary-500 rounded-full animate-bar-1"></div>
-		<div class="w-1 h-4 bg-primary-500 rounded-full animate-bar-2"></div>
-		<div class="w-1 h-4 bg-primary-500 rounded-full animate-bar-3"></div>
-		<div class="w-1 h-4 bg-primary-500 rounded-full animate-bar-4"></div>
-		<div class="w-1 h-4 bg-primary-500 rounded-full animate-bar-5"></div>
+		<div class="w-1 h-4 bg-accent rounded-full animate-bar-1"></div>
+		<div class="w-1 h-4 bg-accent rounded-full animate-bar-2"></div>
+		<div class="w-1 h-4 bg-accent rounded-full animate-bar-3"></div>
+		<div class="w-1 h-4 bg-accent rounded-full animate-bar-4"></div>
+		<div class="w-1 h-4 bg-accent rounded-full animate-bar-5"></div>
 	</div>
 
 	<span class="sr-only">{label}</span>
