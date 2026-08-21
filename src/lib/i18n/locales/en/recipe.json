@@ -63,7 +63,6 @@
 		"finish": "Finish"
 	},
 	"ingredients": {
-		"add": "Add Ingredient",
 		"addLine": "Add line",
 		"quantity": "Quantity",
 		"unit": "Unit",

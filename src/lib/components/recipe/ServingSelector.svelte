@@ -147,7 +147,8 @@
 			type="button"
 			onclick={handleAddClick}
 			aria-label={$t('recipe.servings.addServing')}
-			aria-pressed={isAddingNew}
+			aria-expanded={isAddingNew}
+			aria-controls="serving-editor"
 			class="focus-ring flex h-[44px] w-[44px] flex-none items-center justify-center border-2 border-dashed border-ink text-ink {isAddingNew
 				? 'border-solid bg-accent text-white'
 				: 'bg-white'}"
@@ -157,7 +158,7 @@
 	</div>
 
 	{#if editingServing !== null || isAddingNew}
-		<div class="flex items-center gap-2">
+		<div id="serving-editor" class="flex items-center gap-2">
 			<input
 				type="number"
 				bind:value={editValue}

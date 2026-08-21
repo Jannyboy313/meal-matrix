@@ -36,16 +36,19 @@
 				: 'border-ink'}"
 			required
 		/>
-		{#if canDelete}
-			<button
-				type="button"
-				onclick={onremove}
-				aria-label={$t('recipe.ingredients.remove')}
-				class="focus-ring flex h-[26px] w-[26px] flex-none items-center justify-center border-2 border-ink bg-white text-accent"
-			>
-				<Trash2 size={14} />
-			</button>
-		{/if}
+		<button
+			type="button"
+			onclick={onremove}
+			disabled={!canDelete}
+			aria-hidden={!canDelete}
+			tabindex={canDelete ? 0 : -1}
+			aria-label={$t('recipe.ingredients.remove')}
+			class="focus-ring flex h-[26px] w-[26px] flex-none items-center justify-center border-2 border-ink bg-white text-accent {canDelete
+				? ''
+				: 'invisible'}"
+		>
+			<Trash2 size={14} />
+		</button>
 	</div>
 	{#if errors?.amount || errors?.name}
 		<div class="ml-1 text-xs font-semibold text-accent">
