@@ -13,7 +13,7 @@
 	let { id, title, image, category, time, shadowIndex }: Props = $props();
 
 	const SHADOW_ROTATION = ['offset-accent', 'offset-teal', 'offset-violet', 'offset-yellow'];
-	const shadowClass = SHADOW_ROTATION[shadowIndex % SHADOW_ROTATION.length];
+	const shadowClass = $derived(SHADOW_ROTATION[shadowIndex % SHADOW_ROTATION.length]);
 </script>
 
 <a href="/recipes/{id}" class="focus-ring block">
