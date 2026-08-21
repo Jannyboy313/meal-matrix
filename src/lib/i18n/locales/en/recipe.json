@@ -78,18 +78,19 @@
 		"removeStep": "Remove step"
 	},
 	"tags": {
-		"selected": "Selected",
-		"chooseExisting": "Choose from existing tags",
-		"createCustom": "Create Custom Tag",
-		"createCustomLabel": "Create custom tag",
 		"namePlaceholder": "Tag name",
 		"adding": "Adding...",
-		"remove": "Remove tag",
 		"createError": "Failed to create tag. Please try again.",
 		"newCategory": "New category",
 		"colorLabel": "Color",
 		"addCategory": "Add category",
-		"newCategoryHint": "New categories also become available as a filter on the overview."
+		"newCategoryHint": "New categories also become available as a filter on the overview.",
+		"swatchColors": {
+			"accent": "Orange",
+			"yellow": "Yellow",
+			"teal": "Teal",
+			"violet": "Violet"
+		}
 	},
 	"servings": {
 		"label": "Serving sizes",

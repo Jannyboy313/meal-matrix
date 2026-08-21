@@ -78,18 +78,19 @@
 		"removeStep": "Stap verwijderen"
 	},
 	"tags": {
-		"selected": "Geselecteerd",
-		"chooseExisting": "Kies uit bestaande tags",
-		"createCustom": "Aangepaste Tag Maken",
-		"createCustomLabel": "Aangepaste tag maken",
 		"namePlaceholder": "Tag naam",
 		"adding": "Toevoegen...",
-		"remove": "Tag verwijderen",
 		"createError": "Tag maken mislukt. Probeer het opnieuw.",
 		"newCategory": "Nieuwe categorie",
 		"colorLabel": "Kleur",
 		"addCategory": "Categorie toevoegen",
-		"newCategoryHint": "Nieuwe categorieën komen ook in het filter op het overzicht."
+		"newCategoryHint": "Nieuwe categorieën komen ook in het filter op het overzicht.",
+		"swatchColors": {
+			"accent": "Oranje",
+			"yellow": "Geel",
+			"teal": "Teal",
+			"violet": "Paars"
+		}
 	},
 	"servings": {
 		"label": "Portiegroottes",
