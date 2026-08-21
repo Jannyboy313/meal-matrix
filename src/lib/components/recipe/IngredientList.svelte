@@ -26,14 +26,12 @@
 		const sortedServings = [...servings].sort((a, b) => a - b);
 		const currentIndex = sortedServings.indexOf(currentServing);
 
-		// Try to find amount from serving above
 		for (let i = currentIndex + 1; i < sortedServings.length; i++) {
 			const serving = sortedServings[i];
 			const amount = ingredients[serving]?.[ingredientIndex]?.amount;
 			if (amount) return amount;
 		}
 
-		// Try to find amount from serving below
 		for (let i = currentIndex - 1; i >= 0; i--) {
 			const serving = sortedServings[i];
 			const amount = ingredients[serving]?.[ingredientIndex]?.amount;
@@ -47,14 +45,13 @@
 	const canDelete = $derived(currentIngredients.length > 1);
 </script>
 
-<div class="space-y-3">
-	<p class="text-sm opacity-75">
-		Ingredients for <span class="font-semibold text-primary-500"
-			>{currentServing} serving{currentServing !== 1 ? 's' : ''}</span
-		>
-	</p>
+<div class="flex flex-col gap-3">
+	<div class="flex gap-[9px] text-[10px] font-black uppercase tracking-[0.08em] text-muted">
+		<span class="w-[92px] flex-none">{$t('recipe.ingredients.quantity')}</span>
+		<span>{$t('recipe.ingredients.name')}</span>
+	</div>
 
-	{#each currentIngredients as ingredient, i}
+	{#each currentIngredients as ingredient, i (i)}
 		<IngredientInput
 			bind:ingredient={ingredients[currentServing][i]}
 			index={i}
@@ -64,9 +61,12 @@
 			onremove={() => onremoveingredient(i)}
 		/>
 	{/each}
-</div>
 
-<button type="button" onclick={onaddingredient} class="btn preset-tonal-primary w-full">
-	<Plus size={20} class="mr-2" />
-	{$t('recipe.ingredients.add')}
-</button>
+	<button
+		type="button"
+		onclick={onaddingredient}
+		class="focus-ring self-start border-2 border-ink offset-teal bg-white px-[15px] py-[11px] text-[13px] font-black uppercase text-ink"
+	>
+		+ {$t('recipe.ingredients.addLine')}
+	</button>
+</div>

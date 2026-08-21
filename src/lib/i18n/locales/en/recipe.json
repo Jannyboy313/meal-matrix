@@ -64,6 +64,7 @@
 	},
 	"ingredients": {
 		"add": "Add Ingredient",
+		"addLine": "Add line",
 		"quantity": "Quantity",
 		"unit": "Unit",
 		"name": "Ingredient Name",
@@ -93,7 +94,7 @@
 		}
 	},
 	"servings": {
-		"label": "Serving sizes",
+		"label": "How many servings",
 		"edit": "Edit",
 		"done": "Done",
 		"addServing": "Add serving size",

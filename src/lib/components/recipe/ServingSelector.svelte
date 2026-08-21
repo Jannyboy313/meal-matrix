@@ -116,73 +116,70 @@
 	}
 </script>
 
-<div class="space-y-3">
+<div class="flex flex-col gap-3">
 	<div class="flex items-center justify-between">
-		<p class="text-sm font-semibold opacity-75">{$t('recipe.servings.label')}:</p>
+		<span class="text-xs font-black uppercase tracking-[0.08em] text-ink">{$t('recipe.servings.label')}</span>
 		<button
 			type="button"
 			onclick={toggleEditMode}
-			class="btn btn-sm preset-tonal-primary rounded-full"
+			class="focus-ring border-2 border-ink offset-yellow bg-white px-3 py-1 text-[11px] font-black uppercase text-ink"
 		>
 			{editMode ? $t('recipe.servings.done') : $t('recipe.servings.edit')}
 		</button>
 	</div>
 
-	<div class="flex flex-wrap gap-2 items-start">
-		{#each servings as serving}
+	<div class="flex flex-wrap items-stretch gap-2">
+		{#each servings as serving (serving)}
+			{@const active = editMode ? editingServing === serving : currentServing === serving}
 			<button
 				type="button"
 				onclick={() => handleServingClick(serving)}
-				class="badge rounded-full w-12 h-12 font-semibold text-sm transition-all"
-				class:preset-filled-primary-500={editMode ? editingServing === serving : currentServing === serving}
-				class:preset-tonal-primary={editMode
-					? editingServing !== serving
-					: currentServing !== serving}
-				class:hover:preset-filled-primary-500={!editMode && currentServing !== serving}
+				aria-pressed={active}
+				class="focus-ring min-w-[44px] flex-none border-2 border-ink px-2 py-[9px] text-sm font-black {active
+					? 'bg-accent text-white'
+					: 'bg-white text-ink'}"
 			>
 				{serving}
 			</button>
 		{/each}
 
-		<!-- Add New Serving Button -->
 		<button
 			type="button"
 			onclick={handleAddClick}
-			class="rounded-full w-12 h-12 transition-all flex items-center justify-center"
-			class:bg-primary-500={isAddingNew}
-			class:text-white={isAddingNew}
-			class:preset-tonal-primary={!isAddingNew}
-			class:hover:preset-filled-primary-500={!isAddingNew}
 			aria-label={$t('recipe.servings.addServing')}
+			aria-pressed={isAddingNew}
+			class="focus-ring flex h-[44px] w-[44px] flex-none items-center justify-center border-2 border-dashed border-ink text-ink {isAddingNew
+				? 'border-solid bg-accent text-white'
+				: 'bg-white'}"
 		>
-			<Plus size={24} />
+			<Plus size={20} />
 		</button>
 	</div>
 
-	<!-- Fixed position input field -->
 	{#if editingServing !== null || isAddingNew}
-		<div class="flex gap-1 items-center justify-center pt-2">
+		<div class="flex items-center gap-2">
 			<input
 				type="number"
 				bind:value={editValue}
 				placeholder={$t('recipe.servings.placeholder')}
 				min="1"
-				class="input rounded-lg w-16 h-8 text-center text-sm"
+				aria-label={$t('recipe.servings.placeholder')}
+				class="focus-ring h-9 w-16 border-2 border-ink bg-white text-center text-sm font-bold text-ink"
 				onkeydown={handleKeydown}
 			/>
 			<button
 				type="button"
 				onclick={confirmAction}
-				class="btn btn-icon btn-sm preset-filled-primary-500 rounded-full w-8! h-8!"
 				aria-label={$t('recipe.servings.confirm')}
+				class="focus-ring flex h-9 w-9 items-center justify-center border-2 border-ink offset-teal bg-white text-ink"
 			>
 				<X size={14} class="rotate-45" />
 			</button>
 			<button
 				type="button"
 				onclick={cancelAction}
-				class="btn btn-icon btn-sm preset-outlined-primary-500 rounded-full w-8! h-8!"
 				aria-label={$t('common.actions.cancel')}
+				class="focus-ring flex h-9 w-9 items-center justify-center border-2 border-ink bg-white text-ink"
 			>
 				<X size={14} />
 			</button>
@@ -190,8 +187,8 @@
 				<button
 					type="button"
 					onclick={deleteServing}
-					class="btn btn-icon btn-sm preset-filled-error-500 rounded-full w-8! h-8!"
 					aria-label={$t('recipe.servings.deleteServing')}
+					class="focus-ring flex h-9 w-9 items-center justify-center border-2 border-ink offset-accent bg-white text-ink"
 				>
 					<Trash2 size={14} />
 				</button>
