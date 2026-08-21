@@ -73,7 +73,7 @@
 		type="button"
 		bind:this={triggerButton}
 		onclick={toggle}
-		aria-label="Account"
+		aria-label={$t('common.nav.account')}
 		aria-haspopup="menu"
 		aria-expanded={isOpen}
 		class="focus-ring flex h-9 w-9 items-center justify-center border-2 border-ink offset-violet bg-white font-display text-xs font-extrabold text-ink"

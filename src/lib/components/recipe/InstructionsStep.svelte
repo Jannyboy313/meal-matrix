@@ -38,6 +38,8 @@
 					type="button"
 					onclick={() => onremovestep(i)}
 					disabled={steps.length === 1}
+					aria-hidden={steps.length === 1}
+					tabindex={steps.length === 1 ? -1 : 0}
 					aria-label={$t('recipe.instructions.removeStep')}
 					class="focus-ring flex h-9 w-9 flex-none items-center justify-center self-start border-2 border-ink bg-white text-accent disabled:opacity-[.45]"
 				>

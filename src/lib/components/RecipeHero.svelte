@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { ArrowLeft, Pencil } from 'lucide-svelte';
 	import type { Tag } from '$lib';
+	import { t } from '$lib/i18n';
 
 	interface Props {
 		recipeId: string;
@@ -18,14 +19,14 @@
 	<div class="absolute left-[22px] right-[22px] top-12 flex justify-between">
 		<a
 			href="/"
-			aria-label="Terug naar recepten"
+			aria-label={$t('common.actions.backToRecipes')}
 			class="focus-ring flex h-[38px] w-[38px] items-center justify-center border-2 border-ink offset-yellow bg-white"
 		>
 			<ArrowLeft size={18} class="text-ink" strokeWidth={2.5} />
 		</a>
 		<a
 			href="/recipes/{recipeId}/edit"
-			aria-label="Recept bewerken"
+			aria-label={$t('recipe.actions.editRecipe')}
 			class="focus-ring flex h-[38px] w-[38px] items-center justify-center border-2 border-ink offset-accent bg-white"
 		>
 			<Pencil size={18} class="text-ink" strokeWidth={2.5} />

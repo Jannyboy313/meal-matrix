@@ -88,10 +88,11 @@
 		<div class="flex-1 px-[22px] pt-5">
 			<span class="text-xs font-black uppercase tracking-[0.08em] text-ink">{$t('recipe.servings.label')}</span>
 			<div class="mt-2 flex items-stretch gap-2">
-				{#each availableServings as serving}
+				{#each availableServings as serving (serving)}
 					<button
 						type="button"
 						onclick={() => (selectedServings = serving)}
+						aria-pressed={selectedServings === serving}
 						class="focus-ring min-w-[44px] flex-none border-2 border-ink px-2 py-[9px] text-sm font-black {selectedServings ===
 						serving
 							? 'bg-accent text-white'

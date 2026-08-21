@@ -7,7 +7,8 @@
 	},
 	"nav": {
 		"signOut": "Sign Out",
-		"user": "User"
+		"user": "User",
+		"account": "Account"
 	},
 	"actions": {
 		"add": "Add",
