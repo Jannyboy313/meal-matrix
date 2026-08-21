@@ -50,7 +50,6 @@
 		"updateRecipe": "Update Recipe",
 		"creating": "Creating...",
 		"updating": "Updating...",
-		"viewList": "List",
 		"startCooking": "Start cooking"
 	},
 	"steps": {
@@ -115,7 +114,6 @@
 		"mustBeLoggedIn": "You must be logged in to create a recipe",
 		"saveFailed": "Failed to save recipe. Please try again.",
 		"recipeNotFound": "Recipe not found",
-		"recipeLoadFailed": "Failed to load recipe",
-		"servingsNotAvailable": "This serving size isn't available for this recipe."
+		"recipeLoadFailed": "Failed to load recipe"
 	}
 }

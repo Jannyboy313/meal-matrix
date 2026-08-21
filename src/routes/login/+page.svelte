@@ -27,7 +27,7 @@
 	<title>Login - Meal Matrix</title>
 </svelte:head>
 
-<div class="min-h-screen flex items-center justify-center p-4">
+<div class="min-h-dvh flex items-center justify-center p-4">
 	<div class="w-full max-w-md">
 		<Login />
 	</div>

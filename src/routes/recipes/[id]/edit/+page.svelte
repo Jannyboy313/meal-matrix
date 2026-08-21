@@ -63,13 +63,13 @@
 </svelte:head>
 
 {#if loading}
-	<div class="flex min-h-screen items-center justify-center bg-paper">
+	<div class="flex min-h-dvh items-center justify-center bg-paper">
 		<ChefHatLoader size="lg" label={$t('common.loading.recipes')} />
 	</div>
 {:else if error}
 	<ErrorDisplay message={error} />
 {:else if recipe && initialData}
-	<div class="min-h-screen bg-paper">
+	<div class="min-h-dvh bg-paper">
 		<RecipeForm
 			{availableTags}
 			storageKey={`recipe-edit-${data.recipeId}`}

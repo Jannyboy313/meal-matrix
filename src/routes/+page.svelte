@@ -70,7 +70,7 @@
 	<title>{$t('common.app.name')}</title>
 </svelte:head>
 
-<div class="min-h-screen bg-paper pb-28">
+<div class="min-h-dvh bg-paper pb-28">
 	<header class="flex items-start justify-between px-[22px] pb-[18px] pt-3">
 		<div class="flex flex-col gap-0.5">
 			<span class="font-display text-[22px] font-black leading-none tracking-[-0.04em] text-ink">

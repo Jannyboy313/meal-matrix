@@ -27,11 +27,11 @@
 </svelte:head>
 
 {#if loading}
-	<div class="flex min-h-screen items-center justify-center bg-paper">
+	<div class="flex min-h-dvh items-center justify-center bg-paper">
 		<ChefHatLoader size="lg" label={$t('common.loading.tags')} />
 	</div>
 {:else}
-	<div class="min-h-screen bg-paper">
+	<div class="min-h-dvh bg-paper">
 		<RecipeForm {availableTags} storageKey="recipe-draft" submitErrorMessage={$t('recipe.validation.saveFailed')} />
 	</div>
 {/if}

@@ -50,7 +50,6 @@
 		"updateRecipe": "Recept Bijwerken",
 		"creating": "Aanmaken...",
 		"updating": "Bijwerken...",
-		"viewList": "Lijst",
 		"startCooking": "Begin met koken"
 	},
 	"steps": {
@@ -115,7 +114,6 @@
 		"mustBeLoggedIn": "Je moet ingelogd zijn om een recept aan te maken",
 		"saveFailed": "Recept opslaan mislukt. Probeer het opnieuw.",
 		"recipeNotFound": "Recept niet gevonden",
-		"recipeLoadFailed": "Recept laden mislukt",
-		"servingsNotAvailable": "Deze portiegrootte is niet beschikbaar voor dit recept."
+		"recipeLoadFailed": "Recept laden mislukt"
 	}
 }

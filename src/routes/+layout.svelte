@@ -13,7 +13,7 @@
 
 <PWAInstaller />
 
-<div class="flex min-h-screen flex-col bg-paper text-ink">
+<div class="flex min-h-dvh flex-col bg-paper text-ink">
 	<main class="flex-1">
 		{@render children()}
 	</main>

@@ -95,7 +95,7 @@
 				type="text"
 				bind:value={prepTime}
 				placeholder={$t('recipe.placeholders.prepTime')}
-				class="focus-ring border-2 border-ink bg-white px-[14px] py-[13px] text-[15px] font-semibold text-ink"
+				class="focus-ring w-full border-2 border-ink bg-white px-[14px] py-[13px] text-[15px] font-semibold text-ink"
 			/>
 		</div>
 		<div class="flex flex-1 flex-col gap-[7px]">
@@ -107,7 +107,7 @@
 				type="text"
 				bind:value={cookTime}
 				placeholder={$t('recipe.placeholders.cookTime')}
-				class="focus-ring border-2 border-ink bg-white px-[14px] py-[13px] text-[15px] font-semibold text-ink"
+				class="focus-ring w-full border-2 border-ink bg-white px-[14px] py-[13px] text-[15px] font-semibold text-ink"
 			/>
 		</div>
 	</div>

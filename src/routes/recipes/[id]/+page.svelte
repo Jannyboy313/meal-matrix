@@ -16,9 +16,6 @@
 	let error = $state<string | null>(null);
 
 	let selectedServings = $state<number>(4);
-	let editingServings = $state<boolean>(false);
-	let servingsInput = $state<string>('');
-	let servingsError = $state<string>('');
 
 	onMount(async () => {
 		try {
@@ -47,18 +44,6 @@
 		if (!recipe) return [];
 		return recipe.ingredients[selectedServings] || recipe.ingredients[recipe.servings] || [];
 	});
-
-	function confirmCustomServings() {
-		const value = Number(servingsInput);
-		if (availableServings.includes(value)) {
-			selectedServings = value;
-			servingsError = '';
-			editingServings = false;
-			servingsInput = '';
-		} else {
-			servingsError = $t('recipe.validation.servingsNotAvailable');
-		}
-	}
 </script>
 
 <svelte:head>
@@ -66,13 +51,13 @@
 </svelte:head>
 
 {#if loading}
-	<div class="flex min-h-screen items-center justify-center bg-paper">
+	<div class="flex min-h-dvh items-center justify-center bg-paper">
 		<ChefHatLoader size="lg" label={$t('common.loading.recipes')} />
 	</div>
 {:else if error}
 	<ErrorDisplay message={error} />
 {:else if recipe}
-	<div class="flex min-h-screen flex-col bg-paper pb-[92px]">
+	<div class="flex min-h-dvh flex-col bg-paper pb-[92px]">
 		<RecipeHero recipeId={recipe.id} title={recipe.title} image={recipe.image} category={recipe.tags?.[0]} />
 
 		<div class="px-[22px] pt-[26px]">
@@ -101,37 +86,7 @@
 						{serving}
 					</button>
 				{/each}
-				<button
-					type="button"
-					onclick={() => (editingServings = !editingServings)}
-					class="focus-ring flex-1 border-2 border-ink bg-yellow px-2 py-[9px] text-xs font-black uppercase text-ink"
-				>
-					{$t('recipe.servings.edit')}
-				</button>
 			</div>
-
-			{#if editingServings}
-				<div class="mt-2 flex items-center gap-2">
-					<input
-						type="number"
-						bind:value={servingsInput}
-						min="1"
-						placeholder={$t('recipe.servings.placeholder')}
-						class="focus-ring h-9 w-16 border-2 border-ink bg-white text-center text-sm font-bold text-ink"
-						onkeydown={(e) => e.key === 'Enter' && confirmCustomServings()}
-					/>
-					<button
-						type="button"
-						onclick={confirmCustomServings}
-						class="focus-ring border-2 border-ink offset-teal bg-white px-3 py-2 text-xs font-black uppercase text-ink"
-					>
-						{$t('recipe.servings.confirm')}
-					</button>
-				</div>
-				{#if servingsError}
-					<p class="mt-1 text-xs font-semibold text-accent">{servingsError}</p>
-				{/if}
-			{/if}
 
 			<div id="ingredients" class="mt-[14px] text-[13px] font-black uppercase tracking-[0.06em] text-ink">
 				{$t('recipe.labels.ingredients')} · {currentIngredients.length}
@@ -141,14 +96,8 @@
 
 		<div class="fixed inset-x-0 bottom-0 z-40 flex gap-[10px] border-t-2 border-ink bg-white px-[22px] py-[14px] pb-6">
 			<a
-				href="#ingredients"
-				class="focus-ring flex-none border-2 border-ink bg-white px-4 py-[14px] text-sm font-black uppercase text-ink"
-			>
-				{$t('recipe.actions.viewList')}
-			</a>
-			<a
 				href="/recipes/{recipe.id}/cook"
-				class="focus-ring flex-1 border-2 border-ink offset-ink bg-accent py-[14px] text-center text-[15px] font-black uppercase text-white"
+				class="focus-ring w-full border-2 border-ink offset-ink bg-accent py-[14px] text-center text-[15px] font-black uppercase text-white"
 			>
 				{$t('recipe.actions.startCooking')}
 			</a>

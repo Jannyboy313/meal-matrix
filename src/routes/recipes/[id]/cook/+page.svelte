@@ -51,13 +51,13 @@
 </svelte:head>
 
 {#if loading}
-	<div class="flex min-h-screen items-center justify-center bg-paper">
+	<div class="flex min-h-dvh items-center justify-center bg-paper">
 		<ChefHatLoader size="lg" label={$t('common.loading.recipes')} />
 	</div>
 {:else if error}
 	<ErrorDisplay message={error} />
 {:else if recipe}
-	<div class="flex min-h-screen flex-col bg-paper">
+	<div class="flex min-h-dvh flex-col bg-paper">
 		<header class="flex flex-none items-center gap-3 border-b-2 border-ink px-[22px] pb-4 pt-12">
 			<a
 				href="/recipes/{recipe.id}"
