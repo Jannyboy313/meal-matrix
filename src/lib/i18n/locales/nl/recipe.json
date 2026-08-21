@@ -9,6 +9,8 @@
 		"description": "Beschrijving",
 		"cookTime": "Bereidingstijd",
 		"prepTime": "Voorbereidingstijd",
+		"prepTimeShort": "Voorb.",
+		"cookTimeShort": "Bereiden",
 		"servings": "Porties",
 		"ingredients": "Ingrediënten",
 		"instructions": "Instructies",
@@ -35,7 +37,9 @@
 		"createRecipe": "Recept Aanmaken",
 		"updateRecipe": "Recept Bijwerken",
 		"creating": "Aanmaken...",
-		"updating": "Bijwerken..."
+		"updating": "Bijwerken...",
+		"viewList": "Lijst",
+		"startCooking": "Begin met koken"
 	},
 	"steps": {
 		"basicInfo": "Basis Informatie",
@@ -91,6 +95,9 @@
 		"fillAllIngredients": "Vul alle ingrediëntnamen in",
 		"fillAllSteps": "Vul alle stappen in",
 		"mustBeLoggedIn": "Je moet ingelogd zijn om een recept aan te maken",
-		"saveFailed": "Recept opslaan mislukt. Probeer het opnieuw."
+		"saveFailed": "Recept opslaan mislukt. Probeer het opnieuw.",
+		"recipeNotFound": "Recept niet gevonden",
+		"recipeLoadFailed": "Recept laden mislukt",
+		"servingsNotAvailable": "Deze portiegrootte is niet beschikbaar voor dit recept."
 	}
 }

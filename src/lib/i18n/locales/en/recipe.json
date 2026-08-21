@@ -9,6 +9,8 @@
 		"description": "Description",
 		"cookTime": "Cook Time",
 		"prepTime": "Prep Time",
+		"prepTimeShort": "Prep",
+		"cookTimeShort": "Cook",
 		"servings": "Servings",
 		"ingredients": "Ingredients",
 		"instructions": "Instructions",
@@ -35,7 +37,9 @@
 		"createRecipe": "Create Recipe",
 		"updateRecipe": "Update Recipe",
 		"creating": "Creating...",
-		"updating": "Updating..."
+		"updating": "Updating...",
+		"viewList": "List",
+		"startCooking": "Start cooking"
 	},
 	"steps": {
 		"basicInfo": "Basic Information",
@@ -91,6 +95,9 @@
 		"fillAllIngredients": "Please fill in all ingredient names",
 		"fillAllSteps": "Please fill in all steps",
 		"mustBeLoggedIn": "You must be logged in to create a recipe",
-		"saveFailed": "Failed to save recipe. Please try again."
+		"saveFailed": "Failed to save recipe. Please try again.",
+		"recipeNotFound": "Recipe not found",
+		"recipeLoadFailed": "Failed to load recipe",
+		"servingsNotAvailable": "This serving size isn't available for this recipe."
 	}
 }

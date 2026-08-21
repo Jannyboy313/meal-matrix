@@ -8,15 +8,11 @@
 	let { ingredients }: Props = $props();
 </script>
 
-<div class="space-y-2.5">
-	{#each ingredients as ingredient}
-		<div class="flex gap-2 sm:gap-3 items-baseline">
-			<span class="badge preset-tonal-primary text-xs sm:text-sm font-bold uppercase tracking-wide min-w-16 sm:min-w-20 shrink-0 rounded-lg">
-				{ingredient.amount}
-			</span>
-			<span class="text-sm sm:text-base">
-				{ingredient.name}
-			</span>
+<div>
+	{#each ingredients as ingredient, i}
+		<div class="flex items-baseline justify-between border-ink py-[11px] {i === 0 ? 'border-t-2' : 'border-t'}">
+			<span class="text-[15px] font-semibold text-ink">{ingredient.name}</span>
+			<span class="text-sm font-black text-ink">{ingredient.amount}</span>
 		</div>
 	{/each}
 </div>

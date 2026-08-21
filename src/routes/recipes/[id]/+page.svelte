@@ -6,11 +6,9 @@
 	import ChefHatLoader from '$lib/components/ChefHatLoader.svelte';
 	import RecipeMetaInfo from '$lib/components/RecipeMetaInfo.svelte';
 	import IngredientListDisplay from '$lib/components/IngredientListDisplay.svelte';
-	import InstructionsList from '$lib/components/InstructionsList.svelte';
-	import TagList from '$lib/components/TagList.svelte';
 	import ErrorDisplay from '$lib/components/ErrorDisplay.svelte';
-	import BackButton from '$lib/components/BackButton.svelte';
 	import RecipeHero from '$lib/components/RecipeHero.svelte';
+	import { t } from '$lib/i18n';
 
 	let { data }: { data: PageData } = $props();
 	let recipe = $state<RecipeWithTags | null>(null);
@@ -18,8 +16,10 @@
 	let error = $state<string | null>(null);
 
 	let selectedServings = $state<number>(4);
+	let editingServings = $state<boolean>(false);
+	let servingsInput = $state<string>('');
+	let servingsError = $state<string>('');
 
-	// Fetch recipe from Firestore when component mounts
 	onMount(async () => {
 		try {
 			loading = true;
@@ -29,95 +29,128 @@
 				recipe = fetchedRecipe;
 				selectedServings = fetchedRecipe.servings;
 			} else {
-				error = 'Recipe not found';
+				error = $t('recipe.validation.recipeNotFound');
 			}
 		} catch (err) {
 			console.error('Error loading recipe:', err);
-			error = 'Failed to load recipe';
+			error = $t('recipe.validation.recipeLoadFailed');
 		} finally {
 			loading = false;
 		}
 	});
 
-	let currentIngredients = $derived.by(() => {
+	const availableServings = $derived(
+		recipe ? Object.keys(recipe.ingredients).map(Number).sort((a, b) => a - b) : []
+	);
+
+	const currentIngredients = $derived.by(() => {
 		if (!recipe) return [];
-		const ings = recipe.ingredients;
-		// Use bracket notation with explicit check
-		if (selectedServings === 2 && ings[2]) return ings[2];
-		if (selectedServings === 4 && ings[4]) return ings[4];
-		return ings[4] || [];
+		return recipe.ingredients[selectedServings] || recipe.ingredients[recipe.servings] || [];
 	});
+
+	function confirmCustomServings() {
+		const value = Number(servingsInput);
+		if (availableServings.includes(value)) {
+			selectedServings = value;
+			servingsError = '';
+			editingServings = false;
+			servingsInput = '';
+		} else {
+			servingsError = $t('recipe.validation.servingsNotAvailable');
+		}
+	}
 </script>
 
 <svelte:head>
-	<title>{recipe?.title || 'Loading...'} - Recipe Collection</title>
+	<title>{recipe?.title || $t('common.app.name')}</title>
 </svelte:head>
 
 {#if loading}
-	<div class="min-h-screen flex items-center justify-center">
-		<ChefHatLoader size="lg" label="Loading recipe..." />
+	<div class="flex min-h-screen items-center justify-center bg-paper">
+		<ChefHatLoader size="lg" label={$t('common.loading.recipes')} />
 	</div>
 {:else if error}
 	<ErrorDisplay message={error} />
 {:else if recipe}
-	<div class="min-h-screen pb-8">
-		<!-- Hero Header with Image -->
-		<RecipeHero recipeId={recipe.id} title={recipe.title} image={recipe.image} />
+	<div class="flex min-h-screen flex-col bg-paper pb-[92px]">
+		<RecipeHero recipeId={recipe.id} title={recipe.title} image={recipe.image} category={recipe.tags?.[0]} />
 
-		<!-- Title Section -->
-		<div class="container mx-auto px-4 sm:px-6 -mt-12 sm:-mt-16 relative z-10">
-			<div class="card preset-tonal-surface rounded-xl p-4 sm:p-6 space-y-4">
-				<TagList tags={recipe.tags} />
-
-				<h1 class="h1">{recipe.title}</h1>
-				<p class="text-base sm:text-lg opacity-90">{recipe.description}</p>
-
-				<!-- Recipe Meta Info -->
-				<RecipeMetaInfo prepTime={recipe.prepTime} cookTime={recipe.cookTime} />
-			</div>
+		<div class="px-[22px] pt-[26px]">
+			<h1 class="font-display text-[32px] font-black leading-[0.98] tracking-[-0.05em] text-ink">
+				{recipe.title}
+			</h1>
 		</div>
 
-		<!-- Main Content -->
-		<div class="container mx-auto px-4 sm:px-6 space-y-6 sm:space-y-8">
-			<div class="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
-				<!-- Ingredients Section -->
-				<div class="lg:col-span-1">
-					<div class="card preset-tonal-surface rounded-xl p-4 sm:p-6 space-y-4 lg:sticky lg:top-4">
-						<!-- Serving Size Selector -->
-						<div class="flex items-center gap-2">
-							<span class="text-base font-medium">Servings:</span>
-							{#if Object.keys(recipe.ingredients).length > 1}
-								<select
-									bind:value={selectedServings}
-									class="select variant-filled-surface rounded-lg w-20 px-3 py-2"
-								>
-									{#each Object.keys(recipe.ingredients) as serving}
-										<option value={parseInt(serving)}>
-											{serving}
-										</option>
-									{/each}
-								</select>
-							{:else}
-								<span class="text-base">{selectedServings}</span>
-							{/if}
-						</div>
-						<h2 class="h2">Ingredients</h2>
+		<div class="px-[22px] pt-[18px]">
+			<RecipeMetaInfo prepTime={recipe.prepTime} cookTime={recipe.cookTime} servings={selectedServings} />
+		</div>
 
-						<IngredientListDisplay ingredients={currentIngredients} />
-					</div>
-				</div>
+		<div class="flex-1 px-[22px] pt-5">
+			<span class="text-xs font-black uppercase tracking-[0.08em] text-ink">{$t('recipe.servings.label')}</span>
+			<div class="mt-2 flex items-stretch gap-2">
+				{#each availableServings as serving}
+					<button
+						type="button"
+						onclick={() => (selectedServings = serving)}
+						class="focus-ring min-w-[44px] flex-none border-2 border-ink px-2 py-[9px] text-sm font-black {selectedServings ===
+						serving
+							? 'bg-accent text-white'
+							: 'bg-white text-ink'}"
+					>
+						{serving}
+					</button>
+				{/each}
+				<button
+					type="button"
+					onclick={() => (editingServings = !editingServings)}
+					class="focus-ring flex-1 border-2 border-ink bg-yellow px-2 py-[9px] text-xs font-black uppercase text-ink"
+				>
+					{$t('recipe.servings.edit')}
+				</button>
+			</div>
 
-				<!-- Steps Section -->
-				<div class="lg:col-span-2">
-					<div class="card preset-tonal-surface rounded-xl p-4 sm:p-6 space-y-6">
-						<h2 class="h2">Instructions</h2>
-						<InstructionsList steps={recipe.steps} />
-					</div>
+			{#if editingServings}
+				<div class="mt-2 flex items-center gap-2">
+					<input
+						type="number"
+						bind:value={servingsInput}
+						min="1"
+						placeholder={$t('recipe.servings.placeholder')}
+						class="focus-ring h-9 w-16 border-2 border-ink bg-white text-center text-sm font-bold text-ink"
+						onkeydown={(e) => e.key === 'Enter' && confirmCustomServings()}
+					/>
+					<button
+						type="button"
+						onclick={confirmCustomServings}
+						class="focus-ring border-2 border-ink offset-teal bg-white px-3 py-2 text-xs font-black uppercase text-ink"
+					>
+						{$t('recipe.servings.confirm')}
+					</button>
 				</div>
+				{#if servingsError}
+					<p class="mt-1 text-xs font-semibold text-accent">{servingsError}</p>
+				{/if}
+			{/if}
+
+			<div id="ingredients" class="mt-[14px] text-[13px] font-black uppercase tracking-[0.06em] text-ink">
+				{$t('recipe.labels.ingredients')} · {currentIngredients.length}
+			</div>
+			<IngredientListDisplay ingredients={currentIngredients} />
+		</div>
+
+		<div class="fixed inset-x-0 bottom-0 z-40 flex gap-[10px] border-t-2 border-ink bg-white px-[22px] py-[14px] pb-6">
+			<a
+				href="#ingredients"
+				class="focus-ring flex-none border-2 border-ink bg-white px-4 py-[14px] text-sm font-black uppercase text-ink"
+			>
+				{$t('recipe.actions.viewList')}
+			</a>
+			<a
+				href="/recipes/{recipe.id}/cook"
+				class="focus-ring flex-1 border-2 border-ink offset-ink bg-accent py-[14px] text-center text-[15px] font-black uppercase text-white"
+			>
+				{$t('recipe.actions.startCooking')}
+			</a>
 		</div>
 	</div>
-
-	<!-- Back Button -->
-	<BackButton />
-</div>
 {/if}

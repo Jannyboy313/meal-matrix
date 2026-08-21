@@ -4,24 +4,23 @@
 	interface Props {
 		prepTime?: string;
 		cookTime?: string;
+		servings: number;
 	}
 
-	let { prepTime, cookTime }: Props = $props();
+	let { prepTime, cookTime, servings }: Props = $props();
 </script>
 
-{#if prepTime || cookTime}
-	<div class="flex flex-wrap gap-6 pt-4 rounded-lg">
-		{#if prepTime}
-			<div class="flex flex-col">
-				<span class="text-xs uppercase opacity-75">{$t('recipe.labels.prepTime')}</span>
-				<span class="font-semibold">{prepTime}</span>
-			</div>
-		{/if}
-		{#if cookTime}
-			<div class="flex flex-col">
-				<span class="text-xs uppercase opacity-75">{$t('recipe.labels.cookTime')}</span>
-				<span class="font-semibold">{cookTime}</span>
-			</div>
-		{/if}
+<div class="flex gap-[9px]">
+	<div class="flex-1 border-2 border-ink offset-yellow bg-white px-[11px] py-[10px]">
+		<div class="text-[9px] font-black uppercase tracking-[0.1em] text-muted">{$t('recipe.labels.prepTimeShort')}</div>
+		<div class="text-[15px] font-black text-ink">{prepTime || '–'}</div>
 	</div>
-{/if}
+	<div class="flex-1 border-2 border-ink offset-teal bg-white px-[11px] py-[10px]">
+		<div class="text-[9px] font-black uppercase tracking-[0.1em] text-muted">{$t('recipe.labels.cookTimeShort')}</div>
+		<div class="text-[15px] font-black text-ink">{cookTime || '–'}</div>
+	</div>
+	<div class="flex-1 border-2 border-ink offset-violet bg-white px-[11px] py-[10px]">
+		<div class="text-[9px] font-black uppercase tracking-[0.1em] text-muted">{$t('recipe.labels.servings')}</div>
+		<div class="text-[15px] font-black text-ink">{servings}</div>
+	</div>
+</div>
