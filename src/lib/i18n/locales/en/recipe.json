@@ -15,6 +15,7 @@
 		"ingredients": "Ingredients",
 		"instructions": "Instructions",
 		"tags": "Tags",
+		"category": "Category",
 		"minutes": "minutes",
 		"imageUrl": "Image URL",
 		"imageUrlHint": "Leave empty for default image",
@@ -84,7 +85,11 @@
 		"namePlaceholder": "Tag name",
 		"adding": "Adding...",
 		"remove": "Remove tag",
-		"createError": "Failed to create tag. Please try again."
+		"createError": "Failed to create tag. Please try again.",
+		"newCategory": "New category",
+		"colorLabel": "Color",
+		"addCategory": "Add category",
+		"newCategoryHint": "New categories also become available as a filter on the overview."
 	},
 	"servings": {
 		"label": "Serving sizes",

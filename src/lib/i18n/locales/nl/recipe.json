@@ -15,6 +15,7 @@
 		"ingredients": "Ingrediënten",
 		"instructions": "Instructies",
 		"tags": "Tags",
+		"category": "Categorie",
 		"minutes": "minuten",
 		"imageUrl": "Afbeelding URL",
 		"imageUrlHint": "Laat leeg voor standaard afbeelding",
@@ -84,7 +85,11 @@
 		"namePlaceholder": "Tag naam",
 		"adding": "Toevoegen...",
 		"remove": "Tag verwijderen",
-		"createError": "Tag maken mislukt. Probeer het opnieuw."
+		"createError": "Tag maken mislukt. Probeer het opnieuw.",
+		"newCategory": "Nieuwe categorie",
+		"colorLabel": "Kleur",
+		"addCategory": "Categorie toevoegen",
+		"newCategoryHint": "Nieuwe categorieën komen ook in het filter op het overzicht."
 	},
 	"servings": {
 		"label": "Portiegroottes",
