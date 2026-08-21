@@ -87,6 +87,8 @@
 			steps = initialData.steps;
 		}
 
+		initialSnapshot = JSON.stringify({ title, description, image, prepTime, cookTime, tags, steps, ingredients });
+
 		// Get step from URL
 		const urlStep = parseInt($page.url.searchParams.get('step') || '1', 10);
 		if (urlStep >= 1 && urlStep <= totalSteps) {
@@ -113,7 +115,6 @@
 			}
 		}
 
-		initialSnapshot = JSON.stringify({ title, description, image, prepTime, cookTime, tags, steps, ingredients });
 		isInitialized = true;
 	});
 
