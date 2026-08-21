@@ -15,7 +15,8 @@
 		"tags": "Tags",
 		"minutes": "minuten",
 		"imageUrl": "Afbeelding URL",
-		"imageUrlHint": "Laat leeg voor standaard afbeelding"
+		"imageUrlHint": "Laat leeg voor standaard afbeelding",
+		"recipesCount": "recepten"
 	},
 	"placeholders": {
 		"name": "bijv., Spaghetti Carbonara",

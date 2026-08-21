@@ -5,22 +5,19 @@
 	interface Props {
 		value?: string;
 		placeholder?: string;
-		onInput?: (value: string) => void;
 	}
 
 	let { value = $bindable(''), placeholder = $t('common.actions.search') }: Props = $props();
 </script>
 
-<div class="max-w-2xl mx-auto">
-	<div class="relative">
-		<div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
-			<Search size={20} class="opacity-50" />
-		</div>
-		<input
-			type="search"
-			bind:value
-			{placeholder}
-			class="input rounded-lg pl-12 pr-4 py-3 shadow-md"
-		/>
+<div class="relative">
+	<div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
+		<Search size={18} class="text-muted" strokeWidth={2} />
 	</div>
+	<input
+		type="search"
+		bind:value
+		{placeholder}
+		class="focus-ring w-full border-2 border-ink offset-accent bg-white py-[15px] pl-11 pr-4 text-base font-bold text-ink"
+	/>
 </div>

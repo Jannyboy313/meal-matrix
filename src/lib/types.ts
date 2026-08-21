@@ -43,6 +43,8 @@ export interface RecipeSummary {
 	description: string;
 	image: string;
 	tagIds: string[]; // Array of tag IDs (references to /tags collection)
+	prepTime?: string;
+	cookTime?: string;
 	createdAt?: string; // ISO 8601 timestamp
 	updatedAt?: string; // ISO 8601 timestamp
 	userId?: string; // Owner of the recipe

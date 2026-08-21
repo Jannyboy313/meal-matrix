@@ -15,7 +15,8 @@
 		"tags": "Tags",
 		"minutes": "minutes",
 		"imageUrl": "Image URL",
-		"imageUrlHint": "Leave empty for default image"
+		"imageUrlHint": "Leave empty for default image",
+		"recipesCount": "recipes"
 	},
 	"placeholders": {
 		"name": "e.g., Spaghetti Carbonara",

@@ -4,40 +4,30 @@
 	interface Props {
 		id: string;
 		title: string;
-		description?: string;
 		image: string;
-		tags?: Tag[];
+		category?: Tag;
+		time?: string;
+		shadowIndex: number;
 	}
 
-	let { id, title, description, image, tags = [] }: Props = $props();
+	let { id, title, image, category, time, shadowIndex }: Props = $props();
+
+	const SHADOW_ROTATION = ['offset-accent', 'offset-teal', 'offset-violet', 'offset-yellow'];
+	const shadowClass = SHADOW_ROTATION[shadowIndex % SHADOW_ROTATION.length];
 </script>
 
-<a href="/recipes/{id}" class="block">
-	<article class="card rounded-xl overflow-hidden hover:scale-105 transition-transform duration-300 cursor-pointer shadow-lg">
-		<header class="relative h-48 overflow-hidden">
-			<img
-				src={image}
-				alt={title}
-				class="w-full h-full object-cover"
-			/>
-		</header>
-		<div class="p-4 space-y-2">
-			{#if tags.length > 0}
-				<div class="flex flex-wrap gap-1.5">
-					{#each tags as tag}
-						<span
-							class="text-xs px-2.5 py-1 rounded-full text-white font-medium"
-							style="background-color: {tag.color}"
-						>
-							{tag.name}
-						</span>
-					{/each}
-				</div>
-			{/if}
-			<h2 class="h3">{title}</h2>
-			{#if description}
-				<p class="text-sm opacity-75">{description}</p>
-			{/if}
+<a href="/recipes/{id}" class="focus-ring block">
+	<article class="border-2 border-ink bg-white {shadowClass}">
+		<div class="h-[98px] overflow-hidden border-b-2 border-ink bg-image">
+			<img src={image} alt={title} class="h-full w-full object-cover" />
+		</div>
+		<div class="pb-[11px] pl-[10px] pr-[10px] pt-[9px]">
+			<p class="truncate text-[9px] font-black uppercase tracking-[0.08em] text-muted">
+				{category?.name || ''}{category && time ? ' · ' : ''}{time || ''}
+			</p>
+			<h2 class="mt-1 line-clamp-2 font-display text-[17px] font-black leading-[1.05] tracking-[-0.035em] text-ink">
+				{title}
+			</h2>
 		</div>
 	</article>
 </a>
