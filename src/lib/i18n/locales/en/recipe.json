@@ -29,6 +29,9 @@
 		"imageUrl": "https://example.com/image.jpg",
 		"ingredientAmount": "Amount (e.g., 200g)"
 	},
+	"cook": {
+		"progress": "{{done}} of {{total}} done"
+	},
 	"actions": {
 		"addRecipe": "Add Recipe",
 		"editRecipe": "Edit Recipe",

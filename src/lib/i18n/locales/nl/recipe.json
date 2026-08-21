@@ -29,6 +29,9 @@
 		"imageUrl": "https://voorbeeld.nl/afbeelding.jpg",
 		"ingredientAmount": "Hoeveelheid (bijv., 200g)"
 	},
+	"cook": {
+		"progress": "{{done}} van {{total}} gedaan"
+	},
 	"actions": {
 		"addRecipe": "Recept Toevoegen",
 		"editRecipe": "Recept Bewerken",
