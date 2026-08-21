@@ -2599,24 +2599,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@skeletonlabs/skeleton@npm:^4.7.1":
-  version: 4.7.1
-  resolution: "@skeletonlabs/skeleton@npm:4.7.1"
-  peerDependencies:
-    tailwindcss: ^4.0.0
-  checksum: 10c0/ffea5523f26db38ffaab3164b75a5a114dff5120eca351f7f82849769ee43771b717724b0334c725b50b536517204bff775bb28f9a153bb5eade02a5b8690627
-  languageName: node
-  linkType: hard
-
-"@skeletonlabs/tw-plugin@npm:^0.4.1":
-  version: 0.4.1
-  resolution: "@skeletonlabs/tw-plugin@npm:0.4.1"
-  peerDependencies:
-    tailwindcss: ">=3.0.0"
-  checksum: 10c0/7b7d4bd48f741ba2cae8377ce2e70ac08eb011c41eb5ac8a62c9fe4f70d7d3fef978585dd9c30ecd202e680bfc42ef5f55faac2c631685985e6311fa575ea517
-  languageName: node
-  linkType: hard
-
 "@standard-schema/spec@npm:^1.0.0":
   version: 1.0.0
   resolution: "@standard-schema/spec@npm:1.0.0"
@@ -4958,8 +4940,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "meal-matrix@workspace:."
   dependencies:
-    "@skeletonlabs/skeleton": "npm:^4.7.1"
-    "@skeletonlabs/tw-plugin": "npm:^0.4.1"
     "@sveltejs/adapter-vercel": "npm:^5.4.8"
     "@sveltejs/kit": "npm:^2.48.5"
     "@sveltejs/vite-plugin-svelte": "npm:^6.2.1"
