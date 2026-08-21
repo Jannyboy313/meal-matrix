@@ -5,6 +5,7 @@
 	import { getAllTags } from '$lib/services/tagService';
 	import { user } from '$lib/stores/auth';
 	import { onMount } from 'svelte';
+	import { t } from '$lib/i18n';
 
 	let availableTags = $state<Tag[]>([]);
 	let loading = $state<boolean>(true);
@@ -22,24 +23,15 @@
 </script>
 
 <svelte:head>
-	<title>Create New Recipe - Recipe Collection</title>
+	<title>{$t('recipe.title.createNew')}</title>
 </svelte:head>
 
 {#if loading}
-	<div class="min-h-screen flex items-center justify-center">
-		<ChefHatLoader size="lg" label="Loading..." />
+	<div class="flex min-h-screen items-center justify-center bg-paper">
+		<ChefHatLoader size="lg" label={$t('common.loading.tags')} />
 	</div>
 {:else}
-	<div class="container mx-auto p-4 pb-32 sm:p-6 md:p-8 max-w-4xl">
-		<!-- Header -->
-		<div class="mb-6">
-			<h1 class="h1">Create New Recipe</h1>
-		</div>
-
-		<RecipeForm
-			{availableTags}
-			storageKey="recipe-draft"
-			submitErrorMessage="Failed to create recipe. Please try again."
-		/>
+	<div class="min-h-screen bg-paper">
+		<RecipeForm {availableTags} storageKey="recipe-draft" submitErrorMessage={$t('recipe.validation.saveFailed')} />
 	</div>
 {/if}

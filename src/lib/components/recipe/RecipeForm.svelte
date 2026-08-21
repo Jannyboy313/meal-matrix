@@ -4,6 +4,7 @@
 	import type { Tag, Ingredient, RecipeFormData } from '$lib';
 	import { createRecipe, updateRecipe } from '$lib/services/recipeService';
 	import { user } from '$lib/stores/auth';
+	import { X } from 'lucide-svelte';
 	import BasicInfoStep from '$lib/components/recipe/BasicInfoStep.svelte';
 	import TagsStep from '$lib/components/recipe/TagsStep.svelte';
 	import IngredientsStep from '$lib/components/recipe/IngredientsStep.svelte';
@@ -49,6 +50,7 @@
 	let isSubmitting = $state<boolean>(false);
 	let error = $state<string>('');
 	let isInitialized = $state<boolean>(false);
+	let showCloseConfirm = $state<boolean>(false);
 
 	// Field-level errors
 	let titleError = $state<string>('');
@@ -290,6 +292,33 @@
 		}
 	}
 
+	function isDirty(): boolean {
+		return Boolean(
+			title ||
+				description ||
+				image ||
+				prepTime ||
+				cookTime ||
+				tags.length ||
+				steps.some((step) => step.trim()) ||
+				Object.values(ingredients).some((list) => list.some((ing) => ing.name.trim() || ing.amount.trim()))
+		);
+	}
+
+	function requestClose() {
+		if (isDirty()) {
+			showCloseConfirm = true;
+		} else {
+			discardAndClose();
+		}
+	}
+
+	function discardAndClose() {
+		clearDraft();
+		showCloseConfirm = false;
+		goto(isEditing && recipeId ? `/recipes/${recipeId}` : '/');
+	}
+
 	function validateForm(): boolean {
 		error = '';
 
@@ -324,14 +353,27 @@
 	});
 </script>
 
-<!-- Progress Indicator -->
-<div class="mb-6">
+<div class="flex items-center justify-between px-[22px] pt-12">
+	<span class="font-display text-xl font-black tracking-[-0.04em] text-ink">
+		{isEditing ? $t('recipe.title.edit') : $t('recipe.title.createNew')}
+	</span>
+	<button
+		type="button"
+		onclick={requestClose}
+		aria-label={$t('common.actions.cancel')}
+		class="focus-ring flex h-[34px] w-[34px] items-center justify-center border-2 border-ink text-ink"
+	>
+		<X size={18} />
+	</button>
+</div>
+
+<div class="px-[22px] pt-[14px]">
 	<ProgressIndicator {currentStep} {totalSteps} {stepTitles} />
 </div>
 
 {#if error}
-	<div class="preset-filled-error-500 rounded-lg p-4 mb-6">
-		<p>{error}</p>
+	<div class="mx-[22px] mt-[18px] border-2 border-ink offset-accent bg-accent px-4 py-3 text-white">
+		<p class="text-sm font-semibold">{error}</p>
 	</div>
 {/if}
 
@@ -395,10 +437,8 @@
 			isSubmitting = false;
 		}
 	}}
-	class="space-y-6"
+	class="flex flex-col gap-[18px] px-[22px] pb-[120px] pt-[20px]"
 >
-
-	<!-- Step Components -->
 	{#if currentStep === 1}
 		<BasicInfoStep bind:title bind:description bind:image bind:prepTime bind:cookTime {titleError} />
 	{:else if currentStep === 2}
@@ -419,7 +459,6 @@
 		<InstructionsStep bind:steps {stepErrors} onaddstep={addStep} onremovestep={removeStep} />
 	{/if}
 
-	<!-- Navigation -->
 	<StepNavigation
 		{currentStep}
 		{totalSteps}
@@ -427,5 +466,31 @@
 		{isEditing}
 		onprevious={previousStep}
 		onnext={nextStep}
+		oncancel={requestClose}
 	/>
 </form>
+
+{#if showCloseConfirm}
+	<div class="fixed inset-0 z-50 flex items-center justify-center bg-ink/40 px-[22px]">
+		<div class="w-full max-w-sm border-2 border-ink offset-ink bg-white p-6">
+			<p class="text-base font-semibold text-ink">{$t('recipe.wizard.discardTitle')}</p>
+			<p class="mt-2 text-sm text-muted">{$t('recipe.wizard.discardBody')}</p>
+			<div class="mt-5 flex gap-[10px]">
+				<button
+					type="button"
+					onclick={() => (showCloseConfirm = false)}
+					class="focus-ring flex-1 border-2 border-ink bg-white py-3 text-sm font-black uppercase text-ink"
+				>
+					{$t('recipe.wizard.discardCancel')}
+				</button>
+				<button
+					type="button"
+					onclick={discardAndClose}
+					class="focus-ring flex-1 border-2 border-ink offset-ink bg-accent py-3 text-sm font-black uppercase text-white"
+				>
+					{$t('recipe.wizard.discardConfirm')}
+				</button>
+			</div>
+		</div>
+	</div>
+{/if}

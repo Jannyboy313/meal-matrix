@@ -32,6 +32,13 @@
 	"cook": {
 		"progress": "{{done}} of {{total}} done"
 	},
+	"wizard": {
+		"stepOf": "Step {{step}} of {{total}} · {{name}}",
+		"discardTitle": "Unsaved changes",
+		"discardBody": "If you close now, what you've filled in will be lost.",
+		"discardCancel": "Keep editing",
+		"discardConfirm": "Discard and close"
+	},
 	"actions": {
 		"addRecipe": "Add Recipe",
 		"editRecipe": "Edit Recipe",

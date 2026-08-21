@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { ChevronLeft, ChevronRight } from 'lucide-svelte';
 	import { t } from '$lib/i18n';
 
 	interface Props {
@@ -9,41 +8,44 @@
 		isEditing?: boolean;
 		onprevious: () => void;
 		onnext: () => void;
+		oncancel: () => void;
 	}
 
-	let { currentStep, totalSteps, isSubmitting, isEditing = false, onprevious, onnext }: Props = $props();
+	let { currentStep, totalSteps, isSubmitting, isEditing = false, onprevious, onnext, oncancel }: Props = $props();
 </script>
 
-<div class="flex gap-3 mt-6 p-4 rounded-lg">
+<div class="fixed inset-x-0 bottom-0 z-40 flex gap-[10px] border-t-2 border-ink bg-white px-[22px] py-[14px] pb-[26px]">
 	{#if currentStep > 1}
 		<button
 			type="button"
 			onclick={onprevious}
-			class="btn preset-tonal-secondary flex items-center justify-center gap-2 flex-1"
+			class="focus-ring flex-none border-2 border-ink bg-white px-[18px] py-[15px] text-[15px] font-black uppercase text-ink"
 		>
-			<ChevronLeft size={20} />
 			{$t('recipe.steps.previous')}
 		</button>
 	{:else}
-		<a href="/" class="btn preset-outlined-secondary-500 flex items-center justify-center flex-1">
+		<button
+			type="button"
+			onclick={oncancel}
+			class="focus-ring flex-none border-2 border-ink bg-white px-[18px] py-[15px] text-[15px] font-black uppercase text-ink"
+		>
 			{$t('common.actions.cancel')}
-		</a>
+		</button>
 	{/if}
 
 	{#if currentStep < totalSteps}
 		<button
 			type="button"
 			onclick={onnext}
-			class="btn preset-filled-primary-500 flex items-center justify-center gap-2 flex-1"
+			class="focus-ring flex-1 border-2 border-ink offset-ink bg-accent py-[15px] text-[15px] font-black uppercase text-white"
 		>
 			{$t('recipe.steps.next')}
-			<ChevronRight size={20} />
 		</button>
 	{:else}
 		<button
 			type="submit"
-			class="btn preset-filled-tertiary-500 flex items-center justify-center flex-1"
 			disabled={isSubmitting}
+			class="focus-ring flex-1 border-2 border-ink offset-ink bg-accent py-[15px] text-[15px] font-black uppercase text-white disabled:opacity-[.45]"
 		>
 			{#if isEditing}
 				{isSubmitting ? $t('recipe.actions.updating') : $t('recipe.actions.updateRecipe')}

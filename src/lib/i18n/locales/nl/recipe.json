@@ -32,6 +32,13 @@
 	"cook": {
 		"progress": "{{done}} van {{total}} gedaan"
 	},
+	"wizard": {
+		"stepOf": "Stap {{step}} van {{total}} · {{name}}",
+		"discardTitle": "Wijzigingen niet opgeslagen",
+		"discardBody": "Als je nu sluit, gaat wat je al hebt ingevuld verloren.",
+		"discardCancel": "Doorgaan met invullen",
+		"discardConfirm": "Verwijderen en sluiten"
+	},
 	"actions": {
 		"addRecipe": "Recept Toevoegen",
 		"editRecipe": "Recept Bewerken",

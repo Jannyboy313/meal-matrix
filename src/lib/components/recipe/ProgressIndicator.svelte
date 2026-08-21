@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { t } from '$lib/i18n';
+
 	interface Props {
 		currentStep: number;
 		totalSteps: number;
@@ -8,18 +10,17 @@
 	let { currentStep, totalSteps, stepTitles }: Props = $props();
 </script>
 
-<div class="space-y-2">
-	<p class="text-sm">
-		<span class="text-primary-500 font-semibold">Step {currentStep} of {totalSteps}:</span>
-		<span class="opacity-75">{stepTitles[currentStep - 1]}</span>
-	</p>
-	<div class="flex gap-2">
+<div class="flex flex-col gap-[10px]">
+	<div class="grid grid-cols-4 gap-[6px]">
 		{#each Array(totalSteps) as _, i}
-			<div
-				class="flex-1 h-2 rounded-full transition-all duration-300"
-				class:bg-primary-500={i < currentStep}
-				class:bg-surface-700={i >= currentStep}
-			></div>
+			<span class="h-2 border-2 border-ink {i < currentStep ? 'bg-accent' : 'bg-transparent'}"></span>
 		{/each}
 	</div>
+	<p class="text-[11px] font-black uppercase tracking-[0.1em] text-muted">
+		{$t('recipe.wizard.stepOf', {
+			step: currentStep,
+			total: totalSteps,
+			name: stepTitles[currentStep - 1]
+		} as Record<string, unknown>)}
+	</p>
 </div>
