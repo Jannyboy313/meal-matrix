@@ -15,6 +15,7 @@
 			<button
 				type="button"
 				onclick={() => ontoggle(index)}
+				aria-pressed={done}
 				class="focus-ring flex w-full items-start gap-[13px] py-[14px] text-left {done ? 'opacity-50' : ''}"
 			>
 				<span

@@ -71,7 +71,7 @@
 
 		<div class="flex-none px-[22px] pt-[14px]">
 			<div class="mb-2 flex items-center justify-between">
-				<span class="text-xs font-black uppercase tracking-[0.08em] text-ink">
+				<span id="cook-progress-label" class="text-xs font-black uppercase tracking-[0.08em] text-ink">
 					{$t(
 						'recipe.cook.progress',
 						{ done: completedSteps.size, total: recipe.steps.length } as Record<string, unknown>
@@ -79,7 +79,14 @@
 				</span>
 				<span class="text-xs font-black text-muted">{percentage}%</span>
 			</div>
-			<div class="h-[10px] border-2 border-ink bg-white">
+			<div
+				class="h-[10px] border-2 border-ink bg-white"
+				role="progressbar"
+				aria-valuenow={percentage}
+				aria-valuemin={0}
+				aria-valuemax={100}
+				aria-labelledby="cook-progress-label"
+			>
 				<div class="h-[6px] bg-accent" style="width: {percentage}%"></div>
 			</div>
 		</div>
