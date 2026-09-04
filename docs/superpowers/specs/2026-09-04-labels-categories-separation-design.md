@@ -34,12 +34,12 @@ presentation is waiting on its own design.
 
 | Decision | Rationale |
 | --- | --- |
-| Categories are code constants, stored in the database as UUIDs | Names can then be changed without touching data, and the set cannot drift per user |
+| Categories are code constants, stored on a recipe as `{ key, name }` | The key is stable so a rename touches no data; the name is denormalised so the raw Firestore JSON is readable on its own — see *Firestore is an export format* below |
 | Category names resolve through i18n keys, not literals | Every other UI string in the app goes through `$t`; a literal here would be the only exception |
 | Labels keep their hex color, unchanged | Whether labels need colors at all is an open question until their redesign; changing storage now risks throwing away work |
 | Full rename in code *and* Firestore: `Tag` → `Label`, collection `tags` → `labels` | Leaving the collection named `tags` would keep a permanent code/database mismatch, which is the confusion this work exists to remove |
 | Two separate picker components, no wrapper | Each has one job, and the label side can be replaced wholesale when its design lands without touching the category side |
-| Migration is handled outside this work | The owner is writing it; the implementation may assume `categoryId` is present on every recipe |
+| Migration is handled outside this work | The owner is writing it; the implementation may assume `category` is present on every recipe |
 
 ### Out of scope
 
@@ -49,43 +49,73 @@ presentation is waiting on its own design.
 - **The palette's app-wide contrast changes.** See `docs/issues/palette-contrast-rollout.md`.
 - **The dead English locale.** See `docs/issues/unreachable-en-locale.md`.
 
+## Firestore is an export format
+
+This constraint arrived after the first draft of this spec and reshaped the storage decision,
+so it is recorded here explicitly.
+
+The owner treats the Firestore contents as a product surface, not an implementation detail: he
+wants to take the raw JSON out of Firestore and have readable data he can use elsewhere. Under
+that requirement an opaque pointer is the wrong choice — `categoryId: "d4e2f8a1-…"` forces the
+reader to fetch the constants file to learn that it means "Hoofdgerecht".
+
+Three options were weighed:
+
+| Option | Readable export | Rename cost | Sources of truth |
+| --- | --- | --- | --- |
+| Store the display name only | Yes | Migration over every recipe | One |
+| Store a stable key only | Partly — `"main"`, not `"Hoofdgerecht"` | None | One |
+| **Store both (chosen)** | Yes | None, functionally | Two |
+
+The chosen option stores `{ key, name }`. The key is what the app reads and compares; the name
+is a denormalised snapshot that the app never reads.
+
+**The cost, accepted knowingly:** the same Dutch string lives in two places, so after a rename
+the `name` on existing recipes is stale until a backfill runs. That is cosmetic rather than
+functional — the UI resolves display from the constants, so it corrects itself immediately —
+but it is real drift and should not be forgotten.
+
+Note that the constants themselves were never the problem; only the opaque reference was. The
+constants still own the closed set (validation), the colour mapping, and the picker's options,
+none of which becomes more useful by living in the database.
+
 ## Data model
 
-### Category — code only, never in Firestore
+### Category — code only, never a Firestore document
 
 ```ts
 type CategoryKey = 'starter' | 'main' | 'dessert' | 'bread' | 'baking';
 
 interface Category {
-  id: string;            // stable UUID; the only part that reaches the database
-  key: CategoryKey;      // for code references
-  nameKey: string;       // i18n key, e.g. 'recipe.categories.main'
+  key: CategoryKey;      // stable identifier; what the app reads and compares
+  name: string;          // canonical Dutch name, written to Firestore for the export
+  nameKey: string;       // i18n key, e.g. 'recipe.categories.main' — used for display
   color: PaletteToken;   // reference into the palette, not a hex value
+}
+
+/** The category as stored on a recipe document. */
+interface StoredCategory {
+  key: string;   // typed loosely: Firestore may hold a removed or mistyped key
+  name: string;  // snapshot for external consumers; the app never reads it
 }
 ```
 
-The four UUIDs below are the **contract with the migration script**. Either the migration
-writes these exact values, or they are replaced here before it runs. They must not change
-afterwards.
+There are no UUIDs. The key *is* the stable identifier, and it is readable — which also removes
+the fragile requirement that a migration script reproduce a set of hardcoded UUIDs exactly.
 
-```ts
-export const CATEGORIES: readonly Category[] = [
-  { id: 'b7c9e1a4-3f52-4d8e-9a16-2c5d7e8f0b31', key: 'starter', nameKey: 'recipe.categories.starter', color: /* TODO */ },
-  { id: 'd4e2f8a1-6b39-4c7e-8f52-1a9d3c6b4e78', key: 'main',    nameKey: 'recipe.categories.main',    color: /* TODO */ },
-  { id: 'f1a3c5e7-9d24-4b6f-a83c-5e7f1b9d2a46', key: 'dessert', nameKey: 'recipe.categories.dessert', color: /* TODO */ },
-  { id: 'a9d7b3f5-2e18-4c6a-b47d-8f3e1c5a9b62', key: 'bread',   nameKey: 'recipe.categories.bread',   color: /* TODO */ }
-] as const;
-```
+Three functions in `$lib/constants/categories.ts`:
 
-`getCategoryById(id: string): Category | undefined` resolves synchronously from this array.
-No Firestore read is involved. An id that matches nothing returns `undefined`, and every
-consumer must render without a category rather than throw — a recipe whose category was
-mistyped during migration still has to open.
+- `getCategoryByKey(key: string | undefined): Category | undefined` — resolves synchronously
+  from the array, no Firestore read. An unmatched key returns `undefined`, and every consumer
+  renders without a category rather than throwing, so a recipe carrying a removed category
+  still opens.
+- `toStoredCategory(key: string): StoredCategory | undefined` — builds the document field,
+  so the denormalised name is produced in exactly one place.
+- `CATEGORIES` — the five entries, each with its colour.
 
-**The four color choices are left to the owner.** The palette's own swatches suggest
-Hoofdgerecht on koraal, Dessert on geel, Brood on violet and Voorgerecht on roze, but note
-that koraal is also the action color and palette rule 01 warns against that overlap. Each
-entry carries a `TODO` until filled in.
+**On `name` versus `nameKey`:** display goes through `$t(nameKey)` to stay consistent with
+every other string in the app; Firestore receives `name` so the export does not depend on the
+active locale. They hold the same words today and must be kept in sync when renaming.
 
 ### Label — Firestore, shape unchanged
 
@@ -106,18 +136,18 @@ interface Label {
 `RecipeSummary` and `Recipe` replace `tagIds: string[]` with:
 
 ```ts
-categoryId: string;    // required
+category: StoredCategory;  // required: { key, name }
 labelIds: string[];
 ```
 
 The view models become `RecipeSummaryWithLabels` and `RecipeWithLabels`:
 
 ```ts
-category?: Category;   // optional: an unresolvable id yields undefined
+category?: Category;   // optional: an unresolvable key yields undefined
 labels: Label[];
 ```
 
-`RecipeFormData` replaces `tags: Tag[]` with `categoryId: string` and `labels: Label[]`.
+`RecipeFormData` replaces `tags: Tag[]` with `categoryKey: string` and `labels: Label[]`.
 
 ## Palette
 
@@ -190,7 +220,7 @@ no wrapper component; the step is two independent sections stacked in the form.
 ### CategoryPicker
 
 ```
-Props: categoryId (bindable string), error?: string
+Props: categoryKey (bindable string), error?: string
 ```
 
 A `flex-wrap` row of four chips read from `CATEGORIES`, single-select, with the required
@@ -220,12 +250,12 @@ unnecessary after their redesign, widening now would be discarded work.
 Step 2 currently has **no validation at all** — `validateCurrentStep` handles steps 1, 3 and
 4 and falls through for 2. Category is required, so:
 
-- `validateCurrentStep` gains a step-2 branch that blocks "Volgende" when `categoryId` is empty
-- `validateForm`, which runs on submit, checks `categoryId` as well, so a draft restored
+- `validateCurrentStep` gains a step-2 branch that blocks "Volgende" when `categoryKey` is empty
+- `validateForm`, which runs on submit, checks `categoryKey` as well, so a draft restored
   directly onto step 4 cannot be saved without one
 
-Draft keys move to `recipe-draft-v2` and `recipe-edit-v2-{id}`. Drafts already in a user's
-`localStorage` carry `tags` and no `categoryId`; under a new key they lapse cleanly instead of
+Draft keys move to `recipe-draft-v3` and `recipe-edit-v3-{id}`. Drafts already in a user's
+`localStorage` carry `tags` and no `category`; under a new key they lapse cleanly instead of
 half-loading into the new shape.
 
 ## Display

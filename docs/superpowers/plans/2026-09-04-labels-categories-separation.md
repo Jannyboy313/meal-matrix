@@ -12,6 +12,32 @@
 
 ---
 
+## Amendment, after execution
+
+All twelve tasks below were executed, and then the storage shape changed. The owner clarified
+that Firestore is an export format he reads elsewhere, not an implementation detail, which
+makes an opaque UUID the wrong choice. The tasks are left as written because they record what
+was actually done; **the spec is the current design**, not this plan.
+
+What differs from the tasks below:
+
+- A fifth category, `baking` ("Bakken"), was added, and the colours were chosen. The `TODO`
+  in Task 2 is resolved.
+- The UUIDs are gone. `key` is the stable identifier, and it is readable.
+- A recipe stores `category: { key, name }` rather than `categoryId: string`. The name is
+  denormalised so the raw JSON reads on its own; the app never reads it and resolves display
+  from the constants instead.
+- `getCategoryById` became `getCategoryByKey`, and `toStoredCategory` was added so the
+  denormalised name is produced in exactly one place.
+- `RecipeFormData.categoryId` and the `CategoryPicker` prop became `categoryKey`.
+- Draft keys are `recipe-draft-v3` and `recipe-edit-v3-{id}`, one further bump because the
+  form shape changed again.
+
+See the *Firestore is an export format* section of the spec for the three options that were
+weighed and the cost that was accepted.
+
+---
+
 ## Two deviations from the default workflow
 
 Read these before starting; they change how every task is verified.

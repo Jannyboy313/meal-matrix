@@ -3,6 +3,7 @@
 	import { page } from '$app/stores';
 	import { browser } from '$app/environment';
 	import type { Label, Ingredient, RecipeFormData } from '$lib';
+	import { getCategoryByKey } from '$lib/constants/categories';
 	import { createRecipe, updateRecipe } from '$lib/services/recipeService';
 	import { user } from '$lib/stores/auth';
 	import { X } from 'lucide-svelte';
@@ -41,7 +42,7 @@
 	let image = $state<string>('');
 	let prepTime = $state<string>('');
 	let cookTime = $state<string>('');
-	let categoryId = $state<string>('');
+	let categoryKey = $state<string>('');
 	let labels = $state<Label[]>([]);
 	let servings = $state<number[]>([4]);
 	let currentServing = $state<number>(4);
@@ -83,7 +84,7 @@
 			image = initialData.image;
 			prepTime = initialData.prepTime;
 			cookTime = initialData.cookTime;
-			categoryId = initialData.categoryId;
+			categoryKey = initialData.categoryKey;
 			labels = initialData.labels;
 			servings = initialData.servings;
 			currentServing = initialData.currentServing;
@@ -97,7 +98,7 @@
 			image,
 			prepTime,
 			cookTime,
-			categoryId,
+			categoryKey,
 			labels,
 			steps,
 			ingredients
@@ -119,7 +120,7 @@
 				image = draft.image || image;
 				prepTime = draft.prepTime || prepTime;
 				cookTime = draft.cookTime || cookTime;
-				categoryId = draft.categoryId || categoryId;
+				categoryKey = draft.categoryKey || categoryKey;
 				labels = draft.labels || labels;
 				servings = draft.servings || servings;
 				currentServing = draft.currentServing || currentServing;
@@ -143,7 +144,7 @@
 			image,
 			prepTime,
 			cookTime,
-			categoryId,
+			categoryKey,
 			labels,
 			servings,
 			currentServing,
@@ -159,7 +160,7 @@
 		image;
 		prepTime;
 		cookTime;
-		categoryId;
+		categoryKey;
 		labels;
 		servings;
 		currentServing;
@@ -260,7 +261,9 @@
 				isValid = false;
 			}
 		} else if (currentStep === 2) {
-			if (!categoryId) {
+			// Checks that the key resolves, not just that it is set: a stale draft can carry a
+			// key whose category has since been removed, and that must not reach Firestore.
+			if (!getCategoryByKey(categoryKey)) {
 				categoryError = $t('recipe.validation.categoryRequired');
 				isValid = false;
 			}
@@ -329,7 +332,7 @@
 			image,
 			prepTime,
 			cookTime,
-			categoryId,
+			categoryKey,
 			labels,
 			steps,
 			ingredients
@@ -359,7 +362,7 @@
 			return false;
 		}
 
-		if (!categoryId) {
+		if (!getCategoryByKey(categoryKey)) {
 			error = $t('recipe.validation.categoryRequired');
 			return false;
 		}
@@ -459,7 +462,7 @@
 				prepTime,
 				cookTime,
 				servings: servings[0] || 4,
-				categoryId,
+				categoryKey,
 				labels,
 				ingredients,
 				steps
@@ -499,7 +502,7 @@
 	{#if currentStep === 1}
 		<BasicInfoStep bind:title bind:description bind:image bind:prepTime bind:cookTime {titleError} />
 	{:else if currentStep === 2}
-		<CategoryPicker bind:categoryId error={categoryError} />
+		<CategoryPicker bind:categoryKey error={categoryError} />
 		<LabelPicker
 			bind:labels
 			{availableLabels}

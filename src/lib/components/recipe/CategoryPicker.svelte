@@ -3,11 +3,11 @@
 	import { t } from '$lib/i18n';
 
 	interface Props {
-		categoryId: string;
+		categoryKey: string;
 		error?: string;
 	}
 
-	let { categoryId = $bindable(), error = '' }: Props = $props();
+	let { categoryKey = $bindable(), error = '' }: Props = $props();
 </script>
 
 <div class="flex flex-col gap-3">
@@ -16,11 +16,11 @@
 	</span>
 
 	<div class="flex flex-wrap gap-2">
-		{#each CATEGORIES as category (category.id)}
-			{@const isSelected = categoryId === category.id}
+		{#each CATEGORIES as category (category.key)}
+			{@const isSelected = categoryKey === category.key}
 			<button
 				type="button"
-				onclick={() => (categoryId = category.id)}
+				onclick={() => (categoryKey = category.key)}
 				aria-pressed={isSelected}
 				class="focus-ring border-2 border-ink px-[13px] py-[9px] text-xs uppercase {isSelected
 					? 'bg-accent font-black text-ink'

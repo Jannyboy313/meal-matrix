@@ -25,10 +25,10 @@ import type {
 	RecipeSummaryWithLabels
 } from '$lib/types';
 import { populateLabels } from '$lib/services/labelService';
-import { getCategoryById } from '$lib/constants/categories';
+import { getCategoryByKey, toStoredCategory } from '$lib/constants/categories';
 
 /**
- * What the recipe form submits. Distinct from RecipeWithLabels: the form holds a categoryId,
+ * What the recipe form submits. Distinct from RecipeWithLabels: the form holds a category key,
  * not a resolved category, and labels as objects rather than ids.
  */
 export interface RecipeInput {
@@ -38,7 +38,7 @@ export interface RecipeInput {
 	prepTime: string;
 	cookTime: string;
 	servings: number;
-	categoryId: string;
+	categoryKey: string;
 	labels: Label[];
 	ingredients: { [key: number]: Ingredient[] };
 	steps: string[];
@@ -46,23 +46,41 @@ export interface RecipeInput {
 
 /**
  * Build the summary view model: labels fetched from Firestore, category resolved from
- * constants. The category costs no read.
+ * constants by its stored key. The category costs no read.
+ *
+ * The stored `category.name` is deliberately ignored. It exists so the raw Firestore JSON
+ * reads on its own; the constants stay the single source of truth for what the UI shows, so a
+ * rename takes effect immediately instead of waiting on a backfill.
  */
 async function toRecipeSummaryWithLabels(
 	recipe: RecipeSummary
 ): Promise<RecipeSummaryWithLabels> {
 	const labels = await populateLabels(recipe.labelIds || []);
-	const { categoryId, labelIds, ...rest } = recipe;
+	const { category, labelIds, ...rest } = recipe;
 
-	return { ...rest, category: getCategoryById(categoryId), labels };
+	return { ...rest, category: getCategoryByKey(category?.key), labels };
 }
 
 /** Build the full view model. See toRecipeSummaryWithLabels. */
 async function toRecipeWithLabels(recipe: Recipe): Promise<RecipeWithLabels> {
 	const labels = await populateLabels(recipe.labelIds || []);
-	const { categoryId, labelIds, ...rest } = recipe;
+	const { category, labelIds, ...rest } = recipe;
 
-	return { ...rest, category: getCategoryById(categoryId), labels };
+	return { ...rest, category: getCategoryByKey(category?.key), labels };
+}
+
+/**
+ * Turn form input into the document fields that describe a recipe's category and labels.
+ * Shared by create and update so the denormalised name is produced in exactly one place.
+ */
+function toCategoryAndLabelFields(recipeData: RecipeInput) {
+	const { categoryKey, labels, ...rest } = recipeData;
+
+	return {
+		...rest,
+		category: toStoredCategory(categoryKey) ?? null,
+		labelIds: labels?.map((label) => label.id) || []
+	};
 }
 
 /**
@@ -123,20 +141,15 @@ export function subscribeToUserRecipes(
 
 /**
  * Create a new recipe in Firestore
- * @param recipeData - Recipe data including labels (Label objects)
+ * @param recipeData - Recipe data including a category key and labels (Label objects)
  * @param userId - The user ID who owns the recipe
  * @returns Promise that resolves with the created recipe ID
  */
 export async function createRecipe(recipeData: RecipeInput, userId: string): Promise<string> {
 	try {
-		// Extract label IDs from label objects
-		const labelIds = recipeData.labels?.map((label) => label.id) || [];
-		const { labels, ...recipeWithoutLabels } = recipeData;
-
 		// Create the recipe document with Firestore timestamps
 		const docRef = await addDoc(collection(db, 'recipes'), {
-			...recipeWithoutLabels,
-			labelIds,
+			...toCategoryAndLabelFields(recipeData),
 			userId,
 			createdAt: serverTimestamp(),
 			updatedAt: serverTimestamp()
@@ -152,7 +165,7 @@ export async function createRecipe(recipeData: RecipeInput, userId: string): Pro
 /**
  * Update an existing recipe in Firestore
  * @param recipeId - The recipe ID to update
- * @param recipeData - Updated recipe data including labels (Label objects)
+ * @param recipeData - Updated recipe data including a category key and labels (Label objects)
  * @param userId - The user ID who owns the recipe (for validation)
  */
 export async function updateRecipe(
@@ -161,14 +174,9 @@ export async function updateRecipe(
 	userId: string
 ): Promise<void> {
 	try {
-		// Extract label IDs from label objects
-		const labelIds = recipeData.labels?.map((label) => label.id) || [];
-		const { labels, ...recipeWithoutLabels } = recipeData;
-
 		// Update the recipe document
 		await updateDoc(doc(db, 'recipes', recipeId), {
-			...recipeWithoutLabels,
-			labelIds,
+			...toCategoryAndLabelFields(recipeData),
 			updatedAt: serverTimestamp()
 		});
 	} catch (error) {

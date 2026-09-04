@@ -34,7 +34,7 @@
 	<div class="min-h-dvh bg-paper">
 		<RecipeForm
 			{availableLabels}
-			storageKey="recipe-draft-v2"
+			storageKey="recipe-draft-v3"
 			submitErrorMessage={$t('recipe.validation.saveFailed')}
 		/>
 	</div>

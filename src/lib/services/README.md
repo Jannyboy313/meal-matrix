@@ -37,9 +37,14 @@ they are distinct from categories, which are code constants and never hit Firest
 
 ## Categories are not a service
 
-The four recipe categories live in `$lib/constants/categories.ts`, not in Firestore. A recipe
-stores only a category UUID, and `getCategoryById` resolves it synchronously — so displaying a
-category costs no read. See `docs/superpowers/specs/2026-09-04-labels-categories-separation-design.md`.
+The five recipe categories live in `$lib/constants/categories.ts`, not in Firestore. A recipe
+stores `category: { key, name }`, and `getCategoryByKey` resolves the key synchronously — so
+displaying a category costs no read.
+
+The stored `name` is denormalised on purpose, so the raw Firestore JSON reads on its own
+without the constants file next to it. The app never reads it; the constants stay the single
+source of truth for display. Writing goes through `toStoredCategory` so that field is produced
+in one place. See `docs/superpowers/specs/2026-09-04-labels-categories-separation-design.md`.
 
 ## Usage
 

@@ -48,7 +48,7 @@
 					image: recipe.image,
 					prepTime: recipe.prepTime || '',
 					cookTime: recipe.cookTime || '',
-					categoryId: recipe.category?.id ?? '',
+					categoryKey: recipe.category?.key ?? '',
 					labels: recipe.labels ? [...recipe.labels] : [],
 					servings: Object.keys(recipe.ingredients).map(Number),
 					currentServing: recipe.servings || Object.keys(recipe.ingredients).map(Number)[0],
@@ -73,7 +73,7 @@
 	<div class="min-h-dvh bg-paper">
 		<RecipeForm
 			{availableLabels}
-			storageKey={`recipe-edit-v2-${data.recipeId}`}
+			storageKey={`recipe-edit-v3-${data.recipeId}`}
 			{initialData}
 			isEditing={true}
 			recipeId={data.recipeId}

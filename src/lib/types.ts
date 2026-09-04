@@ -3,7 +3,7 @@
  * Optimized for Firebase/Firestore NoSQL database
  */
 
-import type { Category } from '$lib/constants/categories';
+import type { Category, StoredCategory } from '$lib/constants/categories';
 
 /**
  * Label document - stored in separate 'labels' collection
@@ -44,7 +44,7 @@ export interface RecipeSummary {
 	title: string;
 	description: string;
 	image: string;
-	categoryId: string; // UUID of a category from $lib/constants/categories
+	category: StoredCategory; // { key, name } — name is denormalised so the export reads alone
 	labelIds: string[]; // Array of label IDs (references to /labels collection)
 	prepTime?: string;
 	cookTime?: string;
@@ -57,9 +57,8 @@ export interface RecipeSummary {
  * Recipe summary with populated labels (view model)
  * Used in UI when displaying recipes with full label information
  */
-export interface RecipeSummaryWithLabels
-	extends Omit<RecipeSummary, 'categoryId' | 'labelIds'> {
-	category?: Category; // Resolved from constants; undefined if the id matches nothing
+export interface RecipeSummaryWithLabels extends Omit<RecipeSummary, 'category' | 'labelIds'> {
+	category?: Category; // Resolved from constants; undefined if the key matches nothing
 	labels: Label[]; // Populated label objects for display
 }
 
@@ -88,8 +87,8 @@ export interface Recipe extends RecipeSummary {
  * Full recipe with populated labels (view model)
  * Used in UI when displaying full recipe with label information
  */
-export interface RecipeWithLabels extends Omit<Recipe, 'categoryId' | 'labelIds'> {
-	category?: Category; // Resolved from constants; undefined if the id matches nothing
+export interface RecipeWithLabels extends Omit<Recipe, 'category' | 'labelIds'> {
+	category?: Category; // Resolved from constants; undefined if the key matches nothing
 	labels: Label[]; // Populated label objects for display
 }
 
@@ -103,7 +102,7 @@ export interface RecipeFormData {
 	image: string;
 	prepTime: string;
 	cookTime: string;
-	categoryId: string;
+	categoryKey: string;
 	labels: Label[];
 	servings: number[];
 	currentServing: number;
