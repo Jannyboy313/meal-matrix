@@ -8,6 +8,7 @@
 	import IngredientListDisplay from '$lib/components/IngredientListDisplay.svelte';
 	import ErrorDisplay from '$lib/components/ErrorDisplay.svelte';
 	import RecipeHero from '$lib/components/RecipeHero.svelte';
+	import RecipeLabelLine from '$lib/components/RecipeLabelLine.svelte';
 	import { t } from '$lib/i18n';
 
 	let { data }: { data: PageData } = $props();
@@ -64,6 +65,7 @@
 			<h1 class="font-display text-[32px] font-black leading-[0.98] tracking-[-0.05em] text-ink">
 				{recipe.title}
 			</h1>
+			<RecipeLabelLine labels={recipe.labels} />
 		</div>
 
 		<div class="px-[22px] pt-[18px]">

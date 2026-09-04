@@ -89,15 +89,8 @@
 		"adding": "Adding...",
 		"createError": "Failed to create label. Please try again.",
 		"newLabel": "New label",
-		"colorLabel": "Color",
 		"addLabel": "Add label",
-		"newLabelHint": "Labels are free-form keywords, for example spicy or gluten-free.",
-		"swatchColors": {
-			"accent": "Orange",
-			"yellow": "Yellow",
-			"teal": "Teal",
-			"violet": "Violet"
-		}
+		"newLabelHint": "Labels are free-form keywords, for example spicy or gluten-free."
 	},
 	"servings": {
 		"label": "How many servings",

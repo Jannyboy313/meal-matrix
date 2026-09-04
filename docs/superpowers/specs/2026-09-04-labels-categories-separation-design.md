@@ -26,9 +26,9 @@ Two distinct concepts.
 **Categories** are a closed set defined in code: Voorgerecht, Hoofdgerecht, Dessert, Brood, Bakken.
 Each has one fixed color that never changes. A recipe has exactly one, and it is required.
 
-**Labels** are open and user-created, stored in Firestore exactly as tags are today. A recipe
-has zero or more. They are saved and selectable now, but not yet displayed anywhere — their
-presentation is waiting on its own design.
+**Labels** are open and user-created, stored in Firestore. A recipe has zero or more. They are
+shown on the detail page as one typographic line under the title — see *Labels on the detail
+page* below.
 
 ## Decisions
 
@@ -36,15 +36,17 @@ presentation is waiting on its own design.
 | --- | --- |
 | Categories are code constants, stored on a recipe as `{ key, name }` | The key is stable so a rename touches no data; the name is denormalised so the raw Firestore JSON is readable on its own — see *Firestore is an export format* below |
 | Category names resolve through i18n keys, not literals | Every other UI string in the app goes through `$t`; a literal here would be the only exception |
-| Labels keep their hex color, unchanged | Whether labels need colors at all is an open question until their redesign; changing storage now risks throwing away work |
+| Labels have no color at all | Their design landed and renders them as plain text, so a color field would carry no meaning. Originally parked pending that design, then removed once it arrived |
 | Full rename in code *and* Firestore: `Tag` → `Label`, collection `tags` → `labels` | Leaving the collection named `tags` would keep a permanent code/database mismatch, which is the confusion this work exists to remove |
 | Two separate picker components, no wrapper | Each has one job, and the label side can be replaced wholesale when its design lands without touching the category side |
 | Migration is handled outside this work | The owner is writing it; the implementation may assume `category` is present on every recipe |
 
 ### Out of scope
 
-- **Displaying labels.** Selected and stored, not rendered. Awaiting design.
-- **A category filter on the overview.** Search continues to match category and label names.
+- **Labels on the overview cards.** The card line is "CATEGORIE · TIJD"; adding labels would
+  overfill it, and the labels handoff leaves that as its own decision.
+- **A category filter on the overview**, and filtering by label. Search continues to match
+  category and label names.
 - **The label lookup N+1.** See `docs/issues/label-lookup-n-plus-one.md`.
 - **The palette's app-wide contrast changes.** See `docs/issues/palette-contrast-rollout.md`.
 - **The dead English locale.** See `docs/issues/unreachable-en-locale.md`.
@@ -117,19 +119,60 @@ Three functions in `$lib/constants/categories.ts`:
 every other string in the app; Firestore receives `name` so the export does not depend on the
 active locale. They hold the same words today and must be kept in sync when renaming.
 
-### Label — Firestore, shape unchanged
+### Label — Firestore, no colour
 
 ```ts
 interface Label {
   id: string;
-  name: string;
-  color: string;      // hex, exactly as tags store it today
+  name: string;       // sentence case; uppercased by CSS at display time
   userId?: string;
   isGlobal?: boolean;
   createdAt?: string;
   updatedAt?: string;
 }
 ```
+
+The `color` field that tags carried is gone. A label is never rendered as a filled area, so a
+colour would be a field that does nothing — the labels handoff says so explicitly. The swatch
+picker went with it, along with the `labelPicker.colorLabel` and `labelPicker.swatchColors.*`
+i18n keys.
+
+## Labels on the detail page
+
+From `.github/design_handoff_meal_matrix_labels/`, variant **14e — typographic, no chips**.
+
+One `<p>` directly under the `<h1>`, inside the same padding block, rendered by
+`src/lib/components/RecipeLabelLine.svelte`:
+
+| Property | Value |
+| --- | --- |
+| Font | Archivo, 11px, weight 900, `uppercase` via CSS |
+| Letter-spacing | `0.10em` |
+| Line-height | 1.5 — the line may wrap to a second line |
+| Text colour | `muted-strong` — **not** the `muted` the handoff specifies; see below |
+| Separator | `·` in `ink`, darker than the labels themselves, with a space either side |
+| Margin | `margin-top: 12px`, which disappears with the line |
+
+Rules: zero labels renders nothing at all, one label gets no separator, many labels all show
+and wrap with no truncation and no "+3". Order is storage order, not alphabetical, so the line
+stays stable across visits. The category is never part of this line — it stays the tilted badge
+on the hero.
+
+The line is deliberately **static**: no tap, no link, no filter navigation. It is far too small
+for a 44px touch target, and tappable text without affordance is confusing. If labels become
+filterable, that belongs on the overview.
+
+### Where this deviates from the handoff
+
+The handoff specifies `muted` `#8D8878` for the label text. That is not used, because the
+palette document — written later, explicitly to correct the redesign handoff — states that
+`#8D8878` reaches only 3,5:1 and that every label, meta line and placeholder under 18px uses
+`muted-strong` `#6B6555` from now on. Weight 900 does not rescue it: WCAG's large-text
+exemption starts around 18,7px for bold, and this line is 11px.
+
+Rather than leave one line inconsistent with its neighbours, the whole `muted` → `muted-strong`
+rollout was done at the same time. See `docs/issues/palette-contrast-rollout.md`, where item 1
+is now closed and items 2 and 3 remain.
 
 ### Recipe
 
@@ -238,12 +281,12 @@ Props: labels (bindable Label[]), availableLabels (bindable Label[]),
        onaddlabel: (label: Label) => void, onremovelabel: (index: number) => void
 ```
 
-Behaviourally identical to today's tag section: toggle existing labels on and off, or create
-a new one from a name plus one of the four existing swatches, written to Firestore as a hex.
-Only the copy changes, from "categorie" to "label".
+Toggle existing labels on and off, or create a new one from a name alone.
 
-The swatch set stays at four rather than widening to ten. If label colors turn out to be
-unnecessary after their redesign, widening now would be discarded work.
+There is no colour picker. The swatch row was carried over from the old tag section at first,
+on the grounds that whether labels need colours could not be answered until their design
+existed. That design then arrived and answered it: no. The row, the four swatches and the hex
+write were all removed.
 
 ## Validation and drafts
 

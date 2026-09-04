@@ -93,18 +93,17 @@ export async function populateLabels(labelIds: string[]): Promise<Label[]> {
 
 /**
  * Create a new label in Firestore
- * @param labelData - Label data (name, color)
+ * @param labelData - Label data (name only; labels carry no colour)
  * @param userId - The user ID who owns the label
  * @returns Promise that resolves with the created label with ID
  */
 export async function createLabel(
-	labelData: { name: string; color: string },
+	labelData: { name: string },
 	userId: string
 ): Promise<Label> {
 	try {
 		const docRef = await addDoc(collection(db, 'labels'), {
 			name: labelData.name,
-			color: labelData.color,
 			userId,
 			isGlobal: false,
 			createdAt: serverTimestamp(),
@@ -114,7 +113,6 @@ export async function createLabel(
 		return {
 			id: docRef.id,
 			name: labelData.name,
-			color: labelData.color,
 			userId,
 			isGlobal: false
 		};

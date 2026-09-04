@@ -60,5 +60,5 @@
 		+ {$t('recipe.instructions.add')}
 	</button>
 
-	<p class="text-xs font-semibold text-muted">{$t('recipe.instructions.oneActionHint')}</p>
+	<p class="text-xs font-semibold text-muted-strong">{$t('recipe.instructions.oneActionHint')}</p>
 </div>

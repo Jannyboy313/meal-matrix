@@ -46,7 +46,7 @@
 </script>
 
 <div class="flex flex-col gap-3">
-	<div class="flex gap-[9px] text-[10px] font-black uppercase tracking-[0.08em] text-muted">
+	<div class="flex gap-[9px] text-[10px] font-black uppercase tracking-[0.08em] text-muted-strong">
 		<span class="w-[92px] flex-none">{$t('recipe.ingredients.quantity')}</span>
 		<span>{$t('recipe.ingredients.name')}</span>
 	</div>

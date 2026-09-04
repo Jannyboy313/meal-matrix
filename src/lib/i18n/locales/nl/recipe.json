@@ -89,15 +89,8 @@
 		"adding": "Toevoegen...",
 		"createError": "Label maken mislukt. Probeer het opnieuw.",
 		"newLabel": "Nieuw label",
-		"colorLabel": "Kleur",
 		"addLabel": "Label toevoegen",
-		"newLabelHint": "Labels zijn vrije trefwoorden, bijvoorbeeld pittig of glutenvrij.",
-		"swatchColors": {
-			"accent": "Oranje",
-			"yellow": "Geel",
-			"teal": "Teal",
-			"violet": "Paars"
-		}
+		"newLabelHint": "Labels zijn vrije trefwoorden, bijvoorbeeld pittig of glutenvrij."
 	},
 	"servings": {
 		"label": "Voor hoeveel porties",

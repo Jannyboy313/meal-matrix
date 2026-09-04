@@ -77,7 +77,7 @@
 						{ done: completedSteps.size, total: recipe.steps.length } as Record<string, unknown>
 					)}
 				</span>
-				<span class="text-xs font-black text-muted">{percentage}%</span>
+				<span class="text-xs font-black text-muted-strong">{percentage}%</span>
 			</div>
 			<div
 				class="h-[10px] border-2 border-ink bg-white"

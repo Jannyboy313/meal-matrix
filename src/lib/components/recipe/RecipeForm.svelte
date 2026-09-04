@@ -545,7 +545,7 @@
 			aria-labelledby="discard-dialog-title"
 		>
 			<p id="discard-dialog-title" class="text-base font-semibold text-ink">{$t('recipe.wizard.discardTitle')}</p>
-			<p class="mt-2 text-sm text-muted">{$t('recipe.wizard.discardBody')}</p>
+			<p class="mt-2 text-sm text-muted-strong">{$t('recipe.wizard.discardBody')}</p>
 			<div class="mt-5 flex gap-[10px]">
 				<button
 					type="button"

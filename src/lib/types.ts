@@ -8,11 +8,14 @@ import type { Category, StoredCategory } from '$lib/constants/categories';
 /**
  * Label document - stored in separate 'labels' collection
  * Path: /labels/{labelId}
+ *
+ * Deliberately has no colour. Unlike a category, a label is never rendered as a filled area —
+ * it appears only as one typographic line on the detail page — so a colour field would carry
+ * no meaning. See .github/design_handoff_meal_matrix_labels/README.md
  */
 export interface Label {
 	id: string; // UUID
-	name: string;
-	color: string; // hex
+	name: string; // stored in sentence case; uppercased by CSS at display time
 	userId?: string; // Owner of the label (optional for system/global labels)
 	isGlobal?: boolean; // True for system labels available to all users
 	createdAt?: string; // ISO 8601 timestamp

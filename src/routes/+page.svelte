@@ -79,7 +79,7 @@
 			<span class="font-display text-[22px] font-black leading-none tracking-[-0.04em] text-ink">
 				{$t('common.app.name')}
 			</span>
-			<span class="text-[11px] font-black uppercase tracking-[0.1em] text-muted">
+			<span class="text-[11px] font-black uppercase tracking-[0.1em] text-muted-strong">
 				{filteredRecipes.length} {$t('recipe.labels.recipesCount')}
 			</span>
 		</div>

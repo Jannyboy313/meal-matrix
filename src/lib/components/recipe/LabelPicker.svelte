@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { Check } from 'lucide-svelte';
 	import type { Label } from '$lib';
 	import { createLabel } from '$lib/services/labelService';
 	import { user } from '$lib/stores/auth';
@@ -19,25 +18,7 @@
 		onremovelabel
 	}: Props = $props();
 
-	const SWATCHES = [
-		{ name: 'accent', value: '#FF5C35' },
-		{ name: 'yellow', value: '#FFC400' },
-		{ name: 'teal', value: '#2ED3B7' },
-		{ name: 'violet', value: '#6C5CE7' }
-	];
-
-	// Literal class names so Tailwind's static scanner can find them (a dynamic
-	// `bg-${swatch.name}` string never appears verbatim in this file, so classes
-	// without another literal usage elsewhere, e.g. bg-violet, would not be generated).
-	const SWATCH_BG_CLASS: Record<string, string> = {
-		accent: 'bg-accent',
-		yellow: 'bg-yellow',
-		teal: 'bg-teal',
-		violet: 'bg-violet'
-	};
-
 	let newLabelName = $state<string>('');
-	let newLabelColor = $state<string>(SWATCHES[0].value);
 	let isCreatingLabel = $state<boolean>(false);
 
 	function toggleLabel(label: Label) {
@@ -53,10 +34,7 @@
 		if (newLabelName.trim() && $user) {
 			isCreatingLabel = true;
 			try {
-				const newLabel = await createLabel(
-					{ name: newLabelName.trim(), color: newLabelColor },
-					$user.uid
-				);
+				const newLabel = await createLabel({ name: newLabelName.trim() }, $user.uid);
 				availableLabels = [...availableLabels, newLabel];
 				onaddlabel(newLabel);
 				newLabelName = '';
@@ -108,31 +86,6 @@
 				e.key === 'Enter' && !isCreatingLabel && (e.preventDefault(), addCustomLabel())}
 		/>
 
-		<div class="flex items-center justify-between">
-			<span class="text-[11px] font-black uppercase text-muted">
-				{$t('recipe.labelPicker.colorLabel')}
-			</span>
-			<div class="flex gap-2">
-				{#each SWATCHES as swatch (swatch.name)}
-					<button
-						type="button"
-						aria-label={$t('recipe.labelPicker.swatchColors.' + swatch.name)}
-						aria-pressed={newLabelColor === swatch.value}
-						onclick={() => (newLabelColor = swatch.value)}
-						class="focus-ring flex h-[38px] w-[38px] items-center justify-center border-2 border-ink {SWATCH_BG_CLASS[
-							swatch.name
-						]} {newLabelColor === swatch.value
-							? 'shadow-[inset_0_0_0_3px_var(--color-ink)]'
-							: ''}"
-					>
-						{#if newLabelColor === swatch.value}
-							<Check size={16} class="text-ink" strokeWidth={3} />
-						{/if}
-					</button>
-				{/each}
-			</div>
-		</div>
-
 		<button
 			type="button"
 			onclick={addCustomLabel}
@@ -142,6 +95,6 @@
 			{isCreatingLabel ? $t('recipe.labelPicker.adding') : $t('recipe.labelPicker.addLabel')}
 		</button>
 
-		<p class="text-xs font-semibold text-muted">{$t('recipe.labelPicker.newLabelHint')}</p>
+		<p class="text-xs font-semibold text-muted-strong">{$t('recipe.labelPicker.newLabelHint')}</p>
 	</div>
 </div>
