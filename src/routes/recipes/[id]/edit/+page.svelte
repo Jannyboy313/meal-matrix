@@ -1,18 +1,18 @@
 <script lang="ts">
 	import type { PageData } from './$types';
-	import type { RecipeWithTags, Tag } from '$lib';
+	import type { RecipeWithLabels, Label } from '$lib';
 	import RecipeForm from '$lib/components/recipe/RecipeForm.svelte';
 	import ChefHatLoader from '$lib/components/ChefHatLoader.svelte';
 	import ErrorDisplay from '$lib/components/ErrorDisplay.svelte';
 	import { getRecipeById } from '$lib/services/recipeService';
-	import { getAllTags } from '$lib/services/tagService';
+	import { getAllLabels } from '$lib/services/labelService';
 	import { user } from '$lib/stores/auth';
 	import { onMount } from 'svelte';
 	import { t } from '$lib/i18n';
 
 	let { data }: { data: PageData } = $props();
-	let recipe = $state<RecipeWithTags | null>(null);
-	let availableTags = $state<Tag[]>([]);
+	let recipe = $state<RecipeWithLabels | null>(null);
+	let availableLabels = $state<Label[]>([]);
 	let loading = $state<boolean>(true);
 	let error = $state<string | null>(null);
 
@@ -21,14 +21,14 @@
 			loading = true;
 			const currentUser = $user;
 
-			const [fetchedRecipe, fetchedTags] = await Promise.all([
+			const [fetchedRecipe, fetchedLabels] = await Promise.all([
 				getRecipeById(data.recipeId),
-				getAllTags(currentUser?.uid)
+				getAllLabels(currentUser?.uid)
 			]);
 
 			if (fetchedRecipe) {
 				recipe = fetchedRecipe;
-				availableTags = fetchedTags;
+				availableLabels = fetchedLabels;
 			} else {
 				error = $t('recipe.validation.recipeNotFound');
 			}
@@ -48,7 +48,8 @@
 					image: recipe.image,
 					prepTime: recipe.prepTime || '',
 					cookTime: recipe.cookTime || '',
-					tags: recipe.tags ? [...recipe.tags] : [],
+					categoryKey: recipe.category?.key ?? '',
+					labels: recipe.labels ? [...recipe.labels] : [],
 					servings: Object.keys(recipe.ingredients).map(Number),
 					currentServing: recipe.servings || Object.keys(recipe.ingredients).map(Number)[0],
 					ingredients: JSON.parse(JSON.stringify(recipe.ingredients)),
@@ -71,8 +72,8 @@
 {:else if recipe && initialData}
 	<div class="min-h-dvh bg-paper">
 		<RecipeForm
-			{availableTags}
-			storageKey={`recipe-edit-${data.recipeId}`}
+			{availableLabels}
+			storageKey={`recipe-edit-v3-${data.recipeId}`}
 			{initialData}
 			isEditing={true}
 			recipeId={data.recipeId}

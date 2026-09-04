@@ -71,7 +71,7 @@
 			placeholder={$t('recipe.placeholders.imageUrl')}
 			class="focus-ring border-2 border-ink bg-white px-[14px] py-[13px] text-[15px] font-semibold text-ink"
 		/>
-		<p class="text-xs font-semibold text-muted">{$t('recipe.labels.imageUrlHint')}</p>
+		<p class="text-xs font-semibold text-muted-strong">{$t('recipe.labels.imageUrlHint')}</p>
 	</div>
 
 	{#if image && !imageLoadError}

@@ -24,7 +24,7 @@
 	"loading": {
 		"authentication": "Loading authentication...",
 		"recipes": "Loading your recipes...",
-		"tags": "Loading..."
+		"labels": "Loading..."
 	},
 	"errors": {
 		"general": "Something went wrong",

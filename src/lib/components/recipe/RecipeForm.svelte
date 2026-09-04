@@ -2,12 +2,14 @@
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import { browser } from '$app/environment';
-	import type { Tag, Ingredient, RecipeFormData } from '$lib';
+	import type { Label, Ingredient, RecipeFormData } from '$lib';
+	import { getCategoryByKey } from '$lib/constants/categories';
 	import { createRecipe, updateRecipe } from '$lib/services/recipeService';
 	import { user } from '$lib/stores/auth';
 	import { X } from 'lucide-svelte';
 	import BasicInfoStep from '$lib/components/recipe/BasicInfoStep.svelte';
-	import TagsStep from '$lib/components/recipe/TagsStep.svelte';
+	import CategoryPicker from '$lib/components/recipe/CategoryPicker.svelte';
+	import LabelPicker from '$lib/components/recipe/LabelPicker.svelte';
 	import IngredientsStep from '$lib/components/recipe/IngredientsStep.svelte';
 	import InstructionsStep from '$lib/components/recipe/InstructionsStep.svelte';
 	import StepNavigation from '$lib/components/recipe/StepNavigation.svelte';
@@ -15,7 +17,7 @@
 	import { t } from '$lib/i18n';
 
 	interface Props {
-		availableTags: Tag[];
+		availableLabels: Label[];
 		storageKey: string;
 		initialData?: RecipeFormData;
 		isEditing?: boolean;
@@ -25,7 +27,7 @@
 	}
 
 	let {
-		availableTags,
+		availableLabels,
 		storageKey,
 		initialData,
 		isEditing = false,
@@ -40,7 +42,8 @@
 	let image = $state<string>('');
 	let prepTime = $state<string>('');
 	let cookTime = $state<string>('');
-	let tags = $state<Tag[]>([]);
+	let categoryKey = $state<string>('');
+	let labels = $state<Label[]>([]);
 	let servings = $state<number[]>([4]);
 	let currentServing = $state<number>(4);
 	let ingredients = $state<{ [serving: number]: Ingredient[] }>({ 4: [{ amount: '', name: '' }] });
@@ -58,12 +61,13 @@
 
 	// Field-level errors
 	let titleError = $state<string>('');
+	let categoryError = $state<string>('');
 	let ingredientErrors = $state<{ [key: number]: { name?: string; amount?: string } }>({});
 	let stepErrors = $state<{ [key: number]: string }>({});
 
 	const stepTitles = $derived([
 		$t('recipe.steps.basicInfo'),
-		$t('recipe.steps.tags'),
+		$t('recipe.steps.categoryLabels'),
 		$t('recipe.steps.ingredients'),
 		$t('recipe.steps.instructions')
 	]);
@@ -80,14 +84,25 @@
 			image = initialData.image;
 			prepTime = initialData.prepTime;
 			cookTime = initialData.cookTime;
-			tags = initialData.tags;
+			categoryKey = initialData.categoryKey;
+			labels = initialData.labels;
 			servings = initialData.servings;
 			currentServing = initialData.currentServing;
 			ingredients = initialData.ingredients;
 			steps = initialData.steps;
 		}
 
-		initialSnapshot = JSON.stringify({ title, description, image, prepTime, cookTime, tags, steps, ingredients });
+		initialSnapshot = JSON.stringify({
+			title,
+			description,
+			image,
+			prepTime,
+			cookTime,
+			categoryKey,
+			labels,
+			steps,
+			ingredients
+		});
 
 		// Get step from URL
 		const urlStep = parseInt($page.url.searchParams.get('step') || '1', 10);
@@ -105,7 +120,8 @@
 				image = draft.image || image;
 				prepTime = draft.prepTime || prepTime;
 				cookTime = draft.cookTime || cookTime;
-				tags = draft.tags || tags;
+				categoryKey = draft.categoryKey || categoryKey;
+				labels = draft.labels || labels;
 				servings = draft.servings || servings;
 				currentServing = draft.currentServing || currentServing;
 				ingredients = draft.ingredients || ingredients;
@@ -128,7 +144,8 @@
 			image,
 			prepTime,
 			cookTime,
-			tags,
+			categoryKey,
+			labels,
 			servings,
 			currentServing,
 			ingredients,
@@ -143,7 +160,8 @@
 		image;
 		prepTime;
 		cookTime;
-		tags;
+		categoryKey;
+		labels;
 		servings;
 		currentServing;
 		ingredients;
@@ -160,12 +178,12 @@
 	});
 
 	// Event handlers
-	function addTag(tag: Tag) {
-		tags = [...tags, tag];
+	function addLabel(label: Label) {
+		labels = [...labels, label];
 	}
 
-	function removeTag(index: number) {
-		tags = tags.filter((_, i) => i !== index);
+	function removeLabel(index: number) {
+		labels = labels.filter((_, i) => i !== index);
 	}
 
 	function addServing() {
@@ -231,6 +249,7 @@
 	function validateCurrentStep(): boolean {
 		error = '';
 		titleError = '';
+		categoryError = '';
 		ingredientErrors = {};
 		stepErrors = {};
 
@@ -239,6 +258,13 @@
 		if (currentStep === 1) {
 			if (!title.trim()) {
 				titleError = $t('recipe.validation.nameRequired');
+				isValid = false;
+			}
+		} else if (currentStep === 2) {
+			// Checks that the key resolves, not just that it is set: a stale draft can carry a
+			// key whose category has since been removed, and that must not reach Firestore.
+			if (!getCategoryByKey(categoryKey)) {
+				categoryError = $t('recipe.validation.categoryRequired');
 				isValid = false;
 			}
 		} else if (currentStep === 3) {
@@ -299,7 +325,18 @@
 	}
 
 	function isDirty(): boolean {
-		const current = JSON.stringify({ title, description, image, prepTime, cookTime, tags, steps, ingredients });
+		// Key order must match initialSnapshot: the two strings are compared directly.
+		const current = JSON.stringify({
+			title,
+			description,
+			image,
+			prepTime,
+			cookTime,
+			categoryKey,
+			labels,
+			steps,
+			ingredients
+		});
 		return current !== initialSnapshot;
 	}
 
@@ -322,6 +359,11 @@
 
 		if (!title.trim()) {
 			error = $t('recipe.validation.titleRequired');
+			return false;
+		}
+
+		if (!getCategoryByKey(categoryKey)) {
+			error = $t('recipe.validation.categoryRequired');
 			return false;
 		}
 
@@ -420,7 +462,8 @@
 				prepTime,
 				cookTime,
 				servings: servings[0] || 4,
-				tags,
+				categoryKey,
+				labels,
 				ingredients,
 				steps
 			};
@@ -459,7 +502,13 @@
 	{#if currentStep === 1}
 		<BasicInfoStep bind:title bind:description bind:image bind:prepTime bind:cookTime {titleError} />
 	{:else if currentStep === 2}
-		<TagsStep bind:tags {availableTags} onaddtag={addTag} onremovetag={removeTag} />
+		<CategoryPicker bind:categoryKey error={categoryError} />
+		<LabelPicker
+			bind:labels
+			{availableLabels}
+			onaddlabel={addLabel}
+			onremovelabel={removeLabel}
+		/>
 	{:else if currentStep === 3}
 		<IngredientsStep
 			bind:servings
@@ -496,7 +545,7 @@
 			aria-labelledby="discard-dialog-title"
 		>
 			<p id="discard-dialog-title" class="text-base font-semibold text-ink">{$t('recipe.wizard.discardTitle')}</p>
-			<p class="mt-2 text-sm text-muted">{$t('recipe.wizard.discardBody')}</p>
+			<p class="mt-2 text-sm text-muted-strong">{$t('recipe.wizard.discardBody')}</p>
 			<div class="mt-5 flex gap-[10px]">
 				<button
 					type="button"

@@ -4,6 +4,13 @@
 		"edit": "Edit Recipe",
 		"details": "Recipe Details"
 	},
+	"categories": {
+		"starter": "Starter",
+		"main": "Main course",
+		"dessert": "Dessert",
+		"bread": "Bread",
+		"baking": "Baking"
+	},
 	"labels": {
 		"name": "Recipe Name",
 		"description": "Description",
@@ -14,7 +21,7 @@
 		"servings": "Servings",
 		"ingredients": "Ingredients",
 		"instructions": "Instructions",
-		"tags": "Tags",
+		"labels": "Labels",
 		"category": "Category",
 		"minutes": "minutes",
 		"imageUrl": "Image URL",
@@ -56,7 +63,7 @@
 		"basicInfo": "Basic Information",
 		"ingredients": "Ingredients",
 		"instructions": "Instructions",
-		"tags": "Tags",
+		"categoryLabels": "Category & labels",
 		"next": "Next",
 		"previous": "Previous",
 		"finish": "Finish"
@@ -77,20 +84,13 @@
 		"removeStep": "Remove step",
 		"oneActionHint": "One action per step reads best while cooking."
 	},
-	"tags": {
-		"namePlaceholder": "Tag name",
+	"labelPicker": {
+		"namePlaceholder": "Label name",
 		"adding": "Adding...",
-		"createError": "Failed to create tag. Please try again.",
-		"newCategory": "New category",
-		"colorLabel": "Color",
-		"addCategory": "Add category",
-		"newCategoryHint": "New categories also become available as a filter on the overview.",
-		"swatchColors": {
-			"accent": "Orange",
-			"yellow": "Yellow",
-			"teal": "Teal",
-			"violet": "Violet"
-		}
+		"createError": "Failed to create label. Please try again.",
+		"newLabel": "New label",
+		"addLabel": "Add label",
+		"newLabelHint": "Labels are free-form keywords, for example spicy or gluten-free."
 	},
 	"servings": {
 		"label": "How many servings",
@@ -103,6 +103,7 @@
 	},
 	"validation": {
 		"nameRequired": "Recipe name is required",
+		"categoryRequired": "Please choose a category",
 		"ingredientsRequired": "At least one ingredient is required",
 		"instructionsRequired": "At least one instruction is required",
 		"ingredientNameRequired": "Name is required",

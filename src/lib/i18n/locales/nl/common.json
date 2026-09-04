@@ -24,7 +24,7 @@
 	"loading": {
 		"authentication": "Authenticatie laden...",
 		"recipes": "Jouw recepten laden...",
-		"tags": "Laden..."
+		"labels": "Laden..."
 	},
 	"errors": {
 		"general": "Er ging iets mis",

@@ -12,7 +12,7 @@
 
 <div class="relative">
 	<div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
-		<Search size={18} class="text-muted" strokeWidth={2} />
+		<Search size={18} class="text-muted-strong" strokeWidth={2} />
 	</div>
 	<input
 		type="search"

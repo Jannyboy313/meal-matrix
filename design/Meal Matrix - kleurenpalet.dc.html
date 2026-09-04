@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/42-puzzles-design-system-fcdf59d8-1aab-4f24-946a-6a72a6b10af9/tokens/fonts.css">
+<link rel="stylesheet" href="_ds/42-puzzles-design-system-fcdf59d8-1aab-4f24-946a-6a72a6b10af9/tokens/colors.css">
+<link rel="stylesheet" href="_ds/42-puzzles-design-system-fcdf59d8-1aab-4f24-946a-6a72a6b10af9/tokens/typography.css">
+<link rel="stylesheet" href="_ds/42-puzzles-design-system-fcdf59d8-1aab-4f24-946a-6a72a6b10af9/tokens/spacing.css">
+<link rel="stylesheet" href="_ds/42-puzzles-design-system-fcdf59d8-1aab-4f24-946a-6a72a6b10af9/tokens/base.css">
+<link rel="stylesheet" href="_ds/42-puzzles-design-system-fcdf59d8-1aab-4f24-946a-6a72a6b10af9/styles.css">
+<script src="_ds/42-puzzles-design-system-fcdf59d8-1aab-4f24-946a-6a72a6b10af9/_ds_bundle.js"></script>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;700;800;900&display=swap">
+<style>
+body { margin: 0; background: #FFFDF7; font-family: Archivo, system-ui, sans-serif; }
+a { color: #C0390E; }
+a:hover { color: #17150F; }
+</style>
+</helmet>
+
+<div style="max-width:1120px;margin:0 auto;padding:56px 40px 96px;color:#17150F">
+
+  <div style="display:flex;flex-direction:column;gap:14px;max-width:640px">
+    <span style="font:900 11px/1 Archivo;letter-spacing:.12em;text-transform:uppercase;color:#6B6555">Meal Matrix · kleur</span>
+    <h1 style="margin:0;font:900 46px/0.96 Archivo;letter-spacing:-.05em">Kleurenpalet</h1>
+    <p style="margin:0;font:600 16px/1.55 Archivo;color:#17150F;text-wrap:pretty">Tien categoriekleuren in plaats van vier, plus de basiskleuren die al vast staan. Elke kleur is getoetst op WCAG AA voor kleine tekst (4,5:1) en draagt vast één tekstkleur: inkt of wit. De vier bestaande kleuren zijn niet gewijzigd.</p>
+  </div>
+
+  <div style="height:52px"></div>
+
+  <h2 style="margin:0 0 4px;font:900 13px/1 Archivo;letter-spacing:.10em;text-transform:uppercase">Basis</h2>
+  <p style="margin:0 0 20px;font:600 14px/1.5 Archivo;color:#6B6555;max-width:560px">Deze zeven dragen het hele scherm: inkt voor tekst, kaders en iconen, papier als achtergrond, wit voor vlakken.</p>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:14px">
+    <div style="border:2px solid #17150F;border-radius:4px;background:#FFFFFF">
+      <div style="height:64px;background:#17150F;border-bottom:2px solid #17150F"></div>
+      <div style="padding:9px 11px 11px;display:flex;flex-direction:column;gap:3px">
+        <span style="font:900 13px/1 Archivo;letter-spacing:-.02em">ink</span>
+        <span style="font:600 12px/1 'Space Mono',ui-monospace,monospace;color:#6B6555">#17150F</span>
+        <span style="font:600 11px/1.35 Archivo;color:#6B6555">Tekst, kaders, iconen</span>
+      </div>
+    </div>
+    <div style="border:2px solid #17150F;border-radius:4px;background:#FFFFFF">
+      <div style="height:64px;background:#FFFDF7;border-bottom:2px solid #17150F"></div>
+      <div style="padding:9px 11px 11px;display:flex;flex-direction:column;gap:3px">
+        <span style="font:900 13px/1 Archivo;letter-spacing:-.02em">paper</span>
+        <span style="font:600 12px/1 'Space Mono',ui-monospace,monospace;color:#6B6555">#FFFDF7</span>
+        <span style="font:600 11px/1.35 Archivo;color:#6B6555">Schermachtergrond</span>
+      </div>
+    </div>
+    <div style="border:2px solid #17150F;border-radius:4px;background:#FFFFFF">
+      <div style="height:64px;background:#FFFFFF;border-bottom:2px solid #17150F"></div>
+      <div style="padding:9px 11px 11px;display:flex;flex-direction:column;gap:3px">
+        <span style="font:900 13px/1 Archivo;letter-spacing:-.02em">surface</span>
+        <span style="font:600 12px/1 'Space Mono',ui-monospace,monospace;color:#6B6555">#FFFFFF</span>
+        <span style="font:600 11px/1.35 Archivo;color:#6B6555">Kaarten, velden, balken</span>
+      </div>
+    </div>
+    <div style="border:2px solid #17150F;border-radius:4px;background:#FFFFFF">
+      <div style="height:64px;background:#8D8878;border-bottom:2px solid #17150F"></div>
+      <div style="padding:9px 11px 11px;display:flex;flex-direction:column;gap:3px">
+        <span style="font:900 13px/1 Archivo;letter-spacing:-.02em">muted</span>
+        <span style="font:600 12px/1 'Space Mono',ui-monospace,monospace;color:#6B6555">#8D8878</span>
+        <span style="font:600 11px/1.35 Archivo;color:#6B6555">Alleen groot of vet · 3,5:1</span>
+      </div>
+    </div>
+    <div style="border:2px solid #17150F;border-radius:4px;background:#FFFFFF">
+      <div style="height:64px;background:#6B6555;border-bottom:2px solid #17150F"></div>
+      <div style="padding:9px 11px 11px;display:flex;flex-direction:column;gap:3px">
+        <span style="font:900 13px/1 Archivo;letter-spacing:-.02em">muted-strong</span>
+        <span style="font:600 12px/1 'Space Mono',ui-monospace,monospace;color:#6B6555">#6B6555</span>
+        <span style="font:600 11px/1.35 Archivo;color:#6B6555">Labels, meta, placeholder · 5,7:1</span>
+      </div>
+    </div>
+    <div style="border:2px solid #17150F;border-radius:4px;background:#FFFFFF">
+      <div style="height:64px;background:#EFEADC;border-bottom:2px solid #17150F"></div>
+      <div style="padding:9px 11px 11px;display:flex;flex-direction:column;gap:3px">
+        <span style="font:900 13px/1 Archivo;letter-spacing:-.02em">image</span>
+        <span style="font:600 12px/1 'Space Mono',ui-monospace,monospace;color:#6B6555">#EFEADC</span>
+        <span style="font:600 11px/1.35 Archivo;color:#6B6555">Plaatshouder in kaarten</span>
+      </div>
+    </div>
+    <div style="border:2px solid #17150F;border-radius:4px;background:#FFFFFF">
+      <div style="height:64px;background:#2A2318;border-bottom:2px solid #17150F"></div>
+      <div style="padding:9px 11px 11px;display:flex;flex-direction:column;gap:3px">
+        <span style="font:900 13px/1 Archivo;letter-spacing:-.02em">hero</span>
+        <span style="font:600 12px/1 'Space Mono',ui-monospace,monospace;color:#6B6555">#2A2318</span>
+        <span style="font:600 11px/1.35 Archivo;color:#6B6555">Plaatshouder hero-foto</span>
+      </div>
+    </div>
+  </div>
+
+  <div style="height:56px"></div>
+
+  <h2 style="margin:0 0 4px;font:900 13px/1 Archivo;letter-spacing:.10em;text-transform:uppercase">Actie</h2>
+  <p style="margin:0 0 20px;font:600 14px/1.5 Archivo;color:#6B6555;max-width:560px">Eén accent voor de primaire actie. Het bestaande accent blijft, maar draagt inkt-tekst: wit haalt AA niet. Voor knoppen waar wit op accent moet, is er een donkere variant.</p>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:22px">
+    <div style="border:2px solid #17150F;border-radius:4px;box-shadow:5px 5px 0 #17150F;background:#FFFFFF">
+      <div style="background:#FF5C35;border-bottom:2px solid #17150F;padding:18px 16px;display:flex;flex-direction:column;gap:12px">
+        <span style="font:900 11px/1 Archivo;letter-spacing:.08em;text-transform:uppercase;color:#17150F">Begin met koken</span>
+        <span style="font:900 26px/1 Archivo;letter-spacing:-.03em;color:#17150F">Inkt op accent</span>
+      </div>
+      <div style="padding:13px 15px 15px;display:flex;flex-direction:column;gap:9px">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px">
+          <span style="font:900 16px/1 Archivo;letter-spacing:-.02em">accent</span>
+          <span style="font:600 13px/1 'Space Mono',ui-monospace,monospace;color:#6B6555">#FF5C35</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:5px">
+          <div style="display:flex;gap:8px;align-items:center"><span style="display:inline-block;width:9px;height:9px;background:#17150F"></span><span style="font:800 11px/1 Archivo;letter-spacing:.05em;text-transform:uppercase">Inkt-tekst · 5,9:1 · AA</span></div>
+          <div style="display:flex;gap:8px;align-items:center;opacity:.5"><span style="display:inline-block;width:9px;height:9px;background:#FFFFFF;border:1px solid #17150F"></span><span style="font:800 11px/1 Archivo;letter-spacing:.05em;text-transform:uppercase">Witte tekst · 3,1:1 · niet gebruiken</span></div>
+        </div>
+        <p style="margin:0;font:600 12px/1.45 Archivo;color:#6B6555">Primaire actie, actieve filterchip, plusknop, actieve stap, foutmelding.</p>
+      </div>
+    </div>
+
+    <div style="border:2px solid #17150F;border-radius:4px;box-shadow:5px 5px 0 #17150F;background:#FFFFFF">
+      <div style="background:#C0390E;border-bottom:2px solid #17150F;padding:18px 16px;display:flex;flex-direction:column;gap:12px">
+        <span style="font:900 11px/1 Archivo;letter-spacing:.08em;text-transform:uppercase;color:#FFFFFF">Begin met koken</span>
+        <span style="font:900 26px/1 Archivo;letter-spacing:-.03em;color:#FFFFFF">Wit op accent</span>
+      </div>
+      <div style="padding:13px 15px 15px;display:flex;flex-direction:column;gap:9px">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px">
+          <span style="font:900 16px/1 Archivo;letter-spacing:-.02em">accent-diep</span>
+          <span style="font:600 13px/1 'Space Mono',ui-monospace,monospace;color:#6B6555">#C0390E</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:5px">
+          <div style="display:flex;gap:8px;align-items:center"><span style="display:inline-block;width:9px;height:9px;background:#FFFFFF;border:1px solid #17150F"></span><span style="font:800 11px/1 Archivo;letter-spacing:.05em;text-transform:uppercase">Witte tekst · 5,5:1 · AA</span></div>
+          <div style="display:flex;gap:8px;align-items:center;opacity:.5"><span style="display:inline-block;width:9px;height:9px;background:#17150F"></span><span style="font:800 11px/1 Archivo;letter-spacing:.05em;text-transform:uppercase">Inkt-tekst · 3,3:1 · alleen groot</span></div>
+        </div>
+        <p style="margin:0;font:600 12px/1.45 Archivo;color:#6B6555">Nieuw. Kies deze zodra een gevulde knop witte tekst moet dragen, en voor de ingedrukte staat van accent.</p>
+      </div>
+    </div>
+  </div>
+
+  <div style="height:56px"></div>
+
+  <h2 style="margin:0 0 4px;font:900 13px/1 Archivo;letter-spacing:.10em;text-transform:uppercase">Tien categoriekleuren</h2>
+  <p style="margin:0 0 20px;font:600 14px/1.5 Archivo;color:#6B6555;max-width:620px">Vrij toewijsbaar aan een categorie en inzetbaar als offset-schaduw. De eerste vier zijn de bestaande. Elke kleur heeft één vaste tekstkleur — die staat in het staal en is niet uitwisselbaar.</p>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(232px,1fr));gap:22px 20px">
+
+    <div style="border:2px solid #17150F;border-radius:4px;box-shadow:5px 5px 0 #FF5C35;background:#FFFFFF">
+      <div style="background:#FF5C35;border-bottom:2px solid #17150F;padding:16px 14px;display:flex;flex-direction:column;justify-content:space-between;gap:16px;min-height:104px">
+        <span style="align-self:flex-start;border:2px solid #17150F;padding:4px 9px;font:900 10px/1 Archivo;letter-spacing:.08em;text-transform:uppercase;color:#17150F">Hoofdgerecht</span>
+        <span style="font:900 30px/1 Archivo;letter-spacing:-.04em;color:#17150F">Aa</span>
+      </div>
+      <div style="padding:11px 13px 13px;display:flex;flex-direction:column;gap:7px">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px">
+          <span style="font:900 15px/1 Archivo;letter-spacing:-.02em">koraal</span>
+          <span style="font:600 12px/1 'Space Mono',ui-monospace,monospace;color:#6B6555">#FF5C35</span>
+        </div>
+        <span style="font:800 10px/1 Archivo;letter-spacing:.07em;text-transform:uppercase;color:#17150F">Inkt-tekst · 5,9:1</span>
+      </div>
+    </div>
+
+    <div style="border:2px solid #17150F;border-radius:4px;box-shadow:5px 5px 0 #FFC400;background:#FFFFFF">
+      <div style="background:#FFC400;border-bottom:2px solid #17150F;padding:16px 14px;display:flex;flex-direction:column;justify-content:space-between;gap:16px;min-height:104px">
+        <span style="align-self:flex-start;border:2px solid #17150F;padding:4px 9px;font:900 10px/1 Archivo;letter-spacing:.08em;text-transform:uppercase;color:#17150F">Nagerecht</span>
+        <span style="font:900 30px/1 Archivo;letter-spacing:-.04em;color:#17150F">Aa</span>
+      </div>
+      <div style="padding:11px 13px 13px;display:flex;flex-direction:column;gap:7px">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px">
+          <span style="font:900 15px/1 Archivo;letter-spacing:-.02em">geel</span>
+          <span style="font:600 12px/1 'Space Mono',ui-monospace,monospace;color:#6B6555">#FFC400</span>
+        </div>
+        <span style="font:800 10px/1 Archivo;letter-spacing:.07em;text-transform:uppercase;color:#17150F">Inkt-tekst · 11,4:1</span>
+      </div>
+    </div>
+
+    <div style="border:2px solid #17150F;border-radius:4px;box-shadow:5px 5px 0 #2ED3B7;background:#FFFFFF">
+      <div style="background:#2ED3B7;border-bottom:2px solid #17150F;padding:16px 14px;display:flex;flex-direction:column;justify-content:space-between;gap:16px;min-height:104px">
+        <span style="align-self:flex-start;border:2px solid #17150F;padding:4px 9px;font:900 10px/1 Archivo;letter-spacing:.08em;text-transform:uppercase;color:#17150F">Salade</span>
+        <span style="font:900 30px/1 Archivo;letter-spacing:-.04em;color:#17150F">Aa</span>
+      </div>
+      <div style="padding:11px 13px 13px;display:flex;flex-direction:column;gap:7px">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px">
+          <span style="font:900 15px/1 Archivo;letter-spacing:-.02em">teal</span>
+          <span style="font:600 12px/1 'Space Mono',ui-monospace,monospace;color:#6B6555">#2ED3B7</span>
+        </div>
+        <span style="font:800 10px/1 Archivo;letter-spacing:.07em;text-transform:uppercase;color:#17150F">Inkt-tekst · 9,7:1</span>
+      </div>
+    </div>
+
+    <div style="border:2px solid #17150F;border-radius:4px;box-shadow:5px 5px 0 #6C5CE7;background:#FFFFFF">
+      <div style="background:#6C5CE7;border-bottom:2px solid #17150F;padding:16px 14px;display:flex;flex-direction:column;justify-content:space-between;gap:16px;min-height:104px">
+        <span style="align-self:flex-start;border:2px solid #FFFFFF;padding:4px 9px;font:900 10px/1 Archivo;letter-spacing:.08em;text-transform:uppercase;color:#FFFFFF">Brood</span>
+        <span style="font:900 30px/1 Archivo;letter-spacing:-.04em;color:#FFFFFF">Aa</span>
+      </div>
+      <div style="padding:11px 13px 13px;display:flex;flex-direction:column;gap:7px">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px">
+          <span style="font:900 15px/1 Archivo;letter-spacing:-.02em">violet</span>
+          <span style="font:600 12px/1 'Space Mono',ui-monospace,monospace;color:#6B6555">#6C5CE7</span>
+        </div>
+        <span style="font:800 10px/1 Archivo;letter-spacing:.07em;text-transform:uppercase;color:#17150F">Witte tekst · 4,8:1</span>
+      </div>
+    </div>
+
+    <div style="border:2px solid #17150F;border-radius:4px;box-shadow:5px 5px 0 #FF6FA5;background:#FFFFFF">
+      <div style="background:#FF6FA5;border-bottom:2px solid #17150F;padding:16px 14px;display:flex;flex-direction:column;justify-content:space-between;gap:16px;min-height:104px">
+        <span style="align-self:flex-start;border:2px solid #17150F;padding:4px 9px;font:900 10px/1 Archivo;letter-spacing:.08em;text-transform:uppercase;color:#17150F">Voorgerecht</span>
+        <span style="font:900 30px/1 Archivo;letter-spacing:-.04em;color:#17150F">Aa</span>
+      </div>
+      <div style="padding:11px 13px 13px;display:flex;flex-direction:column;gap:7px">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px">
+          <span style="font:900 15px/1 Archivo;letter-spacing:-.02em">roze</span>
+          <span style="font:600 12px/1 'Space Mono',ui-monospace,monospace;color:#6B6555">#FF6FA5</span>
+        </div>
+        <span style="font:800 10px/1 Archivo;letter-spacing:.07em;text-transform:uppercase;color:#17150F">Inkt-tekst · 7,0:1</span>
+      </div>
+    </div>
+
+    <div style="border:2px solid #17150F;border-radius:4px;box-shadow:5px 5px 0 #9BDE1E;background:#FFFFFF">
+      <div style="background:#9BDE1E;border-bottom:2px solid #17150F;padding:16px 14px;display:flex;flex-direction:column;justify-content:space-between;gap:16px;min-height:104px">
+        <span style="align-self:flex-start;border:2px solid #17150F;padding:4px 9px;font:900 10px/1 Archivo;letter-spacing:.08em;text-transform:uppercase;color:#17150F">Soep</span>
+        <span style="font:900 30px/1 Archivo;letter-spacing:-.04em;color:#17150F">Aa</span>
+      </div>
+      <div style="padding:11px 13px 13px;display:flex;flex-direction:column;gap:7px">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px">
+          <span style="font:900 15px/1 Archivo;letter-spacing:-.02em">limoen</span>
+          <span style="font:600 12px/1 'Space Mono',ui-monospace,monospace;color:#6B6555">#9BDE1E</span>
+        </div>
+        <span style="font:800 10px/1 Archivo;letter-spacing:.07em;text-transform:uppercase;color:#17150F">Inkt-tekst · 11,2:1</span>
+      </div>
+    </div>
+
+    <div style="border:2px solid #17150F;border-radius:4px;box-shadow:5px 5px 0 #4CC3F5;background:#FFFFFF">
+      <div style="background:#4CC3F5;border-bottom:2px solid #17150F;padding:16px 14px;display:flex;flex-direction:column;justify-content:space-between;gap:16px;min-height:104px">
+        <span style="align-self:flex-start;border:2px solid #17150F;padding:4px 9px;font:900 10px/1 Archivo;letter-spacing:.08em;text-transform:uppercase;color:#17150F">Vis</span>
+        <span style="font:900 30px/1 Archivo;letter-spacing:-.04em;color:#17150F">Aa</span>
+      </div>
+      <div style="padding:11px 13px 13px;display:flex;flex-direction:column;gap:7px">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px">
+          <span style="font:900 15px/1 Archivo;letter-spacing:-.02em">hemel</span>
+          <span style="font:600 12px/1 'Space Mono',ui-monospace,monospace;color:#6B6555">#4CC3F5</span>
+        </div>
+        <span style="font:800 10px/1 Archivo;letter-spacing:.07em;text-transform:uppercase;color:#17150F">Inkt-tekst · 9,1:1</span>
+      </div>
+    </div>
+
+    <div style="border:2px solid #17150F;border-radius:4px;box-shadow:5px 5px 0 #9B1B6E;background:#FFFFFF">
+      <div style="background:#9B1B6E;border-bottom:2px solid #17150F;padding:16px 14px;display:flex;flex-direction:column;justify-content:space-between;gap:16px;min-height:104px">
+        <span style="align-self:flex-start;border:2px solid #FFFFFF;padding:4px 9px;font:900 10px/1 Archivo;letter-spacing:.08em;text-transform:uppercase;color:#FFFFFF">Surinaams</span>
+        <span style="font:900 30px/1 Archivo;letter-spacing:-.04em;color:#FFFFFF">Aa</span>
+      </div>
+      <div style="padding:11px 13px 13px;display:flex;flex-direction:column;gap:7px">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px">
+          <span style="font:900 15px/1 Archivo;letter-spacing:-.02em">bes</span>
+          <span style="font:600 12px/1 'Space Mono',ui-monospace,monospace;color:#6B6555">#9B1B6E</span>
+        </div>
+        <span style="font:800 10px/1 Archivo;letter-spacing:.07em;text-transform:uppercase;color:#17150F">Witte tekst · 7,6:1</span>
+      </div>
+    </div>
+
+    <div style="border:2px solid #17150F;border-radius:4px;box-shadow:5px 5px 0 #16714A;background:#FFFFFF">
+      <div style="background:#16714A;border-bottom:2px solid #17150F;padding:16px 14px;display:flex;flex-direction:column;justify-content:space-between;gap:16px;min-height:104px">
+        <span style="align-self:flex-start;border:2px solid #FFFFFF;padding:4px 9px;font:900 10px/1 Archivo;letter-spacing:.08em;text-transform:uppercase;color:#FFFFFF">Vegetarisch</span>
+        <span style="font:900 30px/1 Archivo;letter-spacing:-.04em;color:#FFFFFF">Aa</span>
+      </div>
+      <div style="padding:11px 13px 13px;display:flex;flex-direction:column;gap:7px">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px">
+          <span style="font:900 15px/1 Archivo;letter-spacing:-.02em">bosgroen</span>
+          <span style="font:600 12px/1 'Space Mono',ui-monospace,monospace;color:#6B6555">#16714A</span>
+        </div>
+        <span style="font:800 10px/1 Archivo;letter-spacing:.07em;text-transform:uppercase;color:#17150F">Witte tekst · 6,0:1</span>
+      </div>
+    </div>
+
+    <div style="border:2px solid #17150F;border-radius:4px;box-shadow:5px 5px 0 #7A4A1E;background:#FFFFFF">
+      <div style="background:#7A4A1E;border-bottom:2px solid #17150F;padding:16px 14px;display:flex;flex-direction:column;justify-content:space-between;gap:16px;min-height:104px">
+        <span style="align-self:flex-start;border:2px solid #FFFFFF;padding:4px 9px;font:900 10px/1 Archivo;letter-spacing:.08em;text-transform:uppercase;color:#FFFFFF">Bakken</span>
+        <span style="font:900 30px/1 Archivo;letter-spacing:-.04em;color:#FFFFFF">Aa</span>
+      </div>
+      <div style="padding:11px 13px 13px;display:flex;flex-direction:column;gap:7px">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px">
+          <span style="font:900 15px/1 Archivo;letter-spacing:-.02em">kaneel</span>
+          <span style="font:600 12px/1 'Space Mono',ui-monospace,monospace;color:#6B6555">#7A4A1E</span>
+        </div>
+        <span style="font:800 10px/1 Archivo;letter-spacing:.07em;text-transform:uppercase;color:#17150F">Witte tekst · 7,4:1</span>
+      </div>
+    </div>
+  </div>
+
+  <div style="height:56px"></div>
+
+  <h2 style="margin:0 0 4px;font:900 13px/1 Archivo;letter-spacing:.10em;text-transform:uppercase">Wanneer welke kleur</h2>
+  <p style="margin:0 0 20px;font:600 14px/1.5 Archivo;color:#6B6555;max-width:560px">Zes regels. Bij twijfel: het is een categorie, of het is de actie. Nooit beide.</p>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px">
+    <div style="border:2px solid #17150F;border-radius:4px;background:#FFFFFF;padding:15px 16px;display:flex;flex-direction:column;gap:7px">
+      <span style="font:900 11px/1 Archivo;letter-spacing:.09em;text-transform:uppercase;color:#6B6555">Regel 01</span>
+      <span style="font:900 18px/1.1 Archivo;letter-spacing:-.03em">Actie is altijd koraal</span>
+      <p style="margin:0;font:600 13px/1.5 Archivo">Alleen <b>accent</b> mag een primaire actie, actieve staat of foutmelding aanduiden. Geen enkele categoriekleur neemt die rol over, ook koraal niet als categorie op dezelfde pagina.</p>
+    </div>
+    <div style="border:2px solid #17150F;border-radius:4px;background:#FFFFFF;padding:15px 16px;display:flex;flex-direction:column;gap:7px">
+      <span style="font:900 11px/1 Archivo;letter-spacing:.09em;text-transform:uppercase;color:#6B6555">Regel 02</span>
+      <span style="font:900 18px/1.1 Archivo;letter-spacing:-.03em">Eén categorie, één kleur, vast</span>
+      <p style="margin:0;font:600 13px/1.5 Archivo">De kleur wordt bij het aanmaken van de categorie gekozen en verandert daarna niet. De badge op detail en de aanduiding op de kaart lezen die ene waarde.</p>
+    </div>
+    <div style="border:2px solid #17150F;border-radius:4px;background:#FFFFFF;padding:15px 16px;display:flex;flex-direction:column;gap:7px">
+      <span style="font:900 11px/1 Archivo;letter-spacing:.09em;text-transform:uppercase;color:#6B6555">Regel 03</span>
+      <span style="font:900 18px/1.1 Archivo;letter-spacing:-.03em">Tekstkleur hoort bij de kleur</span>
+      <p style="margin:0;font:600 13px/1.5 Archivo">Zes kleuren dragen inkt-tekst, vier dragen witte tekst. Dat staat vast per kleur en volgt uit het contrast, niet uit de context. Sla het op naast de hex.</p>
+    </div>
+    <div style="border:2px solid #17150F;border-radius:4px;background:#FFFFFF;padding:15px 16px;display:flex;flex-direction:column;gap:7px">
+      <span style="font:900 11px/1 Archivo;letter-spacing:.09em;text-transform:uppercase;color:#6B6555">Regel 04</span>
+      <span style="font:900 18px/1.1 Archivo;letter-spacing:-.03em">Offset-schaduw roteert</span>
+      <p style="margin:0;font:600 13px/1.5 Archivo">Alle tien mogen als <span style="font:600 12px/1 'Space Mono',ui-monospace,monospace">5px 5px 0</span> schaduw dienen; daar geldt geen contrasteis. In het raster roteren ze in vaste volgorde, los van de categorie. Primaire knoppen houden <b>ink</b>.</p>
+    </div>
+    <div style="border:2px solid #17150F;border-radius:4px;background:#FFFFFF;padding:15px 16px;display:flex;flex-direction:column;gap:7px">
+      <span style="font:900 11px/1 Archivo;letter-spacing:.09em;text-transform:uppercase;color:#6B6555">Regel 05</span>
+      <span style="font:900 18px/1.1 Archivo;letter-spacing:-.03em">Maximaal drie per beeld</span>
+      <p style="margin:0;font:600 13px/1.5 Archivo">Buiten het receptenraster staan niet meer dan drie kleuren tegelijk in beeld. Het raster is de uitzondering: daar is de kleurmix juist het patroon.</p>
+    </div>
+    <div style="border:2px solid #17150F;border-radius:4px;background:#FFFFFF;padding:15px 16px;display:flex;flex-direction:column;gap:7px">
+      <span style="font:900 11px/1 Archivo;letter-spacing:.09em;text-transform:uppercase;color:#6B6555">Regel 06</span>
+      <span style="font:900 18px/1.1 Archivo;letter-spacing:-.03em">Geen vrije kleurkiezer</span>
+      <p style="margin:0;font:600 13px/1.5 Archivo">Bij een nieuwe categorie kiest de gebruiker uit deze tien stalen. Geen hex-invoer, geen kleurenwiel — anders vervalt de contrastgarantie.</p>
+    </div>
+  </div>
+
+  <div style="height:56px"></div>
+
+  <h2 style="margin:0 0 4px;font:900 13px/1 Archivo;letter-spacing:.10em;text-transform:uppercase">Rotatie in het raster</h2>
+  <p style="margin:0 0 20px;font:600 14px/1.5 Archivo;color:#6B6555;max-width:560px">De offset-schaduw op de kaarten volgt deze reeks en herhaalt na tien. Licht en donker wisselen af zodat twee buren nooit dezelfde waarde delen.</p>
+
+  <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center">
+    <span style="width:44px;height:44px;background:#FF5C35;border:2px solid #17150F"></span>
+    <span style="width:44px;height:44px;background:#6C5CE7;border:2px solid #17150F"></span>
+    <span style="width:44px;height:44px;background:#FFC400;border:2px solid #17150F"></span>
+    <span style="width:44px;height:44px;background:#16714A;border:2px solid #17150F"></span>
+    <span style="width:44px;height:44px;background:#4CC3F5;border:2px solid #17150F"></span>
+    <span style="width:44px;height:44px;background:#9B1B6E;border:2px solid #17150F"></span>
+    <span style="width:44px;height:44px;background:#2ED3B7;border:2px solid #17150F"></span>
+    <span style="width:44px;height:44px;background:#7A4A1E;border:2px solid #17150F"></span>
+    <span style="width:44px;height:44px;background:#9BDE1E;border:2px solid #17150F"></span>
+    <span style="width:44px;height:44px;background:#FF6FA5;border:2px solid #17150F"></span>
+    <span style="font:800 11px/1 Archivo;letter-spacing:.08em;text-transform:uppercase;color:#6B6555;margin-left:6px">herhaalt</span>
+  </div>
+
+  <div style="height:56px"></div>
+
+  <h2 style="margin:0 0 4px;font:900 13px/1 Archivo;letter-spacing:.10em;text-transform:uppercase">In situ</h2>
+  <p style="margin:0 0 20px;font:600 14px/1.5 Archivo;color:#6B6555;max-width:560px">Twee kaarten en twee badges met de nieuwe kleuren, op ware grootte uit het overzicht en de detailpagina.</p>
+
+  <div style="display:flex;flex-wrap:wrap;gap:26px;align-items:flex-start">
+    <div style="width:168px;border:2px solid #17150F;border-radius:4px;box-shadow:5px 5px 0 #16714A;background:#FFFFFF">
+      <div style="height:98px;background:#EFEADC;border-bottom:2px solid #17150F"></div>
+      <div style="padding:9px 10px 11px;display:flex;flex-direction:column;gap:5px">
+        <span style="font:900 9px/1 Archivo;letter-spacing:.08em;text-transform:uppercase;color:#6B6555">Vegetarisch · 25 min</span>
+        <span style="font:900 17px/1.05 Archivo;letter-spacing:-.035em">Linzenstoof met wortel</span>
+      </div>
+    </div>
+    <div style="width:168px;border:2px solid #17150F;border-radius:4px;box-shadow:5px 5px 0 #4CC3F5;background:#FFFFFF">
+      <div style="height:98px;background:#EFEADC;border-bottom:2px solid #17150F"></div>
+      <div style="padding:9px 10px 11px;display:flex;flex-direction:column;gap:5px">
+        <span style="font:900 9px/1 Archivo;letter-spacing:.08em;text-transform:uppercase;color:#6B6555">Vis · 20 min</span>
+        <span style="font:900 17px/1.05 Archivo;letter-spacing:-.035em">Kabeljauw uit de oven</span>
+      </div>
+    </div>
+    <div style="width:212px;height:150px;background:#2A2318;border:2px solid #17150F;border-radius:4px;position:relative">
+      <span style="position:absolute;left:14px;bottom:-14px;background:#9B1B6E;color:#FFFFFF;border:2px solid #17150F;padding:5px 12px;font:900 11px/1 Archivo;letter-spacing:.06em;text-transform:uppercase;transform:rotate(-2deg)">Surinaams</span>
+    </div>
+    <div style="width:212px;height:150px;background:#2A2318;border:2px solid #17150F;border-radius:4px;position:relative">
+      <span style="position:absolute;left:14px;bottom:-14px;background:#9BDE1E;color:#17150F;border:2px solid #17150F;padding:5px 12px;font:900 11px/1 Archivo;letter-spacing:.06em;text-transform:uppercase;transform:rotate(-2deg)">Soep</span>
+    </div>
+  </div>
+
+  <div style="height:56px"></div>
+
+  <div style="border:2px solid #17150F;border-radius:4px;background:#FFFFFF;box-shadow:5px 5px 0 #FF5C35;padding:20px 22px;max-width:720px;display:flex;flex-direction:column;gap:9px">
+    <span style="font:900 11px/1 Archivo;letter-spacing:.09em;text-transform:uppercase;color:#6B6555">Let op bij het omzetten</span>
+    <p style="margin:0;font:600 14px/1.55 Archivo;text-wrap:pretty">In de handoff staat nog dat primaire knoppen witte tekst op <span style="font:600 13px/1 'Space Mono',ui-monospace,monospace">#FF5C35</span> dragen. Die combinatie haalt 3,1:1 en valt onder AA voor kleine tekst. Kies één van twee: inkt-tekst op koraal, of witte tekst op <span style="font:600 13px/1 'Space Mono',ui-monospace,monospace">#C0390E</span>. Hetzelfde geldt voor violet: dat draagt wél wit (4,8:1), maar geen inkt.</p>
+    <p style="margin:0;font:600 14px/1.55 Archivo;text-wrap:pretty">En <span style="font:600 13px/1 'Space Mono',ui-monospace,monospace">#8D8878</span> haalt op papier 3,5:1. Die kleur blijft in het palet, maar alleen voor grote of vette tekst. Elk label, elke meta-regel en elke placeholder onder 18px gebruikt vanaf nu <b>muted-strong</b> <span style="font:600 13px/1 'Space Mono',ui-monospace,monospace">#6B6555</span> — 5,7:1 op papier, 5,8:1 op wit.</p>
+  </div>
+
+</div>
+</x-dc>
+</body>
+</html>

@@ -10,9 +10,21 @@
 	--color-yellow: #ffc400;
 	--color-teal: #2ed3b7;
 	--color-violet: #6c5ce7;
+	/* muted reaches only 3,5:1 on paper, so it is valid for large or bold text over ~18px
+	   only. Everything smaller uses muted-strong (5,7:1 on paper, 5,8:1 on white).
+	   See design/Meal Matrix - kleurenpalet.dc.html */
 	--color-muted: #8d8878;
+	--color-muted-strong: #6b6555;
 	--color-image: #efeadc;
 	--color-hero: #2a2318;
+
+	/* Category colors 5-10. See design/Meal Matrix - kleurenpalet.dc.html */
+	--color-roze: #ff6fa5;
+	--color-limoen: #9bde1e;
+	--color-hemel: #4cc3f5;
+	--color-bes: #9b1b6e;
+	--color-bosgroen: #16714a;
+	--color-kaneel: #7a4a1e;
 }
 
 body {
@@ -24,7 +36,7 @@ body {
 input::placeholder,
 textarea::placeholder {
 	opacity: 1;
-	color: var(--color-muted);
+	color: var(--color-muted-strong);
 }
 
 .offset-ink,

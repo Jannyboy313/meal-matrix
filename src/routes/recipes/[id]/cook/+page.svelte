@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { PageData } from './$types';
-	import type { RecipeWithTags } from '$lib';
+	import type { RecipeWithLabels } from '$lib';
 	import { getRecipeById } from '$lib/services/recipeService';
 	import { onMount } from 'svelte';
 	import { ArrowLeft } from 'lucide-svelte';
@@ -10,7 +10,7 @@
 	import { t } from '$lib/i18n';
 
 	let { data }: { data: PageData } = $props();
-	let recipe = $state<RecipeWithTags | null>(null);
+	let recipe = $state<RecipeWithLabels | null>(null);
 	let loading = $state(true);
 	let error = $state<string | null>(null);
 	let completedSteps = $state<Set<number>>(new Set());
@@ -77,7 +77,7 @@
 						{ done: completedSteps.size, total: recipe.steps.length } as Record<string, unknown>
 					)}
 				</span>
-				<span class="text-xs font-black text-muted">{percentage}%</span>
+				<span class="text-xs font-black text-muted-strong">{percentage}%</span>
 			</div>
 			<div
 				class="h-[10px] border-2 border-ink bg-white"

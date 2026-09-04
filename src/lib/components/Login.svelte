@@ -50,7 +50,7 @@
 			{/if}
 			<div class="text-center">
 				<p class="text-lg font-black text-ink">{$user.displayName || $t('auth.anonymousUser')}</p>
-				<p class="text-sm font-semibold text-muted">{$user.email || ''}</p>
+				<p class="text-sm font-semibold text-muted-strong">{$user.email || ''}</p>
 			</div>
 			<button
 				onclick={handleSignOut}
@@ -63,7 +63,7 @@
 	{:else}
 		<div class="flex flex-col items-center gap-4">
 			<h2 class="font-display text-xl font-black text-ink">{$t('auth.title')}</h2>
-			<p class="text-sm font-semibold text-muted">{$t('auth.subtitle')}</p>
+			<p class="text-sm font-semibold text-muted-strong">{$t('auth.subtitle')}</p>
 			<button
 				onclick={handleGoogleSignIn}
 				disabled={loading}

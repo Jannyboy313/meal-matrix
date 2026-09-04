@@ -23,7 +23,7 @@
 			<span class="h-2 border-2 border-ink {i < currentStep ? 'bg-accent' : 'bg-transparent'}"></span>
 		{/each}
 	</div>
-	<p id="wizard-progress-label" class="text-[11px] font-black uppercase tracking-[0.1em] text-muted">
+	<p id="wizard-progress-label" class="text-[11px] font-black uppercase tracking-[0.1em] text-muted-strong">
 		{$t('recipe.wizard.stepOf', {
 			step: currentStep,
 			total: totalSteps,

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Tag, RecipeSummaryWithTags } from '$lib';
+	import type { Label, RecipeSummaryWithLabels } from '$lib';
 	import { subscribeToUserRecipes } from '$lib/services/recipeService';
 	import { user } from '$lib/stores/auth';
 	import { onMount, onDestroy } from 'svelte';
@@ -11,7 +11,7 @@
 	import AccountMenu from '$lib/components/AccountMenu.svelte';
 	import { t } from '$lib/i18n';
 
-	let recipes = $state<RecipeSummaryWithTags[]>([]);
+	let recipes = $state<RecipeSummaryWithLabels[]>([]);
 	let searchQuery = $state<string>('');
 	let loading = $state<boolean>(true);
 	let hasLoadedOnce = $state<boolean>(false);
@@ -55,12 +55,15 @@
 	});
 
 	const filteredRecipes = $derived(
-		recipes.filter((recipe: RecipeSummaryWithTags) => {
+		recipes.filter((recipe: RecipeSummaryWithLabels) => {
 			const query = searchQuery.toLowerCase();
+			const categoryName = recipe.category ? $t(recipe.category.nameKey).toLowerCase() : '';
+
 			return (
 				recipe.title.toLowerCase().includes(query) ||
 				recipe.description?.toLowerCase().includes(query) ||
-				recipe.tags?.some((tag: Tag) => tag.name.toLowerCase().includes(query))
+				categoryName.includes(query) ||
+				recipe.labels?.some((label: Label) => label.name.toLowerCase().includes(query))
 			);
 		})
 	);
@@ -76,7 +79,7 @@
 			<span class="font-display text-[22px] font-black leading-none tracking-[-0.04em] text-ink">
 				{$t('common.app.name')}
 			</span>
-			<span class="text-[11px] font-black uppercase tracking-[0.1em] text-muted">
+			<span class="text-[11px] font-black uppercase tracking-[0.1em] text-muted-strong">
 				{filteredRecipes.length} {$t('recipe.labels.recipesCount')}
 			</span>
 		</div>
@@ -98,7 +101,7 @@
 					id={recipe.id}
 					title={recipe.title}
 					image={recipe.image}
-					category={recipe.tags?.[0]}
+					category={recipe.category}
 					time={recipe.cookTime}
 					shadowIndex={i}
 				/>

@@ -3,18 +3,23 @@
  * Optimized for Firebase/Firestore NoSQL database
  */
 
+import type { Category, StoredCategory } from '$lib/constants/categories';
+
 /**
- * Tag document - stored in separate 'tags' collection
- * Path: /tags/{tagId}
+ * Label document - stored in separate 'labels' collection
+ * Path: /labels/{labelId}
+ *
+ * Deliberately has no colour. Unlike a category, a label is never rendered as a filled area —
+ * it appears only as one typographic line on the detail page — so a colour field would carry
+ * no meaning. See .github/design_handoff_meal_matrix_labels/README.md
  */
-export interface Tag {
-	id: string; // UUID
-	name: string;
-	color: string;
-	userId?: string; // Owner of the tag (optional for system/global tags)
-	isGlobal?: boolean; // True for system tags available to all users
-	createdAt?: string; // ISO 8601 timestamp
-	updatedAt?: string; // ISO 8601 timestamp
+export interface Label {
+	id: string; // Firestore auto-ID, from addDoc
+	name: string; // stored in sentence case; uppercased by CSS at display time
+	userId?: string; // Owner of the label (optional for system/global labels)
+	isGlobal?: boolean; // True for system labels available to all users
+	createdAt?: string; // NOTE: actually a Firestore Timestamp at runtime - see FIREBASE_DATA_MODEL.md "Known discrepancies"
+	updatedAt?: string; // NOTE: actually a Firestore Timestamp at runtime - see FIREBASE_DATA_MODEL.md "Known discrepancies"
 }
 
 /**
@@ -35,27 +40,29 @@ export interface ServingIngredients {
 
 /**
  * Recipe summary for list views (database format)
- * Stores only tag IDs to allow easy tag updates across all recipes
+ * Stores only label IDs to allow easy label updates across all recipes
  */
 export interface RecipeSummary {
-	id: string; // UUID
+	id: string; // Firestore auto-ID, from addDoc
 	title: string;
 	description: string;
 	image: string;
-	tagIds: string[]; // Array of tag IDs (references to /tags collection)
+	category: StoredCategory; // { key, name } — name is denormalised so the export reads alone
+	labelIds: string[]; // Array of label IDs (references to /labels collection)
 	prepTime?: string;
 	cookTime?: string;
-	createdAt?: string; // ISO 8601 timestamp
-	updatedAt?: string; // ISO 8601 timestamp
+	createdAt?: string; // NOTE: actually a Firestore Timestamp at runtime - see FIREBASE_DATA_MODEL.md "Known discrepancies"
+	updatedAt?: string; // NOTE: actually a Firestore Timestamp at runtime - see FIREBASE_DATA_MODEL.md "Known discrepancies"
 	userId?: string; // Owner of the recipe
 }
 
 /**
- * Recipe summary with populated tags (view model)
- * Used in UI when displaying recipes with full tag information
+ * Recipe summary with populated labels (view model)
+ * Used in UI when displaying recipes with full label information
  */
-export interface RecipeSummaryWithTags extends Omit<RecipeSummary, 'tagIds'> {
-	tags: Tag[]; // Populated tag objects for display
+export interface RecipeSummaryWithLabels extends Omit<RecipeSummary, 'category' | 'labelIds'> {
+	category?: Category; // Resolved from constants; undefined if the key matches nothing
+	labels: Label[]; // Populated label objects for display
 }
 
 /**
@@ -80,11 +87,12 @@ export interface Recipe extends RecipeSummary {
 }
 
 /**
- * Full recipe with populated tags (view model)
- * Used in UI when displaying full recipe with tag information
+ * Full recipe with populated labels (view model)
+ * Used in UI when displaying full recipe with label information
  */
-export interface RecipeWithTags extends Omit<Recipe, 'tagIds'> {
-	tags: Tag[]; // Populated tag objects for display
+export interface RecipeWithLabels extends Omit<Recipe, 'category' | 'labelIds'> {
+	category?: Category; // Resolved from constants; undefined if the key matches nothing
+	labels: Label[]; // Populated label objects for display
 }
 
 /**
@@ -97,7 +105,8 @@ export interface RecipeFormData {
 	image: string;
 	prepTime: string;
 	cookTime: string;
-	tags: Tag[];
+	categoryKey: string;
+	labels: Label[];
 	servings: number[];
 	currentServing: number;
 	ingredients: { [serving: number]: Ingredient[] };
