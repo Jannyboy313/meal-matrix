@@ -1,13 +1,14 @@
 <script lang="ts">
 	import { ArrowLeft, Pencil } from 'lucide-svelte';
-	import type { Tag } from '$lib';
+	import type { Category } from '$lib/constants/categories';
+	import { paletteStyle } from '$lib/constants/palette';
 	import { t } from '$lib/i18n';
 
 	interface Props {
 		recipeId: string;
 		title: string;
 		image: string;
-		category?: Tag;
+		category?: Category;
 	}
 
 	let { recipeId, title, image, category }: Props = $props();
@@ -37,10 +38,10 @@
 
 	{#if category}
 		<span
-			class="absolute -bottom-[14px] left-4 z-10 -rotate-2 border-2 border-ink px-3 py-[5px] text-[11px] font-black uppercase text-ink"
-			style="background-color: {category.color}"
+			class="absolute -bottom-[14px] left-4 z-10 -rotate-2 border-2 border-ink px-3 py-[5px] text-[11px] font-black uppercase"
+			style={paletteStyle(category.color)}
 		>
-			{category.name}
+			{$t(category.nameKey)}
 		</span>
 	{/if}
 </div>

@@ -16,15 +16,61 @@ import {
 	type Unsubscribe
 } from 'firebase/firestore';
 import { db } from '$lib/firebase';
-import type { Recipe, RecipeSummary, RecipeWithTags, RecipeSummaryWithTags } from '$lib/types';
-import { populateRecipeTags, populateRecipeSummaryTags } from '$lib/services/tagService';
+import type {
+	Ingredient,
+	Label,
+	Recipe,
+	RecipeSummary,
+	RecipeWithLabels,
+	RecipeSummaryWithLabels
+} from '$lib/types';
+import { populateLabels } from '$lib/services/labelService';
+import { getCategoryById } from '$lib/constants/categories';
+
+/**
+ * What the recipe form submits. Distinct from RecipeWithLabels: the form holds a categoryId,
+ * not a resolved category, and labels as objects rather than ids.
+ */
+export interface RecipeInput {
+	title: string;
+	description: string;
+	image: string;
+	prepTime: string;
+	cookTime: string;
+	servings: number;
+	categoryId: string;
+	labels: Label[];
+	ingredients: { [key: number]: Ingredient[] };
+	steps: string[];
+}
+
+/**
+ * Build the summary view model: labels fetched from Firestore, category resolved from
+ * constants. The category costs no read.
+ */
+async function toRecipeSummaryWithLabels(
+	recipe: RecipeSummary
+): Promise<RecipeSummaryWithLabels> {
+	const labels = await populateLabels(recipe.labelIds || []);
+	const { categoryId, labelIds, ...rest } = recipe;
+
+	return { ...rest, category: getCategoryById(categoryId), labels };
+}
+
+/** Build the full view model. See toRecipeSummaryWithLabels. */
+async function toRecipeWithLabels(recipe: Recipe): Promise<RecipeWithLabels> {
+	const labels = await populateLabels(recipe.labelIds || []);
+	const { categoryId, labelIds, ...rest } = recipe;
+
+	return { ...rest, category: getCategoryById(categoryId), labels };
+}
 
 /**
  * Get a single recipe by ID from Firestore
  * @param recipeId - The recipe ID to fetch
- * @returns Promise that resolves with the recipe with populated tags, or null if not found
+ * @returns Promise that resolves with the recipe with populated labels, or null if not found
  */
-export async function getRecipeById(recipeId: string): Promise<RecipeWithTags | null> {
+export async function getRecipeById(recipeId: string): Promise<RecipeWithLabels | null> {
 	try {
 		const recipeDoc = await getDoc(doc(db, 'recipes', recipeId));
 
@@ -33,7 +79,7 @@ export async function getRecipeById(recipeId: string): Promise<RecipeWithTags | 
 		}
 
 		const recipe = { id: recipeDoc.id, ...recipeDoc.data() } as Recipe;
-		return await populateRecipeTags(recipe);
+		return await toRecipeWithLabels(recipe);
 	} catch (error) {
 		console.error('Error fetching recipe:', error);
 		throw error;
@@ -48,7 +94,7 @@ export async function getRecipeById(recipeId: string): Promise<RecipeWithTags | 
  */
 export function subscribeToUserRecipes(
 	userId: string,
-	callback: (recipes: RecipeSummaryWithTags[]) => void
+	callback: (recipes: RecipeSummaryWithLabels[]) => void
 ): Unsubscribe {
 	const recipesRef = collection(db, 'recipes');
 	const q = query(recipesRef, where('userId', '==', userId));
@@ -61,12 +107,12 @@ export function subscribeToUserRecipes(
 				...doc.data()
 			} as RecipeSummary));
 
-			// Populate tags for all recipes
-			const recipesWithTags = await Promise.all(
-				recipes.map((recipe) => populateRecipeSummaryTags(recipe))
+			// Populate labels and resolve the category for all recipes
+			const recipesWithLabels = await Promise.all(
+				recipes.map((recipe) => toRecipeSummaryWithLabels(recipe))
 			);
 
-			callback(recipesWithTags);
+			callback(recipesWithLabels);
 		},
 		(error) => {
 			console.error('Error subscribing to recipes:', error);
@@ -77,23 +123,20 @@ export function subscribeToUserRecipes(
 
 /**
  * Create a new recipe in Firestore
- * @param recipeData - Recipe data including tags (Tag objects)
+ * @param recipeData - Recipe data including labels (Label objects)
  * @param userId - The user ID who owns the recipe
  * @returns Promise that resolves with the created recipe ID
  */
-export async function createRecipe(
-	recipeData: Omit<RecipeWithTags, 'id' | 'tagIds' | 'createdAt' | 'updatedAt'>,
-	userId: string
-): Promise<string> {
+export async function createRecipe(recipeData: RecipeInput, userId: string): Promise<string> {
 	try {
-		// Extract tag IDs from tag objects
-		const tagIds = recipeData.tags?.map((tag) => tag.id) || [];
-		const { tags, ...recipeWithoutTags } = recipeData;
+		// Extract label IDs from label objects
+		const labelIds = recipeData.labels?.map((label) => label.id) || [];
+		const { labels, ...recipeWithoutLabels } = recipeData;
 
 		// Create the recipe document with Firestore timestamps
 		const docRef = await addDoc(collection(db, 'recipes'), {
-			...recipeWithoutTags,
-			tagIds,
+			...recipeWithoutLabels,
+			labelIds,
 			userId,
 			createdAt: serverTimestamp(),
 			updatedAt: serverTimestamp()
@@ -109,23 +152,23 @@ export async function createRecipe(
 /**
  * Update an existing recipe in Firestore
  * @param recipeId - The recipe ID to update
- * @param recipeData - Updated recipe data including tags (Tag objects)
+ * @param recipeData - Updated recipe data including labels (Label objects)
  * @param userId - The user ID who owns the recipe (for validation)
  */
 export async function updateRecipe(
 	recipeId: string,
-	recipeData: Omit<RecipeWithTags, 'id' | 'tagIds' | 'createdAt' | 'updatedAt' | 'userId'>,
+	recipeData: RecipeInput,
 	userId: string
 ): Promise<void> {
 	try {
-		// Extract tag IDs from tag objects
-		const tagIds = recipeData.tags?.map((tag) => tag.id) || [];
-		const { tags, ...recipeWithoutTags } = recipeData;
+		// Extract label IDs from label objects
+		const labelIds = recipeData.labels?.map((label) => label.id) || [];
+		const { labels, ...recipeWithoutLabels } = recipeData;
 
 		// Update the recipe document
 		await updateDoc(doc(db, 'recipes', recipeId), {
-			...recipeWithoutTags,
-			tagIds,
+			...recipeWithoutLabels,
+			labelIds,
 			updatedAt: serverTimestamp()
 		});
 	} catch (error) {

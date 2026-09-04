@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { PageData } from './$types';
-	import type { RecipeWithTags } from '$lib';
+	import type { RecipeWithLabels } from '$lib';
 	import { getRecipeById } from '$lib/services/recipeService';
 	import { onMount } from 'svelte';
 	import ChefHatLoader from '$lib/components/ChefHatLoader.svelte';
@@ -11,7 +11,7 @@
 	import { t } from '$lib/i18n';
 
 	let { data }: { data: PageData } = $props();
-	let recipe = $state<RecipeWithTags | null>(null);
+	let recipe = $state<RecipeWithLabels | null>(null);
 	let loading = $state<boolean>(true);
 	let error = $state<string | null>(null);
 
@@ -58,7 +58,7 @@
 	<ErrorDisplay message={error} />
 {:else if recipe}
 	<div class="flex min-h-dvh flex-col bg-paper pb-[92px]">
-		<RecipeHero recipeId={recipe.id} title={recipe.title} image={recipe.image} category={recipe.tags?.[0]} />
+		<RecipeHero recipeId={recipe.id} title={recipe.title} image={recipe.image} category={recipe.category} />
 
 		<div class="px-[22px] pt-[26px]">
 			<h1 class="font-display text-[32px] font-black leading-[0.98] tracking-[-0.05em] text-ink">

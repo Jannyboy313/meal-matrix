@@ -3,16 +3,18 @@
  * Optimized for Firebase/Firestore NoSQL database
  */
 
+import type { Category } from '$lib/constants/categories';
+
 /**
- * Tag document - stored in separate 'tags' collection
- * Path: /tags/{tagId}
+ * Label document - stored in separate 'labels' collection
+ * Path: /labels/{labelId}
  */
-export interface Tag {
+export interface Label {
 	id: string; // UUID
 	name: string;
-	color: string;
-	userId?: string; // Owner of the tag (optional for system/global tags)
-	isGlobal?: boolean; // True for system tags available to all users
+	color: string; // hex
+	userId?: string; // Owner of the label (optional for system/global labels)
+	isGlobal?: boolean; // True for system labels available to all users
 	createdAt?: string; // ISO 8601 timestamp
 	updatedAt?: string; // ISO 8601 timestamp
 }
@@ -35,14 +37,15 @@ export interface ServingIngredients {
 
 /**
  * Recipe summary for list views (database format)
- * Stores only tag IDs to allow easy tag updates across all recipes
+ * Stores only label IDs to allow easy label updates across all recipes
  */
 export interface RecipeSummary {
 	id: string; // UUID
 	title: string;
 	description: string;
 	image: string;
-	tagIds: string[]; // Array of tag IDs (references to /tags collection)
+	categoryId: string; // UUID of a category from $lib/constants/categories
+	labelIds: string[]; // Array of label IDs (references to /labels collection)
 	prepTime?: string;
 	cookTime?: string;
 	createdAt?: string; // ISO 8601 timestamp
@@ -51,11 +54,13 @@ export interface RecipeSummary {
 }
 
 /**
- * Recipe summary with populated tags (view model)
- * Used in UI when displaying recipes with full tag information
+ * Recipe summary with populated labels (view model)
+ * Used in UI when displaying recipes with full label information
  */
-export interface RecipeSummaryWithTags extends Omit<RecipeSummary, 'tagIds'> {
-	tags: Tag[]; // Populated tag objects for display
+export interface RecipeSummaryWithLabels
+	extends Omit<RecipeSummary, 'categoryId' | 'labelIds'> {
+	category?: Category; // Resolved from constants; undefined if the id matches nothing
+	labels: Label[]; // Populated label objects for display
 }
 
 /**
@@ -80,11 +85,12 @@ export interface Recipe extends RecipeSummary {
 }
 
 /**
- * Full recipe with populated tags (view model)
- * Used in UI when displaying full recipe with tag information
+ * Full recipe with populated labels (view model)
+ * Used in UI when displaying full recipe with label information
  */
-export interface RecipeWithTags extends Omit<Recipe, 'tagIds'> {
-	tags: Tag[]; // Populated tag objects for display
+export interface RecipeWithLabels extends Omit<Recipe, 'categoryId' | 'labelIds'> {
+	category?: Category; // Resolved from constants; undefined if the id matches nothing
+	labels: Label[]; // Populated label objects for display
 }
 
 /**
@@ -97,7 +103,8 @@ export interface RecipeFormData {
 	image: string;
 	prepTime: string;
 	cookTime: string;
-	tags: Tag[];
+	categoryId: string;
+	labels: Label[];
 	servings: number[];
 	currentServing: number;
 	ingredients: { [serving: number]: Ingredient[] };

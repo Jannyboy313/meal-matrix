@@ -5,4 +5,4 @@
 
 export * from './authService';
 export * from './recipeService';
-export * from './tagService';
+export * from './labelService';

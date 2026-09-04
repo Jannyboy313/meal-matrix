@@ -5,13 +5,13 @@
 
 // Export types
 export type {
-	Tag,
+	Label,
 	Ingredient,
 	ServingIngredients,
 	Recipe,
 	RecipeSummary,
-	RecipeSummaryWithTags,
-	RecipeWithTags,
+	RecipeSummaryWithLabels,
+	RecipeWithLabels,
 	RecipeFormData
 } from './types';
 

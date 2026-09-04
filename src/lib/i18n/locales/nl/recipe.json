@@ -4,6 +4,13 @@
 		"edit": "Recept Bewerken",
 		"details": "Recept Details"
 	},
+	"categories": {
+		"starter": "Voorgerecht",
+		"main": "Hoofdgerecht",
+		"dessert": "Dessert",
+		"bread": "Brood",
+		"baking": "Bakken"
+	},
 	"labels": {
 		"name": "Recept Naam",
 		"description": "Beschrijving",
@@ -14,7 +21,7 @@
 		"servings": "Porties",
 		"ingredients": "Ingrediënten",
 		"instructions": "Instructies",
-		"tags": "Tags",
+		"labels": "Labels",
 		"category": "Categorie",
 		"minutes": "minuten",
 		"imageUrl": "Afbeelding URL",
@@ -56,7 +63,7 @@
 		"basicInfo": "Basis Informatie",
 		"ingredients": "Ingrediënten",
 		"instructions": "Instructies",
-		"tags": "Tags",
+		"categoryLabels": "Categorie & labels",
 		"next": "Volgende",
 		"previous": "Vorige",
 		"finish": "Voltooien"
@@ -77,14 +84,14 @@
 		"removeStep": "Stap verwijderen",
 		"oneActionHint": "Eén handeling per stap leest het best tijdens het koken."
 	},
-	"tags": {
-		"namePlaceholder": "Tag naam",
+	"labelPicker": {
+		"namePlaceholder": "Labelnaam",
 		"adding": "Toevoegen...",
-		"createError": "Tag maken mislukt. Probeer het opnieuw.",
-		"newCategory": "Nieuwe categorie",
+		"createError": "Label maken mislukt. Probeer het opnieuw.",
+		"newLabel": "Nieuw label",
 		"colorLabel": "Kleur",
-		"addCategory": "Categorie toevoegen",
-		"newCategoryHint": "Nieuwe categorieën komen ook in het filter op het overzicht.",
+		"addLabel": "Label toevoegen",
+		"newLabelHint": "Labels zijn vrije trefwoorden, bijvoorbeeld pittig of glutenvrij.",
 		"swatchColors": {
 			"accent": "Oranje",
 			"yellow": "Geel",
@@ -103,6 +110,7 @@
 	},
 	"validation": {
 		"nameRequired": "Recept naam is verplicht",
+		"categoryRequired": "Kies een categorie",
 		"ingredientsRequired": "Ten minste één ingrediënt is vereist",
 		"instructionsRequired": "Ten minste één instructie is vereist",
 		"ingredientNameRequired": "Naam is verplicht",

@@ -13,6 +13,14 @@
 	--color-muted: #8d8878;
 	--color-image: #efeadc;
 	--color-hero: #2a2318;
+
+	/* Category colors 5-10. See design/Meal Matrix - kleurenpalet.dc.html */
+	--color-roze: #ff6fa5;
+	--color-limoen: #9bde1e;
+	--color-hemel: #4cc3f5;
+	--color-bes: #9b1b6e;
+	--color-bosgroen: #16714a;
+	--color-kaneel: #7a4a1e;
 }
 
 body {
