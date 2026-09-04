@@ -36,3 +36,7 @@ vite.config.ts.timestamp-*
 *.pem
 *.key
 *.crt
+
+# Firebase service account keys - never commit these
+service-account*.json
+*-firebase-adminsdk-*.json

@@ -14,12 +14,12 @@ import type { Category, StoredCategory } from '$lib/constants/categories';
  * no meaning. See .github/design_handoff_meal_matrix_labels/README.md
  */
 export interface Label {
-	id: string; // UUID
+	id: string; // Firestore auto-ID, from addDoc
 	name: string; // stored in sentence case; uppercased by CSS at display time
 	userId?: string; // Owner of the label (optional for system/global labels)
 	isGlobal?: boolean; // True for system labels available to all users
-	createdAt?: string; // ISO 8601 timestamp
-	updatedAt?: string; // ISO 8601 timestamp
+	createdAt?: string; // NOTE: actually a Firestore Timestamp at runtime - see FIREBASE_DATA_MODEL.md "Known discrepancies"
+	updatedAt?: string; // NOTE: actually a Firestore Timestamp at runtime - see FIREBASE_DATA_MODEL.md "Known discrepancies"
 }
 
 /**
@@ -43,7 +43,7 @@ export interface ServingIngredients {
  * Stores only label IDs to allow easy label updates across all recipes
  */
 export interface RecipeSummary {
-	id: string; // UUID
+	id: string; // Firestore auto-ID, from addDoc
 	title: string;
 	description: string;
 	image: string;
@@ -51,8 +51,8 @@ export interface RecipeSummary {
 	labelIds: string[]; // Array of label IDs (references to /labels collection)
 	prepTime?: string;
 	cookTime?: string;
-	createdAt?: string; // ISO 8601 timestamp
-	updatedAt?: string; // ISO 8601 timestamp
+	createdAt?: string; // NOTE: actually a Firestore Timestamp at runtime - see FIREBASE_DATA_MODEL.md "Known discrepancies"
+	updatedAt?: string; // NOTE: actually a Firestore Timestamp at runtime - see FIREBASE_DATA_MODEL.md "Known discrepancies"
 	userId?: string; // Owner of the recipe
 }
 
