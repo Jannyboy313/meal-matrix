@@ -222,6 +222,25 @@
 		});
 	}
 
+	/**
+	 * Both error maps are keyed by list position, so dropping an entry shifts every message
+	 * behind it onto the wrong field. Re-key them along with the list itself.
+	 */
+	function reindexErrorsAfterRemove<T>(
+		errors: { [key: number]: T },
+		removedIndex: number
+	): { [key: number]: T } {
+		const reindexed: { [key: number]: T } = {};
+
+		for (const [key, message] of Object.entries(errors)) {
+			const position = Number(key);
+			if (position === removedIndex) continue;
+			reindexed[position > removedIndex ? position - 1 : position] = message;
+		}
+
+		return reindexed;
+	}
+
 	function removeIngredient(index: number) {
 		if ((ingredients[currentServing] || []).length > 1) {
 			ingredients[currentServing] = ingredients[currentServing].filter((_, i) => i !== index);
@@ -232,6 +251,9 @@
 					ingredients[serving] = ingredients[serving].filter((_, i) => i !== index);
 				}
 			});
+
+			// ingredientErrors only ever tracks the serving on screen, so one re-index covers it.
+			ingredientErrors = reindexErrorsAfterRemove(ingredientErrors, index);
 		}
 	}
 
@@ -242,7 +264,34 @@
 	function removeStep(index: number) {
 		if (steps.length > 1) {
 			steps = steps.filter((_, i) => i !== index);
+			stepErrors = reindexErrorsAfterRemove(stepErrors, index);
 		}
+	}
+
+	function moveStep(fromIndex: number, toIndex: number) {
+		if (fromIndex === toIndex || toIndex < 0 || toIndex >= steps.length) {
+			return;
+		}
+
+		// stepErrors is keyed by position, so the messages have to travel with their step.
+		const errorsByPosition = steps.map((_, i) => stepErrors[i]);
+
+		const reorderedSteps = [...steps];
+		const [movedStep] = reorderedSteps.splice(fromIndex, 1);
+		reorderedSteps.splice(toIndex, 0, movedStep);
+
+		const [movedError] = errorsByPosition.splice(fromIndex, 1);
+		errorsByPosition.splice(toIndex, 0, movedError);
+
+		const reorderedErrors: { [key: number]: string } = {};
+		errorsByPosition.forEach((message, i) => {
+			if (message) {
+				reorderedErrors[i] = message;
+			}
+		});
+
+		steps = reorderedSteps;
+		stepErrors = reorderedErrors;
 	}
 
 	// Validation
@@ -522,7 +571,13 @@
 			onremoveingredient={removeIngredient}
 		/>
 	{:else if currentStep === 4}
-		<InstructionsStep bind:steps {stepErrors} onaddstep={addStep} onremovestep={removeStep} />
+		<InstructionsStep
+			bind:steps
+			{stepErrors}
+			onaddstep={addStep}
+			onremovestep={removeStep}
+			onmovestep={moveStep}
+		/>
 	{/if}
 
 	<StepNavigation
