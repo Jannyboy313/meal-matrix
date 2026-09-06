@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { Category } from '$lib/constants/categories';
+	import { paletteColor } from '$lib/constants/palette';
 	import { t } from '$lib/i18n';
 
 	interface Props {
@@ -8,19 +9,16 @@
 		image: string;
 		category?: Category;
 		time?: string;
-		shadowIndex: number;
 	}
 
-	let { id, title, image, category, time, shadowIndex }: Props = $props();
-
-	const SHADOW_ROTATION = ['offset-accent', 'offset-teal', 'offset-violet', 'offset-yellow'];
-	const shadowClass = $derived(SHADOW_ROTATION[shadowIndex % SHADOW_ROTATION.length]);
+	let { id, title, image, category, time }: Props = $props();
 
 	const categoryName = $derived(category ? $t(category.nameKey) : '');
+	const offsetColor = $derived(category ? paletteColor(category.color) : undefined);
 </script>
 
 <a href="/recipes/{id}" class="focus-ring block">
-	<article class="border-2 border-ink bg-white {shadowClass}">
+	<article class="offset-custom border-2 border-ink bg-white" style:--offset-color={offsetColor}>
 		<div class="h-[98px] overflow-hidden border-b-2 border-ink bg-image">
 			<img src={image} alt={title} class="h-full w-full object-cover" />
 		</div>

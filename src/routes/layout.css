@@ -43,7 +43,8 @@ textarea::placeholder {
 .offset-accent,
 .offset-yellow,
 .offset-teal,
-.offset-violet {
+.offset-violet,
+.offset-custom {
 	transition:
 		transform 80ms ease-out,
 		box-shadow 80ms ease-out;
@@ -65,6 +66,12 @@ textarea::placeholder {
 	box-shadow: 5px 5px 0 0 var(--color-violet);
 }
 
+/* Offset in a color the data decides, e.g. a recipe's category. Set --offset-color on the
+   element with paletteColor(); it falls back to ink for a category that resolved to nothing. */
+.offset-custom {
+	box-shadow: 5px 5px 0 0 var(--offset-color, var(--color-ink));
+}
+
 .offset-ink:active {
 	transform: translate(2px, 2px);
 	box-shadow: 3px 3px 0 0 var(--color-ink);
@@ -84,6 +91,10 @@ textarea::placeholder {
 .offset-violet:active {
 	transform: translate(2px, 2px);
 	box-shadow: 3px 3px 0 0 var(--color-violet);
+}
+.offset-custom:active {
+	transform: translate(2px, 2px);
+	box-shadow: 3px 3px 0 0 var(--offset-color, var(--color-ink));
 }
 
 .focus-ring:focus-visible {
