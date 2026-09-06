@@ -82,6 +82,9 @@
 		"description": "Describe this step...",
 		"describeSteps": "Describe each step clearly",
 		"removeStep": "Remove step",
+		"moveStepUp": "Move step {{step}} up",
+		"moveStepDown": "Move step {{step}} down",
+		"stepMoved": "Step moved to position {{position}} of {{total}}",
 		"oneActionHint": "One action per step reads best while cooking."
 	},
 	"labelPicker": {

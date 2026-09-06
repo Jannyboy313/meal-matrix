@@ -82,6 +82,9 @@
 		"description": "Beschrijf deze stap...",
 		"describeSteps": "Beschrijf elke stap duidelijk",
 		"removeStep": "Stap verwijderen",
+		"moveStepUp": "Stap {{step}} omhoog verplaatsen",
+		"moveStepDown": "Stap {{step}} omlaag verplaatsen",
+		"stepMoved": "Stap verplaatst naar positie {{position}} van {{total}}",
 		"oneActionHint": "Eén handeling per stap leest het best tijdens het koken."
 	},
 	"labelPicker": {
