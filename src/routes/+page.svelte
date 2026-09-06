@@ -96,14 +96,13 @@
 		</div>
 	{:else}
 		<div class="grid grid-cols-2 gap-x-[18px] gap-y-5 px-[22px] sm:grid-cols-3 lg:grid-cols-4">
-			{#each filteredRecipes as recipe, i (recipe.id)}
+			{#each filteredRecipes as recipe (recipe.id)}
 				<RecipeCard
 					id={recipe.id}
 					title={recipe.title}
 					image={recipe.image}
 					category={recipe.category}
 					time={recipe.cookTime}
-					shadowIndex={i}
 				/>
 			{/each}
 		</div>

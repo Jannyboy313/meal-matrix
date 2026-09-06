@@ -46,3 +46,11 @@ export function paletteStyle(token: PaletteToken): string {
 	const { cssVar, on } = PALETTE[token];
 	return `background-color: var(${cssVar}); color: var(${ON_COLOR_VAR[on]});`;
 }
+
+/**
+ * The color alone, as a CSS value. For places that paint the color without putting text on it
+ * — the offset shadow on a recipe card — where the paired text color would say nothing.
+ */
+export function paletteColor(token: PaletteToken): string {
+	return `var(${PALETTE[token].cssVar})`;
+}
