@@ -14,7 +14,7 @@
 	let { currentStep, totalSteps, isSubmitting, isEditing = false, onprevious, onnext, oncancel }: Props = $props();
 </script>
 
-<div class="fixed inset-x-0 bottom-0 z-40 flex gap-[10px] border-t-2 border-ink bg-white px-[22px] py-[14px] pb-[26px]">
+<div class="fixed inset-x-0 bottom-0 z-40 flex gap-[10px] border-t-2 border-ink bg-white bar-column py-[14px] pb-[26px]">
 	{#if currentStep > 1}
 		<button
 			type="button"

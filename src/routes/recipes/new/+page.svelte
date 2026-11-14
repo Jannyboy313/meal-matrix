@@ -31,7 +31,7 @@
 		<ChefHatLoader size="lg" label={$t('common.loading.labels')} />
 	</div>
 {:else}
-	<div class="min-h-dvh bg-paper">
+	<div class="page-column min-h-dvh bg-paper">
 		<RecipeForm
 			{availableLabels}
 			storageKey="recipe-draft-v3"

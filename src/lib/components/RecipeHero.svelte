@@ -15,7 +15,7 @@
 </script>
 
 <div class="relative">
-	<header class="relative h-[212px] w-full overflow-hidden border-b-2 border-ink bg-hero">
+	<header class="relative h-[212px] w-full md:h-[36dvh] overflow-hidden border-b-2 border-ink bg-hero">
 		<img src={image} alt={title} class="h-full w-full object-cover" />
 
 		<div class="absolute left-[22px] right-[22px] top-12 flex justify-between">
@@ -38,7 +38,7 @@
 
 	{#if category}
 		<span
-			class="absolute -bottom-[14px] left-4 z-10 -rotate-2 border-2 border-ink px-3 py-[5px] text-[11px] font-black uppercase"
+			class="absolute -bottom-[14px] left-4 z-10 md:left-[max(16px,calc(50%-344px))] -rotate-2 border-2 border-ink px-3 py-[5px] text-[11px] font-black uppercase"
 			style={paletteStyle(category.color)}
 		>
 			{$t(category.nameKey)}

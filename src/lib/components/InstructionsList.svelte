@@ -25,7 +25,7 @@
 				>
 					{done ? '✓' : index + 1}
 				</span>
-				<span class="text-base font-semibold leading-[1.4] text-ink {done ? 'line-through' : ''}">
+				<span class="text-base font-semibold leading-[1.4] md:text-lg text-ink {done ? 'line-through' : ''}">
 					{step}
 				</span>
 			</button>
