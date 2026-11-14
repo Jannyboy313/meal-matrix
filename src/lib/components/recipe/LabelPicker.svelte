@@ -3,6 +3,7 @@
 	import { createLabel } from '$lib/services/labelService';
 	import { user } from '$lib/stores/auth';
 	import { t } from '$lib/i18n';
+	import FilterChip from '$lib/components/FilterChip.svelte';
 
 	interface Props {
 		labels: Label[];
@@ -55,17 +56,11 @@
 		</span>
 		<div class="flex flex-wrap gap-2">
 			{#each availableLabels as label (label.id)}
-				{@const isSelected = labels.some((l) => l.id === label.id)}
-				<button
-					type="button"
+				<FilterChip
+					text={label.name}
+					selected={labels.some((l) => l.id === label.id)}
 					onclick={() => toggleLabel(label)}
-					aria-pressed={isSelected}
-					class="focus-ring border-2 border-ink px-[13px] py-[9px] text-xs uppercase {isSelected
-						? 'bg-accent font-black text-ink'
-						: 'bg-white font-extrabold text-ink'}"
-				>
-					{label.name}
-				</button>
+				/>
 			{/each}
 		</div>
 	</div>
