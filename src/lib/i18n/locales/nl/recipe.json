@@ -38,6 +38,17 @@
 		"imageUrl": "https://voorbeeld.nl/afbeelding.jpg",
 		"ingredientAmount": "Hoeveelheid (bijv., 200g)"
 	},
+	"filters": {
+		"title": "Filters",
+		"clearAll": "Wis alles",
+		"category": "Categorie",
+		"label": "Label",
+		"open": "Filters openen",
+		"openWithCount": "Filters openen, {{count}} actief",
+		"showResults": "Toon {{count}} {{count; 1:recept; default:recepten;}}",
+		"close": "Sluiten",
+		"dismiss": "Filters sluiten"
+	},
 	"cook": {
 		"progress": "{{done}} van {{total}} gedaan"
 	},

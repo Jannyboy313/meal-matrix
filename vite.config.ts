@@ -1,3 +1,4 @@
+/// <reference types="vitest/config" />
 import tailwindcss from '@tailwindcss/vite';
 import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vite';
@@ -99,5 +100,13 @@ export default defineConfig({
 					cert: fs.readFileSync(certPath)
 				}
 			: undefined
+	},
+	test: {
+		// Only the pure modules under src/lib/filters are covered. Component tests would need
+		// jsdom and a testing library, which is more setup than this codebase earns today.
+		environment: 'node',
+		include: ['src/**/*.test.ts'],
+		// No test files exist yet on this branch; without this, vitest exits 1 on an empty suite.
+		passWithNoTests: true
 	}
 });

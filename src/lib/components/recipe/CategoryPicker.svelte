@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { CATEGORIES } from '$lib/constants/categories';
 	import { t } from '$lib/i18n';
+	import FilterChip from '$lib/components/FilterChip.svelte';
 
 	interface Props {
 		categoryKey: string;
@@ -17,17 +18,12 @@
 
 	<div class="flex flex-wrap gap-2">
 		{#each CATEGORIES as category (category.key)}
-			{@const isSelected = categoryKey === category.key}
-			<button
-				type="button"
+			<FilterChip
+				text={$t(category.nameKey)}
+				selected={categoryKey === category.key}
+				color={category.color}
 				onclick={() => (categoryKey = category.key)}
-				aria-pressed={isSelected}
-				class="focus-ring border-2 border-ink px-[13px] py-[9px] text-xs uppercase {isSelected
-					? 'bg-accent font-black text-ink'
-					: 'bg-white font-extrabold text-ink'}"
-			>
-				{$t(category.nameKey)}
-			</button>
+			/>
 		{/each}
 	</div>
 

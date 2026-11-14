@@ -38,6 +38,17 @@
 		"imageUrl": "https://example.com/image.jpg",
 		"ingredientAmount": "Amount (e.g., 200g)"
 	},
+	"filters": {
+		"title": "Filters",
+		"clearAll": "Clear all",
+		"category": "Category",
+		"label": "Label",
+		"open": "Open filters",
+		"openWithCount": "Open filters, {{count}} active",
+		"showResults": "Show {{count}} {{count; 1:recipe; default:recipes;}}",
+		"close": "Close",
+		"dismiss": "Close filters"
+	},
 	"cook": {
 		"progress": "{{done}} of {{total}} done"
 	},
