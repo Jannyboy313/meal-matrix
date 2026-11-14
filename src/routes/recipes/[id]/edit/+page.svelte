@@ -70,7 +70,7 @@
 {:else if error}
 	<ErrorDisplay message={error} />
 {:else if recipe && initialData}
-	<div class="min-h-dvh bg-paper">
+	<div class="page-column min-h-dvh bg-paper">
 		<RecipeForm
 			{availableLabels}
 			storageKey={`recipe-edit-v3-${data.recipeId}`}

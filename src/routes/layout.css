@@ -97,6 +97,18 @@ textarea::placeholder {
 	box-shadow: 3px 3px 0 0 var(--offset-color, var(--color-ink));
 }
 
+/* Tablet reading column: content stops growing at 720px and centers, in both orientations. */
+@utility page-column {
+	margin-inline: auto;
+	width: 100%;
+	max-width: 720px;
+}
+
+/* Side padding for a full-bleed fixed bar, so its content lines up with page-column. */
+@utility bar-column {
+	padding-inline: max(22px, calc(50% - 338px));
+}
+
 .focus-ring:focus-visible {
 	outline: 2px solid var(--color-accent);
 	outline-offset: 2px;

@@ -69,7 +69,7 @@
 			<span class="truncate text-lg font-black tracking-[-0.035em] text-ink">{recipe.title}</span>
 		</header>
 
-		<div class="flex-none px-[22px] pt-[14px]">
+		<div class="page-column flex-none px-[22px] pt-[14px]">
 			<div class="mb-2 flex items-center justify-between">
 				<span id="cook-progress-label" class="text-xs font-black uppercase tracking-[0.08em] text-ink">
 					{$t(
@@ -91,7 +91,7 @@
 			</div>
 		</div>
 
-		<div class="flex-1 overflow-y-auto px-[22px] pb-8 pt-[14px]">
+		<div class="page-column flex-1 overflow-y-auto px-[22px] pb-8 pt-[14px]">
 			<InstructionsList steps={recipe.steps} {completedSteps} ontoggle={toggleStep} />
 		</div>
 	</div>

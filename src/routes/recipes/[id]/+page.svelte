@@ -61,18 +61,18 @@
 	<div class="flex min-h-dvh flex-col bg-paper pb-[92px]">
 		<RecipeHero recipeId={recipe.id} title={recipe.title} image={recipe.image} category={recipe.category} />
 
-		<div class="px-[22px] pt-[26px]">
+		<div class="page-column px-[22px] pt-[26px]">
 			<h1 class="font-display text-[32px] font-black leading-[0.98] tracking-[-0.05em] text-ink">
 				{recipe.title}
 			</h1>
 			<RecipeLabelLine labels={recipe.labels} />
 		</div>
 
-		<div class="px-[22px] pt-[18px]">
+		<div class="page-column px-[22px] pt-[18px]">
 			<RecipeMetaInfo prepTime={recipe.prepTime} cookTime={recipe.cookTime} servings={selectedServings} />
 		</div>
 
-		<div class="flex-1 px-[22px] pt-5">
+		<div class="page-column flex-1 px-[22px] pt-5">
 			<span class="text-xs font-black uppercase tracking-[0.08em] text-ink">{$t('recipe.servings.label')}</span>
 			<div class="mt-2 flex items-stretch gap-2">
 				{#each availableServings as serving (serving)}
@@ -96,7 +96,7 @@
 			<IngredientListDisplay ingredients={currentIngredients} />
 		</div>
 
-		<div class="fixed inset-x-0 bottom-0 z-40 flex gap-[10px] border-t-2 border-ink bg-white px-[22px] py-[14px] pb-6">
+		<div class="fixed inset-x-0 bottom-0 z-40 flex gap-[10px] border-t-2 border-ink bg-white bar-column py-[14px] pb-6">
 			<a
 				href="/recipes/{recipe.id}/cook"
 				class="focus-ring w-full border-2 border-ink offset-ink bg-accent py-[14px] text-center text-[15px] font-black uppercase text-white"
