@@ -169,8 +169,8 @@ filters on every keystroke, undebounced — only the URL write waits. The term i
 matching, so a trailing space does not empty the overview.
 
 Because every write uses `replaceState`, no filter change produces a history entry, and the
-search input never needs to be re-synced from an external navigation. Writes also pass
-`keepFocus: true` and `noScroll: true`, so typing is not interrupted and the grid does not jump.
+search input never needs to be re-synced from an external navigation. Shallow routing does not
+navigate, so typing is not interrupted and the grid does not jump.
 
 ## Interface
 
