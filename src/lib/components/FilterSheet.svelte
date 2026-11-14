@@ -52,11 +52,16 @@
 		const last = focusable[focusable.length - 1];
 		const active = document.activeElement;
 
-		// The sheet itself holds focus right after opening; Shift+Tab from there must wrap too.
-		if (event.shiftKey && (active === first || active === sheet)) {
+		/**
+		 * The sheet itself holds focus right after opening, and focus falls back to body when a
+		 * focused chip disappears with a live snapshot. Both must wrap into the sheet too.
+		 */
+		const outside = active === sheet || !sheet.contains(active);
+
+		if (event.shiftKey && (active === first || outside)) {
 			event.preventDefault();
 			last.focus();
-		} else if (!event.shiftKey && active === last) {
+		} else if (!event.shiftKey && (active === last || (outside && active !== sheet))) {
 			event.preventDefault();
 			first.focus();
 		}
@@ -84,17 +89,20 @@
 	tabindex="-1"
 	aria-label={$t('recipe.filters.dismiss')}
 	onclick={onclose}
-	class="fixed inset-0 z-40 bg-ink/40"
+	class="fixed inset-0 z-60 bg-ink/40"
 ></button>
 
-<!-- Capped and centred from sm up, so the sheet is not a full-width strip on a tablet -->
+<!--
+	Capped and centred from sm up, so the sheet is not a full-width strip on a tablet. Backdrop
+	and sheet sit above z-50, where the floating action button and the account menu live.
+-->
 <div
 	bind:this={sheet}
 	role="dialog"
 	aria-modal="true"
 	aria-labelledby="filter-sheet-title"
 	tabindex="-1"
-	class="focus-ring fixed inset-x-0 bottom-0 z-50 mx-auto max-h-[85dvh] max-w-[560px] overflow-y-auto border-t-2 border-ink bg-paper px-[22px] pt-5 pb-[calc(22px+env(safe-area-inset-bottom))] sm:border-x-2"
+	class="focus-ring fixed inset-x-0 bottom-0 z-70 mx-auto max-h-[85dvh] max-w-[560px] overflow-y-auto overscroll-contain border-t-2 border-ink bg-paper px-[22px] pt-5 pb-[calc(22px+env(safe-area-inset-bottom))] sm:border-x-2"
 >
 	<div class="flex items-baseline justify-between">
 		<h2
