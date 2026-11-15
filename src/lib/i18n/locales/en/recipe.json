@@ -59,6 +59,23 @@
 		"discardCancel": "Keep editing",
 		"discardConfirm": "Discard and close"
 	},
+	"import": {
+		"label": "Import from website",
+		"placeholder": "https://...",
+		"hint": "Paste a recipe link and we'll fill in the steps for you.",
+		"submit": "Import",
+		"busy": "Fetching...",
+		"overwriteBody": "This replaces what you've filled in.",
+		"overwriteCancel": "Cancel",
+		"overwriteConfirm": "Replace",
+		"success": "Imported from {{host}}. Check each step before saving.",
+		"errors": {
+			"invalid_url": "This is not a valid link.",
+			"unauthorized": "Your session has expired. Please sign in again.",
+			"no_recipe": "No recipe found on this page.",
+			"unreachable": "This site could not be read or blocks fetching."
+		}
+	},
 	"actions": {
 		"addRecipe": "Add Recipe",
 		"editRecipe": "Edit Recipe",

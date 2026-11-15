@@ -14,6 +14,8 @@
 	import InstructionsStep from '$lib/components/recipe/InstructionsStep.svelte';
 	import StepNavigation from '$lib/components/recipe/StepNavigation.svelte';
 	import ProgressIndicator from '$lib/components/recipe/ProgressIndicator.svelte';
+	import RecipeImport from '$lib/components/recipe/RecipeImport.svelte';
+	import type { ImportedRecipe } from '$lib/types';
 	import { t } from '$lib/i18n';
 
 	interface Props {
@@ -184,6 +186,25 @@
 
 	function removeLabel(index: number) {
 		labels = labels.filter((_, i) => i !== index);
+	}
+
+	// Category and labels are left alone: the import never provides them.
+	function applyImport(recipe: ImportedRecipe) {
+		title = recipe.title;
+		description = recipe.description;
+		image = recipe.image;
+		prepTime = recipe.prepTime;
+		cookTime = recipe.cookTime;
+		servings = [recipe.servings];
+		currentServing = recipe.servings;
+		ingredients = {
+			[recipe.servings]: recipe.ingredients.length ? recipe.ingredients : [{ amount: '', name: '' }]
+		};
+		steps = recipe.steps.length ? recipe.steps : [''];
+		error = '';
+		titleError = '';
+		ingredientErrors = {};
+		stepErrors = {};
 	}
 
 	function addServing() {
@@ -483,6 +504,10 @@
 	<div class="mx-[22px] mt-[18px] border-2 border-ink offset-accent bg-accent px-4 py-3 text-white">
 		<p class="text-sm font-semibold">{error}</p>
 	</div>
+{/if}
+
+{#if currentStep === 1 && !isEditing}
+	<RecipeImport {isDirty} onimport={applyImport} />
 {/if}
 
 <form

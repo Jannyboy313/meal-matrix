@@ -59,6 +59,23 @@
 		"discardCancel": "Doorgaan met invullen",
 		"discardConfirm": "Verwijderen en sluiten"
 	},
+	"import": {
+		"label": "Importeer van website",
+		"placeholder": "https://...",
+		"hint": "Plak de link van een recept, dan vullen we de stappen alvast in.",
+		"submit": "Importeren",
+		"busy": "Ophalen...",
+		"overwriteBody": "Dit vervangt wat je al hebt ingevuld.",
+		"overwriteCancel": "Annuleren",
+		"overwriteConfirm": "Vervangen",
+		"success": "Geïmporteerd van {{host}}. Controleer elke stap voordat je opslaat.",
+		"errors": {
+			"invalid_url": "Dit is geen geldige link.",
+			"unauthorized": "Je sessie is verlopen. Log opnieuw in.",
+			"no_recipe": "Geen recept gevonden op deze pagina.",
+			"unreachable": "Deze site kon niet worden gelezen of blokkeert het ophalen."
+		}
+	},
 	"actions": {
 		"addRecipe": "Recept Toevoegen",
 		"editRecipe": "Recept Bewerken",
