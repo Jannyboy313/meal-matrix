@@ -64,7 +64,11 @@
 			id="recipe-import-url"
 			type="url"
 			bind:value={url}
-			oninput={() => (confirmingOverwrite = false)}
+			oninput={() => {
+				confirmingOverwrite = false;
+				errorCode = '';
+				importedHost = '';
+			}}
 			placeholder={$t('recipe.import.placeholder')}
 			disabled={busy}
 			class="focus-ring min-w-0 flex-1 border-2 bg-white px-[14px] py-[13px] text-[15px] font-semibold text-ink {errorCode

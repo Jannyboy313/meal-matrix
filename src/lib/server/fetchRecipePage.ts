@@ -35,11 +35,14 @@ for (const [network, prefix] of [
 	blocked.addSubnet(network, prefix, 'ipv4');
 }
 for (const [network, prefix] of [
-	['::', 128],
-	['::1', 128],
+	['::', 96], // unspecified, loopback and deprecated IPv4-compatible (::127.0.0.1)
 	['64:ff9b::', 96],
+	['64:ff9b:1::', 48],
+	['2001::', 32], // Teredo
+	['2002::', 16], // 6to4
 	['fc00::', 7],
 	['fe80::', 10],
+	['fec0::', 10],
 	['ff00::', 8]
 ] as const) {
 	blocked.addSubnet(network, prefix, 'ipv6');
@@ -66,11 +69,12 @@ export function parseImportUrl(input: unknown): URL {
 	return url;
 }
 
-async function assertPublicHost(url: URL): Promise<void> {
+/** `rejectAs` differs per hop: a private address the user typed is a bad link, one reached by redirect is a broken site. */
+async function assertPublicHost(url: URL, rejectAs: ImportErrorCode): Promise<void> {
 	const host = url.hostname.replace(/^\[|\]$/g, '');
 	const addresses = isIP(host) ? [host] : (await lookup(host, { all: true }).catch(() => [])).map((a) => a.address);
 	if (addresses.length === 0) throw new ImportError('unreachable');
-	if (!addresses.every(isPublicAddress)) throw new ImportError('invalid_url');
+	if (!addresses.every(isPublicAddress)) throw new ImportError(rejectAs);
 }
 
 async function readCapped(response: Response): Promise<string> {
@@ -99,7 +103,7 @@ export async function fetchRecipePage(start: URL): Promise<string> {
 		// shortcut: the host is resolved again by fetch, so DNS rebinding between this check and
 		// the connect is not covered. Acceptable while the endpoint requires a verified user;
 		// revisit if it is ever opened up (pin the address with an undici dispatcher).
-		await assertPublicHost(url);
+		await assertPublicHost(url, hop === 0 ? 'invalid_url' : 'unreachable');
 
 		let response: Response;
 		try {
@@ -113,11 +117,17 @@ export async function fetchRecipePage(start: URL): Promise<string> {
 		}
 
 		const location = response.headers.get('location');
-		if (response.status >= 300 && response.status < 400 && location) {
-			url = parseImportUrl(new URL(location, url).href);
+		if (!response.ok) {
+			// Release the socket now instead of at GC.
+			await response.body?.cancel().catch(() => {});
+			if (response.status < 300 || response.status >= 400 || !location) throw new ImportError('unreachable');
+			try {
+				url = parseImportUrl(new URL(location, url).href);
+			} catch {
+				throw new ImportError('unreachable');
+			}
 			continue;
 		}
-		if (!response.ok) throw new ImportError('unreachable');
 		try {
 			return await readCapped(response);
 		} catch (error) {

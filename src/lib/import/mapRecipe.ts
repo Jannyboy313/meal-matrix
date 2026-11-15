@@ -8,25 +8,31 @@ import type { ImportedRecipe, Ingredient } from '$lib/types';
 import type { JsonLdNode } from './extractRecipeNode';
 
 const DEFAULT_SERVINGS = 4;
+const MAX_SERVINGS = 100;
 
+// The entities recipe sites actually emit; a full HTML5 table (2000+ names) is not worth it.
 const ENTITIES: Record<string, string> = {
-	amp: '&',
-	lt: '<',
-	gt: '>',
-	quot: '"',
-	apos: "'",
-	nbsp: ' '
+	amp: '&', lt: '<', gt: '>', quot: '"', apos: "'", nbsp: ' ',
+	lsquo: '‘', rsquo: '’', ldquo: '“', rdquo: '”', ndash: '–', mdash: '—', hellip: '…',
+	deg: '°', times: '×', frac12: '½', frac14: '¼', frac34: '¾',
+	aacute: 'á', agrave: 'à', acirc: 'â', auml: 'ä', eacute: 'é', egrave: 'è', ecirc: 'ê', euml: 'ë',
+	iacute: 'í', icirc: 'î', iuml: 'ï', oacute: 'ó', ocirc: 'ô', ouml: 'ö', uacute: 'ú', ucirc: 'û',
+	uuml: 'ü', ccedil: 'ç', ntilde: 'ñ', szlig: 'ß'
 };
+
+function decodeCodePoint(match: string, point: number): string {
+	return point > 0 && point <= 0x10ffff ? String.fromCodePoint(point) : match;
+}
 
 /** Strips tags, decodes the common HTML entities and collapses whitespace. */
 export function cleanText(value: unknown): string {
 	if (typeof value !== 'string') return '';
 	return value
-		.replace(/<[^>]*>/g, ' ')
-		.replace(/&(#x[0-9a-f]+|#\d+|[a-z]+);/gi, (match, code: string) => {
+		.replace(/<[^<>]*>/g, ' ') // [^<>] not [^>]: a run of '<' without '>' would backtrack quadratically
+		.replace(/&(#x[0-9a-f]{1,8}|#\d{1,8}|[a-z0-9]+);/gi, (match, code: string) => {
 			if (code[0] === '#') {
-				const point = code[1].toLowerCase() === 'x' ? parseInt(code.slice(2), 16) : parseInt(code.slice(1), 10);
-				return Number.isNaN(point) ? match : String.fromCodePoint(point);
+				const hex = code[1].toLowerCase() === 'x';
+				return decodeCodePoint(match, parseInt(code.slice(hex ? 2 : 1), hex ? 16 : 10));
 			}
 			return ENTITIES[code.toLowerCase()] ?? match;
 		})
@@ -52,10 +58,13 @@ export function parseYield(value: unknown): number {
 	const first = Array.isArray(value) ? value[0] : value;
 	const match = /\d+/.exec(String(first ?? ''));
 	const servings = match ? parseInt(match[0], 10) : 0;
-	return servings > 0 ? servings : DEFAULT_SERVINGS;
+	return servings > 0 && servings <= MAX_SERVINGS ? servings : DEFAULT_SERVINGS;
 }
 
-const QUANTITY = String.raw`(?:\d+(?:[.,]\d+)?(?:\s*\/\s*\d+)?|[½⅓⅔¼¾⅛])(?:\s*(?:-|–|à|tot)\s*(?:\d+(?:[.,]\d+)?|[½⅓⅔¼¾⅛]))?`;
+const FRACTION = '[½⅓⅔¼¾⅛]';
+// Mixed numbers (`1 1/2`, `1½`) come first, or the regex would stop after the whole part.
+const NUMBER = String.raw`(?:\d+\s+\d+\s*\/\s*\d+|\d+\s*${FRACTION}|\d+(?:[.,]\d+)?(?:\s*\/\s*\d+)?|${FRACTION})`;
+const QUANTITY = String.raw`${NUMBER}(?:\s*(?:-|–|à|tot)\s*${NUMBER})?`;
 const UNIT = String.raw`(?:kg|g|gr|gram|mg|ml|cl|dl|l|liter|el|tl|eetlepels?|theelepels?|snufje|snuf|teentjes?|teen|stuks?|blikjes?|blik|zakjes?|bosjes?|bos|takjes?|plakjes?|cups?|tbsp|tsp|oz|lb)\.?`;
 const INGREDIENT = new RegExp(String.raw`^(${QUANTITY}(?:\s*${UNIT}(?=\s|$))?)\s+(.+)$`, 'i');
 

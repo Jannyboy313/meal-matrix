@@ -6,7 +6,24 @@
 
 export type JsonLdNode = Record<string, unknown>;
 
-const JSON_LD_BLOCK = /<script[^>]*type=["']?application\/ld\+json["']?[^>]*>([\s\S]*?)<\/script>/gi;
+/**
+ * Linear scan with indexOf: a regex over untrusted HTML (up to 3 MB) backtracks
+ * quadratically on inputs like thousands of `<script ` without a closing `>`.
+ */
+function* jsonLdBlocks(html: string): Generator<string> {
+	const lower = html.toLowerCase();
+	let from = 0;
+	for (;;) {
+		const open = lower.indexOf('<script', from);
+		if (open === -1) return;
+		const tagEnd = lower.indexOf('>', open);
+		if (tagEnd === -1) return;
+		const close = lower.indexOf('</script', tagEnd);
+		if (close === -1) return;
+		if (lower.slice(open, tagEnd).includes('application/ld+json')) yield html.slice(tagEnd + 1, close);
+		from = close + 1;
+	}
+}
 
 function isRecipe(node: JsonLdNode): boolean {
 	const type = node['@type'];
@@ -30,7 +47,7 @@ function findRecipe(value: unknown): JsonLdNode | undefined {
 }
 
 export function extractRecipeNode(html: string): JsonLdNode | undefined {
-	for (const [, body] of html.matchAll(JSON_LD_BLOCK)) {
+	for (const body of jsonLdBlocks(html)) {
 		let parsed: unknown;
 		try {
 			parsed = JSON.parse(body);

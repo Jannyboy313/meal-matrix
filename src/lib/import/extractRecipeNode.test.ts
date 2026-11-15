@@ -32,6 +32,12 @@ describe('extractRecipeNode', () => {
 		expect(extractRecipeNode(html)?.name).toBe('Hutspot');
 	});
 
+	it('stays linear on many unclosed script tags', () => {
+		const start = Date.now();
+		expect(extractRecipeNode('<script '.repeat(400_000))).toBeUndefined();
+		expect(Date.now() - start).toBeLessThan(500);
+	});
+
 	it('returns undefined when there is no Recipe', () => {
 		expect(extractRecipeNode(page('{"@type":"Article"}'))).toBeUndefined();
 		expect(extractRecipeNode('<html></html>')).toBeUndefined();

@@ -1,7 +1,7 @@
 # Importing a recipe from a URL
 
 **Date:** 2026-11-15
-**Status:** approved, in progress
+**Status:** tasks 1–4 implemented; task 5 (manual check against real sites) open
 
 ## Goal
 

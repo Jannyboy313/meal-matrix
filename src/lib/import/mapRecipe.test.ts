@@ -3,7 +3,17 @@ import { cleanText, flattenInstructions, mapRecipe, parseDuration, parseYield, s
 
 describe('cleanText', () => {
 	it('strips tags, decodes entities and collapses whitespace', () => {
-		expect(cleanText('<b>Crème</b>&nbsp;br&ucirc;l&eacute;e &amp; &#39;meer&#x27;\n')).toBe("Crème br&ucirc;l&eacute;e & 'meer'");
+		expect(cleanText('<b>Crème</b>&nbsp;br&ucirc;l&eacute;e &amp; &#39;meer&#x27; &frac12; &rsquo;\n')).toBe("Crème brûlée & 'meer' ½ ’");
+	});
+
+	it('leaves unknown and out-of-range entities as-is', () => {
+		expect(cleanText('&foo; &#0; &#99999999; &#xFFFFFFF;')).toBe('&foo; &#0; &#99999999; &#xFFFFFFF;');
+	});
+
+	it('stays linear on a run of "<" without ">"', () => {
+		const start = Date.now();
+		cleanText('<'.repeat(200_000));
+		expect(Date.now() - start).toBeLessThan(500);
 	});
 
 	it('returns an empty string for non-strings', () => {
@@ -43,6 +53,7 @@ describe('parseYield', () => {
 		expect(parseYield(undefined)).toBe(4);
 		expect(parseYield('een paar')).toBe(4);
 		expect(parseYield('0')).toBe(4);
+		expect(parseYield('99999999999999999999')).toBe(4);
 	});
 });
 
@@ -58,7 +69,10 @@ describe('splitIngredient', () => {
 		['2 à 3 el olijfolie', '2 à 3 el', 'olijfolie'],
 		['3 eieren', '3', 'eieren'],
 		['2 limoenen', '2', 'limoenen'],
-		['1 tbsp. soy sauce', '1 tbsp.', 'soy sauce']
+		['1 tbsp. soy sauce', '1 tbsp.', 'soy sauce'],
+		['1 1/2 cups flour', '1 1/2 cups', 'flour'],
+		['1 ½ cups flour', '1 ½ cups', 'flour'],
+		['1½ el suiker', '1½ el', 'suiker']
 	])('%s → [%s] [%s]', (line, amount, name) => {
 		expect(splitIngredient(line)).toEqual({ amount, name });
 	});

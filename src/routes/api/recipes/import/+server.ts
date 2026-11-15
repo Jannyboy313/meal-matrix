@@ -18,8 +18,8 @@ export const POST: RequestHandler = async ({ request }) => {
 		const token = request.headers.get('authorization')?.replace(/^Bearer /, '');
 		if (!(await verifyIdToken(token))) throw new ImportError('unauthorized');
 
-		const body: unknown = await request.json().catch(() => ({}));
-		const url = parseImportUrl((body as { url?: unknown }).url);
+		const body = (await request.json().catch(() => null)) as { url?: unknown } | null;
+		const url = parseImportUrl(body?.url);
 
 		const node = extractRecipeNode(await fetchRecipePage(url));
 		if (!node) throw new ImportError('no_recipe');
