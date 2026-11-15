@@ -96,6 +96,21 @@ export interface RecipeWithLabels extends Omit<Recipe, 'category' | 'labelIds'> 
 }
 
 /**
+ * Recipe read from another website's schema.org JSON-LD, used to pre-fill the create form.
+ * Not stored as such: the user checks it in the wizard and saves a normal Recipe.
+ */
+export interface ImportedRecipe {
+	title: string;
+	description: string;
+	image: string;
+	prepTime: string;
+	cookTime: string;
+	servings: number;
+	ingredients: Ingredient[];
+	steps: string[];
+}
+
+/**
  * Form data structure (UI state, not stored in database)
  * Used for recipe creation/editing forms
  */

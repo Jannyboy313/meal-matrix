@@ -1,7 +1,7 @@
 # Importing a recipe from a URL
 
 **Date:** 2026-11-15
-**Status:** draft plan, open questions below
+**Status:** approved, in progress
 
 ## Goal
 
@@ -43,6 +43,7 @@ RecipeForm applies ImportedRecipe to its $state ◀───────┘
 | Category and labels are not filled | `recipeCategory`/`keywords` are free text and rarely match our five categories; a wrong guess is worse than an empty required field the user fills in step 2 |
 | Import is only offered in create mode, at the top of step 1 | Overwriting an existing recipe from a URL is a different feature with merge questions |
 | Import into a dirty form asks for confirmation first | The draft in localStorage would otherwise be silently replaced |
+| Sites that refuse server fetches (bot protection) get a "site blocked" error, no fallback | The owner's choice for now. A paste-the-text fallback can follow if it turns out to matter |
 | The source URL is not stored | The owner's choice. The import only pre-fills the form; the saved recipe has the same shape as a hand-entered one, so no data-model change |
 | Image is kept as the remote URL | Same as manually entered images today. Hotlinking can break later; copying to storage is out of scope |
 
@@ -92,12 +93,6 @@ Each task ends with `yarn check` and `yarn test` green and one commit on `main`.
    "Geïmporteerd van {host} — controleer elke stap". i18n keys in `nl` and `en` `recipe.json`.
 5. **Manual check** against a handful of real sites (Allerhande, Jumbo, 24Kitchen, BBC Good
    Food, one WordPress blog) on the Vercel preview; note the ones that block server fetches.
-
-## Open questions
-
-1. **Some sites (Cloudflare bot protection) refuse server fetches.** Accept the "site blocked"
-   error, or add a fallback where the user pastes the recipe text and we parse that? Recommend
-   accepting for now.
 
 ## Out of scope
 

@@ -102,7 +102,7 @@ export default defineConfig({
 			: undefined
 	},
 	test: {
-		// Only the pure modules under src/lib/filters are covered. Component tests would need
+		// Only pure modules (src/lib/filters, src/lib/import, src/lib/server) are covered. Component tests would need
 		// jsdom and a testing library, which is more setup than this codebase earns today.
 		environment: 'node',
 		include: ['src/**/*.test.ts'],
