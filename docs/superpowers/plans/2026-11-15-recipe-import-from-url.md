@@ -43,6 +43,7 @@ RecipeForm applies ImportedRecipe to its $state ◀───────┘
 | Category and labels are not filled | `recipeCategory`/`keywords` are free text and rarely match our five categories; a wrong guess is worse than an empty required field the user fills in step 2 |
 | Import is only offered in create mode, at the top of step 1 | Overwriting an existing recipe from a URL is a different feature with merge questions |
 | Import into a dirty form asks for confirmation first | The draft in localStorage would otherwise be silently replaced |
+| The source URL is not stored | The owner's choice. The import only pre-fills the form; the saved recipe has the same shape as a hand-entered one, so no data-model change |
 | Image is kept as the remote URL | Same as manually entered images today. Hotlinking can break later; copying to storage is out of scope |
 
 ## Mapping
@@ -56,7 +57,6 @@ RecipeForm applies ImportedRecipe to its $state ◀───────┘
 | `recipeYield` | `servings`, `currentServing` | First integer in `string`/`number`/array (`"4 personen"` → 4); fallback 4 |
 | `recipeIngredient` | `ingredients[servings]` | Split per line, see below |
 | `recipeInstructions` | `steps` | `string` (split on newlines), `string[]`, `HowToStep[]`, `HowToSection[]` (flattened, section names dropped); strip tags, drop empty |
-| page URL | `sourceUrl` (new, optional) | See open question 1 |
 
 Finding the node: parse every JSON-LD block (skip ones that fail `JSON.parse`), walk top-level
 objects, arrays and `@graph`, and pick the first node whose `@type` is `"Recipe"` or an array
@@ -90,17 +90,12 @@ Each task ends with `yarn check` and `yarn test` green and one commit on `main`.
    renders the component above `BasicInfoStep` when `!isEditing`; dirty check reuses
    `isDirty()` and the existing confirm-dialog styling. After import a notice says
    "Geïmporteerd van {host} — controleer elke stap". i18n keys in `nl` and `en` `recipe.json`.
-5. **`sourceUrl`** (if open question 1 is yes). Optional field on `Recipe`/`RecipeFormData`,
-   written by `recipeService`, documented in `FIREBASE_DATA_MODEL.md`, shown as a "Bron" link
-   on the detail page.
-6. **Manual check** against a handful of real sites (Allerhande, Jumbo, 24Kitchen, BBC Good
+5. **Manual check** against a handful of real sites (Allerhande, Jumbo, 24Kitchen, BBC Good
    Food, one WordPress blog) on the Vercel preview; note the ones that block server fetches.
 
 ## Open questions
 
-1. **Store the source URL?** Recommendation: yes — attribution, a way back to the original,
-   and it reads standalone in an export. Costs one optional field.
-2. **Some sites (Cloudflare bot protection) refuse server fetches.** Accept the "site blocked"
+1. **Some sites (Cloudflare bot protection) refuse server fetches.** Accept the "site blocked"
    error, or add a fallback where the user pastes the recipe text and we parse that? Recommend
    accepting for now.
 
