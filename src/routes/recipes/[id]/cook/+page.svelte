@@ -31,6 +31,41 @@
 		}
 	});
 
+	/**
+	 * Keeps the screen on while cooking. The browser drops the lock whenever the page is
+	 * hidden, so it is requested again each time the page becomes visible. Unsupported
+	 * browsers and refusals (e.g. battery saver) fall back to the normal screen timeout.
+	 */
+	$effect(() => {
+		if (!('wakeLock' in navigator)) return;
+
+		let sentinel: WakeLockSentinel | undefined;
+		let disposed = false;
+
+		async function acquire() {
+			if (document.visibilityState !== 'visible') return;
+			try {
+				const lock = await navigator.wakeLock.request('screen');
+				if (disposed) {
+					void lock.release();
+				} else {
+					sentinel = lock;
+				}
+			} catch {
+				// Refused by the browser; nothing to recover
+			}
+		}
+
+		void acquire();
+		document.addEventListener('visibilitychange', acquire);
+
+		return () => {
+			disposed = true;
+			document.removeEventListener('visibilitychange', acquire);
+			void sentinel?.release();
+		};
+	});
+
 	function toggleStep(index: number) {
 		const next = new Set(completedSteps);
 		if (next.has(index)) {
