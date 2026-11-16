@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { Ingredient } from '$lib';
+	import { scaleAmount } from '$lib/utils/scaleAmount';
 	import ServingSelector from './ServingSelector.svelte';
 	import IngredientList from './IngredientList.svelte';
 
@@ -32,9 +33,11 @@
 		servings = [...servings, newServing].sort((a, b) => a - b);
 
 		if (ingredients[currentServing]) {
+			// Prefilled as an editable suggestion: not every ingredient scales linearly
+			const factor = newServing / currentServing;
 			ingredients[newServing] = ingredients[currentServing].map((ing) => ({
 				name: ing.name,
-				amount: ''
+				amount: scaleAmount(ing.amount, factor)
 			}));
 		} else {
 			ingredients[newServing] = [];
